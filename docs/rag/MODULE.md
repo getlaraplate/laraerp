@@ -366,6 +366,7 @@ ERP owns a native stock reservation, so a confirmed but not yet shipped sales or
 -   `PaymentRequestService` locks drafts during send and callback updates, validates provider identity, and prevents terminal-state regression.
 -   External callbacks use `POST /api/v1/erp/payment-requests/{provider}/callbacks`, require a configured Bearer key, and only update request state.
 -   Provider callbacks deliberately do not create `Payment`, `JournalEntry`, or `PoolTransaction` records.
+-   Both provider callback routes (this one and `erp/einvoice/{provider}/callbacks`) sit behind Core's `expose_api` switch (`403` while it is off, the default) and are marked `SelfAuthenticatedApiRoute`: the provider's bearer secret is checked by the controller, not read as a Laraplate token, and the request runs as the anonymous user under the per-address `api` rate limit (`core.api.rate_limit_per_minute`). See `Modules/Core/docs/rag/API_ACCESS_CONTROL.md`.
 
 ### Task Calendar Export
 

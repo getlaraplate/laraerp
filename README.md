@@ -339,6 +339,7 @@ configured once in the root `composer.json`, and the module is analysed and form
 -   `PaymentRequestService` sends drafts transactionally and applies authenticated, idempotent provider callbacks. Paid/cancelled states cannot regress.
 -   `POST /api/v1/erp/payment-requests/{provider}/callbacks` is for external providers and is unavailable unless that provider has a callback API key configured.
 -   Filament exposes create/list/edit and a **Send** action. Real Stripe/PayPal/Satispay adapters and accounting reconciliation remain future provider work.
+-   **API switch.** Every `/api` route, these callbacks included, answers `403` while the Core `expose_api` setting is off (the default): an installation that wants provider callbacks must turn the API on. The two callback routes (`erp/einvoice/{provider}/callbacks`, `erp/payment-requests/{provider}/callbacks`) are marked `SelfAuthenticatedApiRoute`: the provider sends its own secret as `Authorization: Bearer`, Laraplate does not read it as an API token, the request runs as the anonymous user, and the controller's key check authenticates it. They stay subject to the per-address `api` rate limit (`core.api.rate_limit_per_minute`, default 600 a minute). See `Modules/Core/docs/rag/API_ACCESS_CONTROL.md`.
 
 ### Task Calendar Export
 
