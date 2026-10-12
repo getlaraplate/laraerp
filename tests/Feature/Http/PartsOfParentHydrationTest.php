@@ -22,7 +22,6 @@ uses(RefreshDatabase::class);
 it('loads the lines of an invoice for a token carrying only the invoice ability', function (): void {
     Cache::flush();
     CrudApiExposure::enable();
-    $invoice = Invoice::factory()->withLines(2)->create();
     $role = Role::factory()->create(['name' => 'erp_partsparent_' . uniqid(), 'guard_name' => 'api']);
 
     foreach ([Invoice::class, InvoiceLine::class] as $model_class) {
@@ -32,6 +31,10 @@ it('loads the lines of an invoice for a token carrying only the invoice ability'
 
         $role->givePermissionTo(Permission::findOrCreate(PermissionName::forClass($model_class, 'select'), 'api'));
     }
+
+    // Created after the permissions: the existence of a permission is memoized for the request, and the test
+    // shares one with the factory, so a lookup made while creating the invoice must already see them.
+    $invoice = Invoice::factory()->withLines(2)->create();
 
     // The class the auth provider resolves: a token stored for it authenticates.
     $user = App\Models\User::query()->findOrFail(User::factory()->create()->getKey());
