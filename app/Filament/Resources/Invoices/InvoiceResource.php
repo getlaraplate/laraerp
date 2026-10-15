@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Invoices\Pages\CreateInvoice;
 use Modules\ERP\Filament\Resources\Invoices\Pages\EditInvoice;
 use Modules\ERP\Filament\Resources\Invoices\Pages\ListInvoices;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class InvoiceResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Invoice::class;
 
@@ -29,7 +32,7 @@ final class InvoiceResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentCurrencyDollar;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Accounting';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.accounting';
 
     #[Override]
     protected static ?int $navigationSort = 60;

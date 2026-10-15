@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Casts\PaymentRunStatus;
 use Modules\ERP\Filament\Resources\PaymentRuns\Pages\CreatePaymentRun;
 use Modules\ERP\Filament\Resources\PaymentRuns\Pages\EditPaymentRun;
@@ -23,6 +24,8 @@ use UnitEnum;
 
 final class PaymentRunResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = PaymentRun::class;
 
@@ -33,7 +36,7 @@ final class PaymentRunResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowPathRoundedSquare;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Treasury';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.treasury';
 
     #[Override]
     protected static ?int $navigationSort = 50;

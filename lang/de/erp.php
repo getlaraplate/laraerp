@@ -7,9 +7,49 @@ return [
         'newSalesOrder' => 'Neuer Kundenauftrag',
     ],
     'entities' => [
+        'accounts' => [
+            'singular' => 'Konto',
+            'plural' => 'Kontenplan',
+        ],
+        'bank_accounts' => [
+            'singular' => 'Bankkonto',
+            'plural' => 'Bankkonten',
+        ],
+        'bank_statements' => [
+            'singular' => 'Kontoauszug',
+            'plural' => 'Kontoauszüge',
+        ],
+        'companies' => [
+            'singular' => 'Unternehmen',
+            'plural' => 'Unternehmen',
+        ],
+        'contacts' => [
+            'singular' => 'Kontakt',
+            'plural' => 'Kontakte',
+        ],
         'customers' => [
             'plural' => 'Kunden',
             'singular' => 'Kunde',
+        ],
+        'delivery_notes' => [
+            'singular' => 'Lieferschein',
+            'plural' => 'Lieferscheine',
+        ],
+        'document_sequences' => [
+            'singular' => 'Belegnummernkreis',
+            'plural' => 'Belegnummernkreise',
+        ],
+        'fiscal_periods' => [
+            'singular' => 'Buchungsperiode',
+            'plural' => 'Buchungsperioden',
+        ],
+        'fiscal_years' => [
+            'singular' => 'Geschäftsjahr',
+            'plural' => 'Geschäftsjahre',
+        ],
+        'goods_receipts' => [
+            'singular' => 'Wareneingang',
+            'plural' => 'Wareneingänge',
         ],
         'invoices' => [
             'plural' => 'Rechnungen',
@@ -19,9 +59,49 @@ return [
             'plural' => 'Artikel',
             'singular' => 'Artikel',
         ],
+        'journal_entries' => [
+            'singular' => 'Buchung',
+            'plural' => 'Buchungen',
+        ],
+        'leads' => [
+            'singular' => 'Lead',
+            'plural' => 'Leads',
+        ],
+        'movements' => [
+            'singular' => 'Bewegung',
+            'plural' => 'Bewegungen',
+        ],
+        'opportunities' => [
+            'singular' => 'Verkaufschance',
+            'plural' => 'Verkaufschancen',
+        ],
         'parties' => [
             'plural' => 'Geschäftspartner',
             'singular' => 'Geschäftspartner',
+        ],
+        'partner_pools' => [
+            'singular' => 'Partnerpool',
+            'plural' => 'Partnerpools',
+        ],
+        'payment_requests' => [
+            'singular' => 'Zahlungsanforderung',
+            'plural' => 'Zahlungsanforderungen',
+        ],
+        'payment_runs' => [
+            'singular' => 'Zahlungslauf',
+            'plural' => 'Zahlungsläufe',
+        ],
+        'payment_terms' => [
+            'singular' => 'Zahlungsbedingung',
+            'plural' => 'Zahlungsbedingungen',
+        ],
+        'payments' => [
+            'singular' => 'Zahlung',
+            'plural' => 'Zahlungen',
+        ],
+        'price_lists' => [
+            'singular' => 'Preisliste',
+            'plural' => 'Preislisten',
         ],
         'projects' => [
             'plural' => 'Projekte',
@@ -35,9 +115,45 @@ return [
             'plural' => 'Angebote',
             'singular' => 'Angebot',
         ],
+        'return_orders' => [
+            'singular' => 'Kundenretoure',
+            'plural' => 'Kundenretouren',
+        ],
         'sales_orders' => [
             'plural' => 'Kundenaufträge',
             'singular' => 'Kundenauftrag',
+        ],
+        'sites' => [
+            'singular' => 'Standort',
+            'plural' => 'Standorte',
+        ],
+        'stock_levels' => [
+            'singular' => 'Lagerbestand',
+            'plural' => 'Lagerbestände',
+        ],
+        'supplier_returns' => [
+            'singular' => 'Lieferantenretoure',
+            'plural' => 'Lieferantenretouren',
+        ],
+        'tasks' => [
+            'singular' => 'Aufgabe',
+            'plural' => 'Aufgaben',
+        ],
+        'tax_codes' => [
+            'singular' => 'Steuerschlüssel',
+            'plural' => 'Steuerschlüssel',
+        ],
+        'vat_register_entries' => [
+            'singular' => 'Umsatzsteuerbuchung',
+            'plural' => 'Umsatzsteuerbuchungen',
+        ],
+        'vat_settlements' => [
+            'singular' => 'Umsatzsteuervoranmeldung',
+            'plural' => 'Umsatzsteuervoranmeldungen',
+        ],
+        'warehouses' => [
+            'singular' => 'Lager',
+            'plural' => 'Lager',
         ],
     ],
     'fields' => [
@@ -89,6 +205,14 @@ return [
         'openOrders' => 'Offene Aufträge',
         'revenue' => 'Umsatz',
         'shipped' => 'Versendet',
+    ],
+    'navigation' => [
+        'accounting' => 'ERP - Buchhaltung',
+        'inventory' => 'ERP - Lager',
+        'master_data' => 'ERP - Stammdaten',
+        'purchasing' => 'ERP - Einkauf',
+        'sales' => 'ERP - Verkauf',
+        'treasury' => 'ERP - Finanzen',
     ],
     'sections' => [
         'address' => 'Adresse',

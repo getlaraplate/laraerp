@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\BankAccounts\Pages\CreateBankAccount;
 use Modules\ERP\Filament\Resources\BankAccounts\Pages\EditBankAccount;
 use Modules\ERP\Filament\Resources\BankAccounts\Pages\ListBankAccounts;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class BankAccountResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = BankAccount::class;
 
@@ -28,7 +31,7 @@ final class BankAccountResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBuildingLibrary;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Treasury';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.treasury';
 
     #[Override]
     protected static ?int $navigationSort = 10;

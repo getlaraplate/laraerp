@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\FiscalPeriods\Pages\CreateFiscalPeriod;
 use Modules\ERP\Filament\Resources\FiscalPeriods\Pages\EditFiscalPeriod;
 use Modules\ERP\Filament\Resources\FiscalPeriods\Pages\ListFiscalPeriods;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class FiscalPeriodResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = FiscalPeriod::class;
 
@@ -32,7 +35,7 @@ final class FiscalPeriodResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCalendarDays;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Accounting';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.accounting';
 
     #[Override]
     protected static ?int $navigationSort = 30;

@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\PaymentRequests\Pages\CreatePaymentRequest;
 use Modules\ERP\Filament\Resources\PaymentRequests\Pages\EditPaymentRequest;
 use Modules\ERP\Filament\Resources\PaymentRequests\Pages\ListPaymentRequests;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class PaymentRequestResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = PaymentRequest::class;
 
@@ -28,7 +31,7 @@ final class PaymentRequestResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedLink;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Treasury';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.treasury';
 
     #[Override]
     protected static ?int $navigationSort = 40;

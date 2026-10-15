@@ -34,7 +34,7 @@ final class BalanceSheetPage extends Page
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedDocumentChartBar;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Accounting';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.accounting';
 
     #[Override]
     protected static ?int $navigationSort = 20;

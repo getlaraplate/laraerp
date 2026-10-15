@@ -44,12 +44,12 @@ final class ERPPlugin implements Plugin
         }
 
         $panel->navigationGroups([
-            NavigationGroup::make()->label('ERP - Master data')->icon(Heroicon::OutlinedBuildingOffice),
-            NavigationGroup::make()->label('ERP - Sales')->icon(Heroicon::OutlinedShoppingCart),
-            NavigationGroup::make()->label('ERP - Purchasing')->icon(Heroicon::OutlinedTruck),
-            NavigationGroup::make()->label('ERP - Inventory')->icon(Heroicon::OutlinedArchiveBox),
-            NavigationGroup::make()->label('ERP - Accounting')->icon(Heroicon::OutlinedCalculator),
-            NavigationGroup::make()->label('ERP - Treasury')->icon(Heroicon::OutlinedBanknotes),
+            'erp.navigation.master_data' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.master_data'))->icon(Heroicon::OutlinedBuildingOffice),
+            'erp.navigation.sales' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.sales'))->icon(Heroicon::OutlinedShoppingCart),
+            'erp.navigation.purchasing' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.purchasing'))->icon(Heroicon::OutlinedTruck),
+            'erp.navigation.inventory' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.inventory'))->icon(Heroicon::OutlinedArchiveBox),
+            'erp.navigation.accounting' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.accounting'))->icon(Heroicon::OutlinedCalculator),
+            'erp.navigation.treasury' => NavigationGroup::make()->label(static fn (): string => (string) __('erp.navigation.treasury'))->icon(Heroicon::OutlinedBanknotes),
         ]);
     }
 }

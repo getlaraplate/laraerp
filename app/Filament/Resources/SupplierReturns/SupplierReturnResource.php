@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\SupplierReturns\Pages\CreateSupplierReturn;
 use Modules\ERP\Filament\Resources\SupplierReturns\Pages\EditSupplierReturn;
 use Modules\ERP\Filament\Resources\SupplierReturns\Pages\ListSupplierReturns;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class SupplierReturnResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = SupplierReturn::class;
 
@@ -28,7 +31,7 @@ final class SupplierReturnResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowRightCircle;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Purchasing';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.purchasing';
 
     #[Override]
     protected static ?int $navigationSort = 30;

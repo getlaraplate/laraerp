@@ -18,9 +18,7 @@ it('registers every navigation group used by the erp resources and pages', funct
     $panel = Panel::make('erp-test');
     (new ERPPlugin())->afterRegister($panel);
 
-    $registered = collect($panel->getNavigationGroups())
-        ->map(fn ($group): string => $group->getLabel())
-        ->all();
+    $registered = array_keys($panel->getNavigationGroups());
 
     $used = collect(glob(module_path('ERP', 'app/Filament/{Resources/*,Pages}/*.php'), GLOB_BRACE))
         ->map(fn (string $file): string => 'Modules\\ERP\\Filament\\' . str_replace(['/', '.php'], ['\\', ''], mb_substr($file, mb_strlen(module_path('ERP', 'app/Filament/')))))

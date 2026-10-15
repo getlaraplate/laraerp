@@ -34,7 +34,7 @@ final class IncomeStatementPage extends Page
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedPresentationChartLine;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Accounting';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.accounting';
 
     #[Override]
     protected static ?int $navigationSort = 50;

@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Parties\Pages\CreateParty;
 use Modules\ERP\Filament\Resources\Parties\Pages\EditParty;
 use Modules\ERP\Filament\Resources\Parties\Pages\ListParties;
@@ -23,6 +24,8 @@ use UnitEnum;
 
 final class PartyResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Party::class;
 
@@ -33,7 +36,7 @@ final class PartyResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingBag;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Master data';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.master_data';
 
     #[Override]
     protected static ?int $navigationSort = 40;

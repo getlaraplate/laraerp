@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\JournalEntries\Pages\CreateJournalEntry;
 use Modules\ERP\Filament\Resources\JournalEntries\Pages\EditJournalEntry;
 use Modules\ERP\Filament\Resources\JournalEntries\Pages\ListJournalEntries;
@@ -24,6 +25,8 @@ use UnitEnum;
 
 final class JournalEntryResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = JournalEntry::class;
 
@@ -34,7 +37,7 @@ final class JournalEntryResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBookOpen;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Accounting';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.accounting';
 
     #[Override]
     protected static ?int $navigationSort = 70;

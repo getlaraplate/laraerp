@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Quotations\Pages\CreateQuotation;
 use Modules\ERP\Filament\Resources\Quotations\Pages\EditQuotation;
 use Modules\ERP\Filament\Resources\Quotations\Pages\ListQuotations;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class QuotationResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Quotation::class;
 
@@ -32,7 +35,7 @@ final class QuotationResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentList;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.sales';
 
     #[Override]
     protected static ?int $navigationSort = 70;

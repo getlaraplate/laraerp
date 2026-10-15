@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Items\Pages\CreateItem;
 use Modules\ERP\Filament\Resources\Items\Pages\EditItem;
 use Modules\ERP\Filament\Resources\Items\Pages\ListItems;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class ItemResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Item::class;
 
@@ -28,7 +31,7 @@ final class ItemResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCube;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Inventory';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.inventory';
 
     #[Override]
     protected static ?int $navigationSort = 10;

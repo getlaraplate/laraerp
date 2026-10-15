@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\StockLevels\Pages\CreateStockLevel;
 use Modules\ERP\Filament\Resources\StockLevels\Pages\EditStockLevel;
 use Modules\ERP\Filament\Resources\StockLevels\Pages\ListStockLevels;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class StockLevelResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = StockLevel::class;
 
@@ -28,7 +31,7 @@ final class StockLevelResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCircleStack;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Inventory';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.inventory';
 
     #[Override]
     protected static ?int $navigationSort = 30;

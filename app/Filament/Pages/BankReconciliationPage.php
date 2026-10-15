@@ -35,7 +35,7 @@ final class BankReconciliationPage extends Page
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedArrowsRightLeft;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Treasury';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.treasury';
 
     #[Override]
     protected static ?int $navigationSort = 20;

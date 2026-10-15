@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\SalesOrders\Pages\CreateSalesOrder;
 use Modules\ERP\Filament\Resources\SalesOrders\Pages\EditSalesOrder;
 use Modules\ERP\Filament\Resources\SalesOrders\Pages\ListSalesOrders;
@@ -24,6 +25,8 @@ use UnitEnum;
 
 final class SalesOrderResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = SalesOrder::class;
 
@@ -34,7 +37,7 @@ final class SalesOrderResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedShoppingCart;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.sales';
 
     #[Override]
     protected static ?int $navigationSort = 90;

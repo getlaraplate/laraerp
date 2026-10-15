@@ -7,9 +7,49 @@ return [
         'newSalesOrder' => 'Nuovo ordine di vendita',
     ],
     'entities' => [
+        'accounts' => [
+            'singular' => 'Conto',
+            'plural' => 'Piano dei conti',
+        ],
+        'bank_accounts' => [
+            'singular' => 'Conto bancario',
+            'plural' => 'Conti bancari',
+        ],
+        'bank_statements' => [
+            'singular' => 'Estratto conto',
+            'plural' => 'Estratti conto',
+        ],
+        'companies' => [
+            'singular' => 'Azienda',
+            'plural' => 'Aziende',
+        ],
+        'contacts' => [
+            'singular' => 'Contatto',
+            'plural' => 'Contatti',
+        ],
         'customers' => [
             'plural' => 'Clienti',
             'singular' => 'Cliente',
+        ],
+        'delivery_notes' => [
+            'singular' => 'Documento di trasporto',
+            'plural' => 'Documenti di trasporto',
+        ],
+        'document_sequences' => [
+            'singular' => 'Numeratore documenti',
+            'plural' => 'Numeratori documenti',
+        ],
+        'fiscal_periods' => [
+            'singular' => 'Periodo contabile',
+            'plural' => 'Periodi contabili',
+        ],
+        'fiscal_years' => [
+            'singular' => 'Esercizio',
+            'plural' => 'Esercizi',
+        ],
+        'goods_receipts' => [
+            'singular' => 'Ricevimento merci',
+            'plural' => 'Ricevimenti merci',
         ],
         'invoices' => [
             'plural' => 'Fatture',
@@ -19,9 +59,49 @@ return [
             'plural' => 'Articoli',
             'singular' => 'Articolo',
         ],
+        'journal_entries' => [
+            'singular' => 'Registrazione contabile',
+            'plural' => 'Registrazioni contabili',
+        ],
+        'leads' => [
+            'singular' => 'Lead',
+            'plural' => 'Lead',
+        ],
+        'movements' => [
+            'singular' => 'Movimento',
+            'plural' => 'Movimenti',
+        ],
+        'opportunities' => [
+            'singular' => 'Opportunità',
+            'plural' => 'Opportunità',
+        ],
         'parties' => [
             'plural' => 'Anagrafiche',
             'singular' => 'Anagrafica',
+        ],
+        'partner_pools' => [
+            'singular' => 'Pool di partner',
+            'plural' => 'Pool di partner',
+        ],
+        'payment_requests' => [
+            'singular' => 'Richiesta di pagamento',
+            'plural' => 'Richieste di pagamento',
+        ],
+        'payment_runs' => [
+            'singular' => 'Distinta di pagamento',
+            'plural' => 'Distinte di pagamento',
+        ],
+        'payment_terms' => [
+            'singular' => 'Termine di pagamento',
+            'plural' => 'Termini di pagamento',
+        ],
+        'payments' => [
+            'singular' => 'Pagamento',
+            'plural' => 'Pagamenti',
+        ],
+        'price_lists' => [
+            'singular' => 'Listino',
+            'plural' => 'Listini',
         ],
         'projects' => [
             'plural' => 'Progetti',
@@ -35,9 +115,45 @@ return [
             'plural' => 'Offerte',
             'singular' => 'Offerta',
         ],
+        'return_orders' => [
+            'singular' => 'Reso cliente',
+            'plural' => 'Resi clienti',
+        ],
         'sales_orders' => [
             'plural' => 'Ordini di vendita',
             'singular' => 'Ordine di vendita',
+        ],
+        'sites' => [
+            'singular' => 'Sede',
+            'plural' => 'Sedi',
+        ],
+        'stock_levels' => [
+            'singular' => 'Giacenza',
+            'plural' => 'Giacenze',
+        ],
+        'supplier_returns' => [
+            'singular' => 'Reso a fornitore',
+            'plural' => 'Resi a fornitori',
+        ],
+        'tasks' => [
+            'singular' => 'Attività',
+            'plural' => 'Attività',
+        ],
+        'tax_codes' => [
+            'singular' => 'Codice IVA',
+            'plural' => 'Codici IVA',
+        ],
+        'vat_register_entries' => [
+            'singular' => 'Registrazione IVA',
+            'plural' => 'Registrazioni IVA',
+        ],
+        'vat_settlements' => [
+            'singular' => 'Liquidazione IVA',
+            'plural' => 'Liquidazioni IVA',
+        ],
+        'warehouses' => [
+            'singular' => 'Magazzino',
+            'plural' => 'Magazzini',
         ],
     ],
     'fields' => [
@@ -89,6 +205,14 @@ return [
         'openOrders' => 'Ordini aperti',
         'revenue' => 'Fatturato',
         'shipped' => 'Spediti',
+    ],
+    'navigation' => [
+        'accounting' => 'ERP - Contabilità',
+        'inventory' => 'ERP - Magazzino',
+        'master_data' => 'ERP - Anagrafiche',
+        'purchasing' => 'ERP - Acquisti',
+        'sales' => 'ERP - Vendite',
+        'treasury' => 'ERP - Tesoreria',
     ],
     'sections' => [
         'address' => 'Indirizzo',

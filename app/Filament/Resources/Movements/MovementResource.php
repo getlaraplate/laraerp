@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Movements\Pages\CreateMovement;
 use Modules\ERP\Filament\Resources\Movements\Pages\ListMovements;
 use Modules\ERP\Filament\Resources\Movements\Pages\ViewMovement;
@@ -23,6 +24,8 @@ use UnitEnum;
 
 final class MovementResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Movement::class;
 
@@ -30,7 +33,7 @@ final class MovementResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBanknotes;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Inventory';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.inventory';
 
     #[Override]
     protected static ?int $navigationSort = 20;

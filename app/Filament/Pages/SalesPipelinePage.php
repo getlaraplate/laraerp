@@ -33,7 +33,7 @@ final class SalesPipelinePage extends Page
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedFunnel;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.sales';
 
     #[Override]
     protected static ?int $navigationSort = 100;

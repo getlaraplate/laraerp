@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Sites\Pages\CreateSite;
 use Modules\ERP\Filament\Resources\Sites\Pages\EditSite;
 use Modules\ERP\Filament\Resources\Sites\Pages\ListSites;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class SiteResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Site::class;
 
@@ -28,7 +31,7 @@ final class SiteResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedMapPin;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Master data';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.master_data';
 
     #[Override]
     protected static ?int $navigationSort = 60;

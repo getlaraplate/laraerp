@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\PaymentTerms\Pages\CreatePaymentTerm;
 use Modules\ERP\Filament\Resources\PaymentTerms\Pages\EditPaymentTerm;
 use Modules\ERP\Filament\Resources\PaymentTerms\Pages\ListPaymentTerms;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class PaymentTermResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = PaymentTerm::class;
 
@@ -32,7 +35,7 @@ final class PaymentTermResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClock;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Master data';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.master_data';
 
     #[Override]
     protected static ?int $navigationSort = 50;

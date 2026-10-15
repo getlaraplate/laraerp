@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\PurchaseOrders\Pages\CreatePurchaseOrder;
 use Modules\ERP\Filament\Resources\PurchaseOrders\Pages\EditPurchaseOrder;
 use Modules\ERP\Filament\Resources\PurchaseOrders\Pages\ListPurchaseOrders;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class PurchaseOrderResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = PurchaseOrder::class;
 
@@ -29,7 +32,7 @@ final class PurchaseOrderResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedClipboardDocumentCheck;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Purchasing';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.purchasing';
 
     #[Override]
     protected static ?int $navigationSort = 20;

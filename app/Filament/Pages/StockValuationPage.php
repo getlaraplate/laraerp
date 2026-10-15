@@ -33,7 +33,7 @@ final class StockValuationPage extends Page
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedChartPie;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Inventory';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.inventory';
 
     #[Override]
     protected static ?int $navigationSort = 40;

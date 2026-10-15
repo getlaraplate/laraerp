@@ -7,9 +7,49 @@ return [
         'newSalesOrder' => 'New sales order',
     ],
     'entities' => [
+        'accounts' => [
+            'singular' => 'Account',
+            'plural' => 'Chart of accounts',
+        ],
+        'bank_accounts' => [
+            'singular' => 'Bank account',
+            'plural' => 'Bank accounts',
+        ],
+        'bank_statements' => [
+            'singular' => 'Bank statement',
+            'plural' => 'Bank statements',
+        ],
+        'companies' => [
+            'singular' => 'Company',
+            'plural' => 'Companies',
+        ],
+        'contacts' => [
+            'singular' => 'Contact',
+            'plural' => 'Contacts',
+        ],
         'customers' => [
             'plural' => 'Customers',
             'singular' => 'Customer',
+        ],
+        'delivery_notes' => [
+            'singular' => 'Delivery note',
+            'plural' => 'Delivery notes',
+        ],
+        'document_sequences' => [
+            'singular' => 'Document sequence',
+            'plural' => 'Document sequences',
+        ],
+        'fiscal_periods' => [
+            'singular' => 'Fiscal period',
+            'plural' => 'Fiscal periods',
+        ],
+        'fiscal_years' => [
+            'singular' => 'Fiscal year',
+            'plural' => 'Fiscal years',
+        ],
+        'goods_receipts' => [
+            'singular' => 'Goods receipt',
+            'plural' => 'Goods receipts',
         ],
         'invoices' => [
             'plural' => 'Invoices',
@@ -19,9 +59,49 @@ return [
             'plural' => 'Items',
             'singular' => 'Item',
         ],
+        'journal_entries' => [
+            'singular' => 'Journal entry',
+            'plural' => 'Journal entries',
+        ],
+        'leads' => [
+            'singular' => 'Lead',
+            'plural' => 'Leads',
+        ],
+        'movements' => [
+            'singular' => 'Movement',
+            'plural' => 'Movements',
+        ],
+        'opportunities' => [
+            'singular' => 'Opportunity',
+            'plural' => 'Opportunities',
+        ],
         'parties' => [
             'plural' => 'Parties',
             'singular' => 'Party',
+        ],
+        'partner_pools' => [
+            'singular' => 'Partner pool',
+            'plural' => 'Partner pools',
+        ],
+        'payment_requests' => [
+            'singular' => 'Payment request',
+            'plural' => 'Payment requests',
+        ],
+        'payment_runs' => [
+            'singular' => 'Payment run',
+            'plural' => 'Payment runs',
+        ],
+        'payment_terms' => [
+            'singular' => 'Payment term',
+            'plural' => 'Payment terms',
+        ],
+        'payments' => [
+            'singular' => 'Payment',
+            'plural' => 'Payments',
+        ],
+        'price_lists' => [
+            'singular' => 'Price list',
+            'plural' => 'Price lists',
         ],
         'projects' => [
             'plural' => 'Projects',
@@ -35,9 +115,45 @@ return [
             'plural' => 'Quotations',
             'singular' => 'Quotation',
         ],
+        'return_orders' => [
+            'singular' => 'Customer return',
+            'plural' => 'Customer returns',
+        ],
         'sales_orders' => [
             'plural' => 'Sales orders',
             'singular' => 'Sales order',
+        ],
+        'sites' => [
+            'singular' => 'Site',
+            'plural' => 'Sites',
+        ],
+        'stock_levels' => [
+            'singular' => 'Stock level',
+            'plural' => 'Stock levels',
+        ],
+        'supplier_returns' => [
+            'singular' => 'Supplier return',
+            'plural' => 'Supplier returns',
+        ],
+        'tasks' => [
+            'singular' => 'Task',
+            'plural' => 'Tasks',
+        ],
+        'tax_codes' => [
+            'singular' => 'Tax code',
+            'plural' => 'Tax codes',
+        ],
+        'vat_register_entries' => [
+            'singular' => 'VAT register entry',
+            'plural' => 'VAT register entries',
+        ],
+        'vat_settlements' => [
+            'singular' => 'VAT settlement',
+            'plural' => 'VAT settlements',
+        ],
+        'warehouses' => [
+            'singular' => 'Warehouse',
+            'plural' => 'Warehouses',
         ],
     ],
     'fields' => [
@@ -89,6 +205,14 @@ return [
         'openOrders' => 'Open orders',
         'revenue' => 'Revenue',
         'shipped' => 'Shipped',
+    ],
+    'navigation' => [
+        'accounting' => 'ERP - Accounting',
+        'inventory' => 'ERP - Inventory',
+        'master_data' => 'ERP - Master data',
+        'purchasing' => 'ERP - Purchasing',
+        'sales' => 'ERP - Sales',
+        'treasury' => 'ERP - Treasury',
     ],
     'sections' => [
         'address' => 'Address',

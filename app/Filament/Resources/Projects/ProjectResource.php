@@ -12,6 +12,7 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Projects\Pages\CreateProject;
 use Modules\ERP\Filament\Resources\Projects\Pages\EditProject;
 use Modules\ERP\Filament\Resources\Projects\Pages\ListProjects;
@@ -23,6 +24,8 @@ use UnitEnum;
 
 final class ProjectResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Project::class;
 
@@ -33,7 +36,7 @@ final class ProjectResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedBriefcase;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Sales';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.sales';
 
     #[Override]
     protected static ?int $navigationSort = 60;

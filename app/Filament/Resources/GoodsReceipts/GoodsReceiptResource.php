@@ -10,6 +10,7 @@ use Filament\Panel;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\GoodsReceipts\Pages\CreateGoodsReceipt;
 use Modules\ERP\Filament\Resources\GoodsReceipts\Pages\EditGoodsReceipt;
 use Modules\ERP\Filament\Resources\GoodsReceipts\Pages\ListGoodsReceipts;
@@ -21,6 +22,8 @@ use UnitEnum;
 
 final class GoodsReceiptResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = GoodsReceipt::class;
 
@@ -28,7 +31,7 @@ final class GoodsReceiptResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedInboxArrowDown;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Purchasing';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.purchasing';
 
     #[Override]
     protected static ?int $navigationSort = 10;

@@ -11,6 +11,7 @@ use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
+use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
 use Modules\ERP\Filament\Resources\Payments\Pages\CreatePayment;
 use Modules\ERP\Filament\Resources\Payments\Pages\EditPayment;
 use Modules\ERP\Filament\Resources\Payments\Pages\ListPayments;
@@ -22,6 +23,8 @@ use UnitEnum;
 
 final class PaymentResource extends Resource
 {
+    use HasTranslatedResourceLabels;
+
     #[Override]
     protected static ?string $model = Payment::class;
 
@@ -29,7 +32,7 @@ final class PaymentResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedCurrencyEuro;
 
     #[Override]
-    protected static string|UnitEnum|null $navigationGroup = 'ERP - Treasury';
+    protected static string|UnitEnum|null $navigationGroup = 'erp.navigation.treasury';
 
     #[Override]
     protected static ?int $navigationSort = 60;
