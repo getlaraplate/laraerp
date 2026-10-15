@@ -7,21 +7,38 @@ return [
         'newSalesOrder' => 'Nuevo pedido de venta',
     ],
     'entities' => [
-        'customers' => 'Clientes',
-        'invoice' => 'Factura',
-        'invoices' => 'Facturas',
-        'item' => 'Artículo',
-        'items' => 'Artículos',
-        'parties' => 'Interlocutores',
-        'party' => 'Interlocutor',
-        'project' => 'Proyecto',
-        'projects' => 'Proyectos',
-        'purchaseOrder' => 'Pedido de compra',
-        'purchaseOrders' => 'Pedidos de compra',
-        'quotation' => 'Presupuesto',
-        'quotations' => 'Presupuestos',
-        'salesOrder' => 'Pedido de venta',
-        'salesOrders' => 'Pedidos de venta',
+        'customers' => [
+            'plural' => 'Clientes',
+            'singular' => 'Cliente',
+        ],
+        'invoices' => [
+            'plural' => 'Facturas',
+            'singular' => 'Factura',
+        ],
+        'items' => [
+            'plural' => 'Artículos',
+            'singular' => 'Artículo',
+        ],
+        'parties' => [
+            'plural' => 'Interlocutores',
+            'singular' => 'Interlocutor',
+        ],
+        'projects' => [
+            'plural' => 'Proyectos',
+            'singular' => 'Proyecto',
+        ],
+        'purchase_orders' => [
+            'plural' => 'Pedidos de compra',
+            'singular' => 'Pedido de compra',
+        ],
+        'quotations' => [
+            'plural' => 'Presupuestos',
+            'singular' => 'Presupuesto',
+        ],
+        'sales_orders' => [
+            'plural' => 'Pedidos de venta',
+            'singular' => 'Pedido de venta',
+        ],
     ],
     'fields' => [
         'address_line' => 'Dirección',

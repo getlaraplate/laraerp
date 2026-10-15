@@ -7,21 +7,38 @@ return [
         'newSalesOrder' => 'New sales order',
     ],
     'entities' => [
-        'customers' => 'Customers',
-        'invoice' => 'Invoice',
-        'invoices' => 'Invoices',
-        'item' => 'Item',
-        'items' => 'Items',
-        'parties' => 'Parties',
-        'party' => 'Party',
-        'project' => 'Project',
-        'projects' => 'Projects',
-        'purchaseOrder' => 'Purchase order',
-        'purchaseOrders' => 'Purchase orders',
-        'quotation' => 'Quotation',
-        'quotations' => 'Quotations',
-        'salesOrder' => 'Sales order',
-        'salesOrders' => 'Sales orders',
+        'customers' => [
+            'plural' => 'Customers',
+            'singular' => 'Customer',
+        ],
+        'invoices' => [
+            'plural' => 'Invoices',
+            'singular' => 'Invoice',
+        ],
+        'items' => [
+            'plural' => 'Items',
+            'singular' => 'Item',
+        ],
+        'parties' => [
+            'plural' => 'Parties',
+            'singular' => 'Party',
+        ],
+        'projects' => [
+            'plural' => 'Projects',
+            'singular' => 'Project',
+        ],
+        'purchase_orders' => [
+            'plural' => 'Purchase orders',
+            'singular' => 'Purchase order',
+        ],
+        'quotations' => [
+            'plural' => 'Quotations',
+            'singular' => 'Quotation',
+        ],
+        'sales_orders' => [
+            'plural' => 'Sales orders',
+            'singular' => 'Sales order',
+        ],
     ],
     'fields' => [
         'address_line' => 'Address',

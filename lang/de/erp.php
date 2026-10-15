@@ -7,21 +7,38 @@ return [
         'newSalesOrder' => 'Neuer Kundenauftrag',
     ],
     'entities' => [
-        'customers' => 'Kunden',
-        'invoice' => 'Rechnung',
-        'invoices' => 'Rechnungen',
-        'item' => 'Artikel',
-        'items' => 'Artikel',
-        'parties' => 'Geschäftspartner',
-        'party' => 'Geschäftspartner',
-        'project' => 'Projekt',
-        'projects' => 'Projekte',
-        'purchaseOrder' => 'Bestellung',
-        'purchaseOrders' => 'Bestellungen',
-        'quotation' => 'Angebot',
-        'quotations' => 'Angebote',
-        'salesOrder' => 'Kundenauftrag',
-        'salesOrders' => 'Kundenaufträge',
+        'customers' => [
+            'plural' => 'Kunden',
+            'singular' => 'Kunde',
+        ],
+        'invoices' => [
+            'plural' => 'Rechnungen',
+            'singular' => 'Rechnung',
+        ],
+        'items' => [
+            'plural' => 'Artikel',
+            'singular' => 'Artikel',
+        ],
+        'parties' => [
+            'plural' => 'Geschäftspartner',
+            'singular' => 'Geschäftspartner',
+        ],
+        'projects' => [
+            'plural' => 'Projekte',
+            'singular' => 'Projekt',
+        ],
+        'purchase_orders' => [
+            'plural' => 'Bestellungen',
+            'singular' => 'Bestellung',
+        ],
+        'quotations' => [
+            'plural' => 'Angebote',
+            'singular' => 'Angebot',
+        ],
+        'sales_orders' => [
+            'plural' => 'Kundenaufträge',
+            'singular' => 'Kundenauftrag',
+        ],
     ],
     'fields' => [
         'address_line' => 'Adresse',

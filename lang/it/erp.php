@@ -7,21 +7,38 @@ return [
         'newSalesOrder' => 'Nuovo ordine di vendita',
     ],
     'entities' => [
-        'customers' => 'Clienti',
-        'invoice' => 'Fattura',
-        'invoices' => 'Fatture',
-        'item' => 'Articolo',
-        'items' => 'Articoli',
-        'parties' => 'Anagrafiche',
-        'party' => 'Anagrafica',
-        'project' => 'Progetto',
-        'projects' => 'Progetti',
-        'purchaseOrder' => 'Ordine di acquisto',
-        'purchaseOrders' => 'Ordini di acquisto',
-        'quotation' => 'Offerta',
-        'quotations' => 'Offerte',
-        'salesOrder' => 'Ordine di vendita',
-        'salesOrders' => 'Ordini di vendita',
+        'customers' => [
+            'plural' => 'Clienti',
+            'singular' => 'Cliente',
+        ],
+        'invoices' => [
+            'plural' => 'Fatture',
+            'singular' => 'Fattura',
+        ],
+        'items' => [
+            'plural' => 'Articoli',
+            'singular' => 'Articolo',
+        ],
+        'parties' => [
+            'plural' => 'Anagrafiche',
+            'singular' => 'Anagrafica',
+        ],
+        'projects' => [
+            'plural' => 'Progetti',
+            'singular' => 'Progetto',
+        ],
+        'purchase_orders' => [
+            'plural' => 'Ordini di acquisto',
+            'singular' => 'Ordine di acquisto',
+        ],
+        'quotations' => [
+            'plural' => 'Offerte',
+            'singular' => 'Offerta',
+        ],
+        'sales_orders' => [
+            'plural' => 'Ordini di vendita',
+            'singular' => 'Ordine di vendita',
+        ],
     ],
     'fields' => [
         'address_line' => 'Indirizzo',

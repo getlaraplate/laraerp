@@ -7,21 +7,38 @@ return [
         'newSalesOrder' => 'Novo prodajno naročilo',
     ],
     'entities' => [
-        'customers' => 'Stranke',
-        'invoice' => 'Račun',
-        'invoices' => 'Računi',
-        'item' => 'Artikel',
-        'items' => 'Artikli',
-        'parties' => 'Partnerji',
-        'party' => 'Partner',
-        'project' => 'Projekt',
-        'projects' => 'Projekti',
-        'purchaseOrder' => 'Nabavno naročilo',
-        'purchaseOrders' => 'Nabavna naročila',
-        'quotation' => 'Ponudba',
-        'quotations' => 'Ponudbe',
-        'salesOrder' => 'Prodajno naročilo',
-        'salesOrders' => 'Prodajna naročila',
+        'customers' => [
+            'plural' => 'Stranke',
+            'singular' => 'Stranka',
+        ],
+        'invoices' => [
+            'plural' => 'Računi',
+            'singular' => 'Račun',
+        ],
+        'items' => [
+            'plural' => 'Artikli',
+            'singular' => 'Artikel',
+        ],
+        'parties' => [
+            'plural' => 'Partnerji',
+            'singular' => 'Partner',
+        ],
+        'projects' => [
+            'plural' => 'Projekti',
+            'singular' => 'Projekt',
+        ],
+        'purchase_orders' => [
+            'plural' => 'Nabavna naročila',
+            'singular' => 'Nabavno naročilo',
+        ],
+        'quotations' => [
+            'plural' => 'Ponudbe',
+            'singular' => 'Ponudba',
+        ],
+        'sales_orders' => [
+            'plural' => 'Prodajna naročila',
+            'singular' => 'Prodajno naročilo',
+        ],
     ],
     'fields' => [
         'address_line' => 'Naslov',
