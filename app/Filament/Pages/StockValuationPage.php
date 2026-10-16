@@ -39,16 +39,16 @@ final class StockValuationPage extends Page
     protected static ?int $navigationSort = 40;
 
     #[Override]
-    protected static ?string $navigationLabel = 'Stock Valuation';
-
-    #[Override]
-    protected static ?string $title = 'Stock Valuation';
-
-    #[Override]
     protected static ?string $slug = 'stock-valuation';
 
     #[Override]
     protected string $view = 'erp::filament.pages.stock-valuation';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.stockValuation');
+    }
 
     public function form(Schema $schema): Schema
     {
@@ -56,12 +56,10 @@ final class StockValuationPage extends Page
             ->statePath('data')
             ->components([
                 Select::make('company_id')
-                    ->label('Company')
                     ->options(Company::query()->pluck('name', 'id')->all())
                     ->live()
                     ->required(),
                 Select::make('warehouse_id')
-                    ->label('Warehouse')
                     ->options(fn (): array => $this->warehouseOptions())
                     ->searchable()
                     ->nullable(),
@@ -96,6 +94,12 @@ final class StockValuationPage extends Page
             'stock-valuation.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.stockValuation');
     }
 
     /**

@@ -45,12 +45,11 @@ final class OpportunityForm
                     ->preload()
                     ->required(),
                 Select::make('stage_taxonomy_id')
-                    ->label('Stage')
                     ->relationship('stage', 'name')
                     ->searchable()
                     ->preload()
                     ->required()
-                    ->helperText('Pipeline stages require taxonomies: run ERPDatabaseSeeder then DevERPOpportunityStagesTaxonomySeeder (or equivalent) so stages exist.'),
+                    ->helperText(__('erp.help.stageTaxonomiesRequired')),
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),

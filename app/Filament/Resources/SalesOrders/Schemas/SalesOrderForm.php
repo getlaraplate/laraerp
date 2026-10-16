@@ -102,7 +102,6 @@ final class SalesOrderForm
                     ->preload()
                     ->nullable(),
                 Select::make('amends_sales_order_id')
-                    ->label('Amends order')
                     ->options(static fn (Get $get, ?Model $record): array => self::salesOrderOptions(
                         (int) ($get('company_id') ?? 0),
                         exclude_id: self::salesOrderRecordId($record),

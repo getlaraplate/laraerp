@@ -14,7 +14,7 @@ final class DeliveryNotePostingActions
     public static function post(): Action
     {
         return Action::make('post')
-            ->label('Post inventory')
+            ->label(__('erp.actions.postInventory'))
             ->icon(Heroicon::OutlinedCheckCircle)
             ->color('success')
             ->requiresConfirmation()
@@ -24,7 +24,7 @@ final class DeliveryNotePostingActions
                 $record->update(['posted_at' => now()]);
 
                 Notification::make()
-                    ->title('Delivery note posted')
+                    ->title(__('erp.messages.deliveryNotePosted'))
                     ->success()
                     ->send();
             });
@@ -33,7 +33,7 @@ final class DeliveryNotePostingActions
     public static function unpost(): Action
     {
         return Action::make('unpost')
-            ->label('Unpost inventory')
+            ->label(__('erp.actions.unpostInventory'))
             ->icon(Heroicon::OutlinedXCircle)
             ->color('danger')
             ->requiresConfirmation()
@@ -43,7 +43,7 @@ final class DeliveryNotePostingActions
                 $record->update(['posted_at' => null]);
 
                 Notification::make()
-                    ->title('Delivery note unposted')
+                    ->title(__('erp.messages.deliveryNoteUnposted'))
                     ->success()
                     ->send();
             });

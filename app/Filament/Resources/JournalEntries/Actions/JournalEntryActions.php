@@ -17,7 +17,7 @@ final class JournalEntryActions
     public static function reverse(): Action
     {
         return Action::make('reverse')
-            ->label('Reverse')
+            ->label(__('erp.actions.reverse'))
             ->icon(Heroicon::OutlinedArrowUturnLeft)
             ->color('danger')
             ->requiresConfirmation()
@@ -26,7 +26,6 @@ final class JournalEntryActions
                 && ! $record->reversal_voucher()->exists())
             ->form([
                 Textarea::make('reversal_reason')
-                    ->label('Reversal reason')
                     ->required()
                     ->maxLength(500),
             ])
@@ -46,8 +45,8 @@ final class JournalEntryActions
                 );
 
                 Notification::make()
-                    ->title('Journal reversed')
-                    ->body('Reversal voucher #' . $reversal->id)
+                    ->title(__('erp.messages.journalReversed'))
+                    ->body(__('erp.messages.reversalVoucher', ['id' => $reversal->id]))
                     ->success()
                     ->send();
             })

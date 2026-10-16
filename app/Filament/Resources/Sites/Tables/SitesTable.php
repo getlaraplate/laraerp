@@ -17,10 +17,10 @@ final class SitesTable
     {
         return self::configureTable($table, static function (Collection $columns): void {
             $columns->unshift(...[
-                TextColumn::make('company.name')->label('Company')->sortable(),
+                TextColumn::make('company.name')->sortable(),
                 TextColumn::make('name')->searchable()->sortable(),
-                TextColumn::make('place.address')->label('Address')->searchable(),
-                TextColumn::make('place.city')->label('City')->searchable()->sortable(),
+                TextColumn::make('place.address')->searchable(),
+                TextColumn::make('place.city')->searchable()->sortable(),
             ]);
         });
     }

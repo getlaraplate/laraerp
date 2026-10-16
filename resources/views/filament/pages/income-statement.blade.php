@@ -17,9 +17,9 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b font-medium">
-                            <th class="text-left py-2">Code</th>
-                            <th class="text-left py-2">Account</th>
-                            <th class="text-right py-2">Amount</th>
+                            <th class="text-left py-2">{{ __('erp.reports.code') }}</th>
+                            <th class="text-left py-2">{{ __('erp.reports.account') }}</th>
+                            <th class="text-right py-2">{{ __('erp.reports.amount') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,7 +33,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="border-t-2 font-bold">
-                            <td class="py-2" colspan="2">Total Revenue</td>
+                            <td class="py-2" colspan="2">{{ __('erp.reports.totalRevenue') }}</td>
                             <td class="py-2 text-right">{{ number_format((float) $report_data['total_revenue'], 2) }}</td>
                         </tr>
                     </tfoot>
@@ -44,9 +44,9 @@
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b font-medium">
-                            <th class="text-left py-2">Code</th>
-                            <th class="text-left py-2">Account</th>
-                            <th class="text-right py-2">Amount</th>
+                            <th class="text-left py-2">{{ __('erp.reports.code') }}</th>
+                            <th class="text-left py-2">{{ __('erp.reports.account') }}</th>
+                            <th class="text-right py-2">{{ __('erp.reports.amount') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -60,7 +60,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="border-t-2 font-bold">
-                            <td class="py-2" colspan="2">Total Expenses</td>
+                            <td class="py-2" colspan="2">{{ __('erp.reports.totalExpenses') }}</td>
                             <td class="py-2 text-right">{{ number_format((float) $report_data['total_expenses'], 2) }}</td>
                         </tr>
                     </tfoot>

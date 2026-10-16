@@ -23,7 +23,7 @@ final class ReturnOrdersTable
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('party.name')
-                        ->label('Customer')
+                        ->label(__('erp.fields.customer'))
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('status')

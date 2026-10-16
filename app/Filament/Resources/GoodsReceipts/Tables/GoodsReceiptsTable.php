@@ -20,13 +20,11 @@ final class GoodsReceiptsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('reference')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('purchase_order.reference')
-                        ->label('Purchase order')
                         ->searchable()
                         ->toggleable(),
                     TextColumn::make('received_at')

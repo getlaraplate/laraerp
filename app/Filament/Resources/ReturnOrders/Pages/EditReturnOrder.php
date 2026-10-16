@@ -29,7 +29,7 @@ final class EditReturnOrder extends EditRecord
     {
         return [
             Action::make('approve')
-                ->label('Approve')
+                ->label(__('erp.actions.approve'))
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('info')
                 ->requiresConfirmation()
@@ -40,12 +40,12 @@ final class EditReturnOrder extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Return approved')
+                        ->title(__('erp.messages.returnApproved'))
                         ->success()
                         ->send();
                 }),
             Action::make('complete')
-                ->label('Complete')
+                ->label(__('erp.actions.complete'))
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('success')
                 ->requiresConfirmation()
@@ -56,12 +56,12 @@ final class EditReturnOrder extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Return completed')
+                        ->title(__('erp.messages.returnCompleted'))
                         ->success()
                         ->send();
                 }),
             Action::make('cancel')
-                ->label('Cancel')
+                ->label(__('erp.actions.cancel'))
                 ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->requiresConfirmation()
@@ -72,12 +72,12 @@ final class EditReturnOrder extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Return cancelled')
+                        ->title(__('erp.messages.returnCancelled'))
                         ->success()
                         ->send();
                 }),
             Action::make('reverse_processed')
-                ->label('Reverse')
+                ->label(__('erp.actions.reverse'))
                 ->icon(Heroicon::OutlinedArrowUturnLeft)
                 ->color('warning')
                 ->requiresConfirmation()
@@ -89,12 +89,12 @@ final class EditReturnOrder extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Return reversed')
+                        ->title(__('erp.messages.returnReversed'))
                         ->success()
                         ->send();
                 }),
             Action::make('create_credit_note')
-                ->label('Create Credit Note')
+                ->label(__('erp.actions.createCreditNote'))
                 ->icon(Heroicon::OutlinedDocumentDuplicate)
                 ->requiresConfirmation()
                 ->visible(fn (): bool => $this->record instanceof ReturnOrder

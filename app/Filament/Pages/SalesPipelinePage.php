@@ -39,16 +39,16 @@ final class SalesPipelinePage extends Page
     protected static ?int $navigationSort = 100;
 
     #[Override]
-    protected static ?string $navigationLabel = 'Sales Pipeline';
-
-    #[Override]
-    protected static ?string $title = 'Sales Pipeline';
-
-    #[Override]
     protected static ?string $slug = 'sales-pipeline';
 
     #[Override]
     protected string $view = 'erp::filament.pages.sales-pipeline';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.salesPipeline');
+    }
 
     public function form(Schema $schema): Schema
     {
@@ -56,13 +56,10 @@ final class SalesPipelinePage extends Page
             ->statePath('data')
             ->components([
                 Select::make('company_id')
-                    ->label('Company')
                     ->options(Company::query()->pluck('name', 'id')->all())
                     ->required(),
-                DatePicker::make('won_from')
-                    ->label('Won from'),
-                DatePicker::make('won_to')
-                    ->label('Won to'),
+                DatePicker::make('won_from'),
+                DatePicker::make('won_to'),
             ]);
     }
 
@@ -93,5 +90,11 @@ final class SalesPipelinePage extends Page
             'sales-pipeline.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.salesPipeline');
     }
 }

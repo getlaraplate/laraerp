@@ -40,13 +40,13 @@ final class IncomeStatementPage extends Page
     protected static ?int $navigationSort = 50;
 
     #[Override]
-    protected static ?string $navigationLabel = 'Income Statement';
-
-    #[Override]
-    protected static ?string $title = 'Income Statement';
-
-    #[Override]
     protected string $view = 'erp::filament.pages.income-statement';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.incomeStatement');
+    }
 
     public function mount(): void
     {
@@ -62,14 +62,11 @@ final class IncomeStatementPage extends Page
             ->statePath('data')
             ->components([
                 Select::make('company_id')
-                    ->label('Company')
                     ->options(Company::query()->pluck('name', 'id')->all())
                     ->required(),
                 DatePicker::make('from_date')
-                    ->label('From Date')
                     ->required(),
                 DatePicker::make('to_date')
-                    ->label('To Date')
                     ->required(),
             ]);
     }
@@ -102,5 +99,11 @@ final class IncomeStatementPage extends Page
             'income-statement.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.incomeStatement');
     }
 }

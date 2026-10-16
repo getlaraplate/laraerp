@@ -40,13 +40,13 @@ final class TrialBalancePage extends Page
     protected static ?int $navigationSort = 80;
 
     #[Override]
-    protected static ?string $navigationLabel = 'Trial Balance';
-
-    #[Override]
-    protected static ?string $title = 'Trial Balance';
-
-    #[Override]
     protected string $view = 'erp::filament.pages.trial-balance';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.trialBalance');
+    }
 
     public function mount(): void
     {
@@ -61,11 +61,9 @@ final class TrialBalancePage extends Page
             ->statePath('data')
             ->components([
                 Select::make('company_id')
-                    ->label('Company')
                     ->options(Company::query()->pluck('name', 'id')->all())
                     ->required(),
                 DatePicker::make('as_of_date')
-                    ->label('As of Date')
                     ->required(),
             ]);
     }
@@ -97,5 +95,11 @@ final class TrialBalancePage extends Page
             'trial-balance.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.trialBalance');
     }
 }

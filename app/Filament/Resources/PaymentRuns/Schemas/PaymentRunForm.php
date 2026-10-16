@@ -51,7 +51,6 @@ final class PaymentRunForm
                     ->default(now())
                     ->disabledOn('edit'),
                 Select::make('payment_schedule_line_ids')
-                    ->label('Supplier schedule lines')
                     ->options(static fn (callable $get): array => self::scheduleLineOptions($get('company_id')))
                     ->multiple()
                     ->searchable()

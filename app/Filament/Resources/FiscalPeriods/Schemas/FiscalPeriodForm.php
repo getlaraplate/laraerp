@@ -24,7 +24,6 @@ final class FiscalPeriodForm
         return $schema
             ->components([
                 Select::make('fiscal_year_id')
-                    ->label('Fiscal year')
                     ->relationship(
                         name: 'fiscal_year',
                         titleAttribute: 'year',
@@ -50,7 +49,6 @@ final class FiscalPeriodForm
                     ->required()
                     ->native(false),
                 Toggle::make('is_closed')
-                    ->label('Closed')
                     ->disabled()
                     ->dehydrated(false),
             ]);

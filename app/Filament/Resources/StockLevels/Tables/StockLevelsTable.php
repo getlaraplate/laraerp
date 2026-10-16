@@ -20,14 +20,11 @@ final class StockLevelsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('item.name')
-                        ->label('Item')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('warehouse.name')
-                        ->label('Warehouse')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('quantity')

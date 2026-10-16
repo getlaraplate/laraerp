@@ -20,10 +20,8 @@ final class PurchaseOrdersTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('party.name')
-                        ->label('Party')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('reference')
@@ -33,16 +31,13 @@ final class PurchaseOrdersTable
                         ->badge()
                         ->sortable(),
                     TextColumn::make('lines_count')
-                        ->label('Lines')
                         ->numeric()
                         ->sortable(),
                     TextColumn::make('lines_sum_qty_ordered')
-                        ->label('Σ Qty ordered')
                         ->numeric()
                         ->sortable()
                         ->default(0),
                     TextColumn::make('lines_sum_qty_received')
-                        ->label('Σ Qty received')
                         ->numeric()
                         ->sortable()
                         ->default(0),

@@ -50,7 +50,7 @@ final class PaymentTermForm
                         TextInput::make('payment_method')
                             ->nullable()
                             ->maxLength(64)
-                            ->helperText('e.g. bank_transfer, check'),
+                            ->helperText(__('erp.help.paymentMethodExamples')),
                     ])
                     ->minItems(1)
                     ->addActionLabel('Add installment')

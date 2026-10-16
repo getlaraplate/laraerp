@@ -44,7 +44,6 @@ final class ProjectForm
                     ->searchable()
                     ->preload()
                     ->nullable()
-                    ->label('Quotation')
                     ->getOptionLabelFromRecordUsing(static fn (Quotation $record): string => sprintf('#%d — %s', $record->id, $record->currency)),
                 TextInput::make('name')
                     ->required()

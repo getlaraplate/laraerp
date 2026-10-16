@@ -21,7 +21,6 @@ final class FiscalYearsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->sortable()
                         ->toggleable(),
                     TextColumn::make('year')

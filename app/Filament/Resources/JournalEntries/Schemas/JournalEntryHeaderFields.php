@@ -25,7 +25,6 @@ final class JournalEntryHeaderFields
                 ->live()
                 ->disabled($company_locked),
             Select::make('fiscal_period_id')
-                ->label('Fiscal period')
                 ->relationship(
                     name: 'fiscal_period',
                     titleAttribute: 'period_no',

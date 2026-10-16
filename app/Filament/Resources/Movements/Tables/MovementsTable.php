@@ -24,18 +24,18 @@ final class MovementsTable
                 $default_columns->unshift(...[
                     TextColumn::make('occurred_on')->date()->sortable(),
                     TextColumn::make('type')->badge()->sortable(),
-                    TextColumn::make('counterparty_account.code')->label('Account')->searchable()->sortable(),
+                    TextColumn::make('counterparty_account.code')->searchable()->sortable(),
                     TextColumn::make('description')->limit(40)->searchable(),
-                    TextColumn::make('amount_doc')->label('Amount')->numeric(4)->sortable(),
-                    TextColumn::make('currency_doc')->label('Currency'),
-                    TextColumn::make('amount_local')->label('Local amount')->numeric(4)->toggleable(),
-                    TextColumn::make('posted_journal_entry_id')->label('Journal')->sortable(),
+                    TextColumn::make('amount_doc')->numeric(4)->sortable(),
+                    TextColumn::make('currency_doc'),
+                    TextColumn::make('amount_local')->numeric(4)->toggleable(),
+                    TextColumn::make('posted_journal_entry_id')->sortable(),
                 ]);
             },
             actions: static function (Collection $default_actions): void {
                 $default_actions->prepend(
                     Action::make('details')
-                        ->label('Details')
+                        ->label(__('erp.actions.details'))
                         ->url(static fn (Movement $record): string => MovementResource::getUrl('view', ['record' => $record])),
                 );
             },

@@ -107,20 +107,19 @@ final class EditInvoice extends EditRecord
     {
         return [
             Action::make('post')
-                ->label('Post')
+                ->label(__('erp.actions.post'))
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('success')
                 ->requiresConfirmation()
-                ->modalHeading('Post invoice')
-                ->modalDescription('Assigns the fiscal reference, posts journal entries, and locks the invoice.')
+                ->modalHeading(__('erp.messages.postInvoice'))
+                ->modalDescription(__('erp.messages.postInvoiceDescription'))
                 ->authorize(fn (): bool => auth()->user()?->can('post', $this->record) ?? false)
                 ->visible(fn (): bool => $this->record->journal_entry_id === null)
                 ->form(fn (): array => $this->record->direction === InvoiceDirection::Purchase
                     && (auth()->user()?->can('forcePost', $this->record) ?? false)
                     ? [
                         Checkbox::make('force_three_way_match')
-                            ->label('Force three-way match')
-                            ->helperText('Post even when PO/GR price or quantity discrepancies exceed configured tolerances.'),
+                            ->helperText(__('erp.help.forceThreeWayMatch')),
                     ]
                     : [])
                 ->action(function (array $data): void {
@@ -131,12 +130,12 @@ final class EditInvoice extends EditRecord
                     $this->refreshFormData(['reference', 'posted_at_display']);
                 }),
             Action::make('unpost')
-                ->label('Unpost')
+                ->label(__('erp.actions.unpost'))
                 ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->requiresConfirmation()
-                ->modalHeading('Unpost invoice')
-                ->modalDescription('Reverses the journal entry, removes payment schedule lines, and clears the fiscal reference.')
+                ->modalHeading(__('erp.messages.unpostInvoice'))
+                ->modalDescription(__('erp.messages.unpostInvoiceDescription'))
                 ->authorize(fn (): bool => auth()->user()?->can('unpost', $this->record) ?? false)
                 ->visible(fn (): bool => $this->record->journal_entry_id !== null)
                 ->action(function (): void {
@@ -144,7 +143,7 @@ final class EditInvoice extends EditRecord
                     $this->refreshFormData(['reference', 'posted_at_display']);
                 }),
             Action::make('create_credit_note')
-                ->label('Create Credit Note')
+                ->label(__('erp.actions.createCreditNote'))
                 ->icon(Heroicon::OutlinedDocumentDuplicate)
                 ->requiresConfirmation()
                 ->visible(fn (): bool => $this->record->journal_entry_id !== null
@@ -155,7 +154,7 @@ final class EditInvoice extends EditRecord
                     $this->redirect(InvoiceResource::getUrl('edit', ['record' => $credit_note]));
                 }),
             Action::make('send_einvoice')
-                ->label('Send e-invoice')
+                ->label(__('erp.actions.sendEInvoice'))
                 ->icon(Heroicon::OutlinedPaperAirplane)
                 ->color('primary')
                 ->requiresConfirmation()
@@ -174,12 +173,12 @@ final class EditInvoice extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('E-invoice submitted: ' . $submission->provider_code . ' / ' . ($submission->external_id ?? 'pending'))
+                        ->title(__('erp.messages.eInvoiceSubmitted', ['provider' => $submission->provider_code, 'id' => $submission->external_id ?? __('erp.messages.pending')]))
                         ->success()
                         ->send();
                 }),
             Action::make('refresh_einvoice_status')
-                ->label('Refresh e-invoice')
+                ->label(__('erp.actions.refreshEInvoice'))
                 ->icon(Heroicon::OutlinedArrowPath)
                 ->color('gray')
                 ->authorize(fn (): bool => auth()->user()?->can('refreshEInvoice', $this->record) ?? false)
@@ -199,7 +198,7 @@ final class EditInvoice extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('E-invoice status refreshed')
+                        ->title(__('erp.messages.eInvoiceStatusRefreshed'))
                         ->success()
                         ->send();
                 }),

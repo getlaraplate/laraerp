@@ -16,20 +16,19 @@ final class InvoicePostingActions
     public static function post(): Action
     {
         return Action::make('post')
-            ->label('Post')
+            ->label(__('erp.actions.post'))
             ->icon(Heroicon::OutlinedCheckCircle)
             ->color('success')
             ->requiresConfirmation()
-            ->modalHeading('Post invoice')
-            ->modalDescription('Assigns the fiscal reference, posts journal entries, and locks the invoice.')
+            ->modalHeading(__('erp.messages.postInvoice'))
+            ->modalDescription(__('erp.messages.postInvoiceDescription'))
             ->authorize(static fn (Invoice $record): bool => auth()->user()?->can('post', $record) ?? false)
             ->visible(static fn (Invoice $record): bool => $record->journal_entry_id === null)
             ->form(static fn (Invoice $record): array => $record->direction === InvoiceDirection::Purchase
                 && (auth()->user()?->can('forcePost', $record) ?? false)
                 ? [
                     Checkbox::make('force_three_way_match')
-                        ->label('Force three-way match')
-                        ->helperText('Post even when PO/GR price or quantity discrepancies exceed configured tolerances.'),
+                        ->helperText(__('erp.help.forceThreeWayMatch')),
                 ]
                 : [])
             ->action(static function (Invoice $record, array $data): void {
@@ -40,12 +39,12 @@ final class InvoicePostingActions
     public static function unpost(): Action
     {
         return Action::make('unpost')
-            ->label('Unpost')
+            ->label(__('erp.actions.unpost'))
             ->icon(Heroicon::OutlinedXCircle)
             ->color('danger')
             ->requiresConfirmation()
-            ->modalHeading('Unpost invoice')
-            ->modalDescription('Reverses the journal entry, removes payment schedule lines, and clears the fiscal reference.')
+            ->modalHeading(__('erp.messages.unpostInvoice'))
+            ->modalDescription(__('erp.messages.unpostInvoiceDescription'))
             ->authorize(static fn (Invoice $record): bool => auth()->user()?->can('unpost', $record) ?? false)
             ->visible(static fn (Invoice $record): bool => $record->journal_entry_id !== null)
             ->action(static function (Invoice $record): void {
@@ -59,8 +58,8 @@ final class InvoicePostingActions
         $invoice->update(['posted_at' => now()]);
 
         Notification::make()
-            ->title('Invoice posted')
-            ->body('Reference: ' . ($invoice->fresh()->reference ?? '—'))
+            ->title(__('erp.messages.invoicePosted'))
+            ->body(__('erp.messages.reference', ['reference' => $invoice->fresh()->reference ?? '—']))
             ->success()
             ->send();
     }
@@ -70,7 +69,7 @@ final class InvoicePostingActions
         $invoice->update(['posted_at' => null]);
 
         Notification::make()
-            ->title('Invoice unposted')
+            ->title(__('erp.messages.invoiceUnposted'))
             ->success()
             ->send();
     }

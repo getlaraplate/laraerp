@@ -17,7 +17,7 @@
         </div>
     </form>
 
-    <x-filament::section heading="Unmatched statement lines">
+    <x-filament::section :heading="__('erp.reports.unmatchedStatementLines')">
         <div class="space-y-2 text-sm">
             @forelse ($this->unmatchedLines() as $lineId => $label)
                 <div class="border-b py-2">

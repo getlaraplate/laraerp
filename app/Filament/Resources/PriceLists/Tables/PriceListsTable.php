@@ -20,7 +20,6 @@ final class PriceListsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->searchable()
                         ->sortable()
                         ->toggleable(),
@@ -30,7 +29,6 @@ final class PriceListsTable
                     TextColumn::make('currency')
                         ->sortable(),
                     TextColumn::make('price_list_items_count')
-                        ->label('Items')
                         ->sortable(),
                 ]);
             },

@@ -31,19 +31,18 @@ final class EditBankStatement extends EditRecord
     {
         return [
             Action::make('import_file')
-                ->label('Import file')
+                ->label(__('erp.actions.importFile'))
                 ->icon(Heroicon::OutlinedArrowUpTray)
                 ->form([
                     FileUpload::make('file')
-                        ->label('Statement file')
+                        ->label(__('erp.fields.statement_file'))
                         ->disk('local')
                         ->directory('erp-bank-statements')
                         ->acceptedFileTypes(['text/csv', 'text/plain', 'text/xml', 'application/xml'])
                         ->required(),
                     Select::make('format')
-                        ->label('Format')
                         ->options([
-                            'auto' => 'Auto-detect',
+                            'auto' => __('erp.help.autoDetect'),
                             'csv' => 'CSV',
                             'camt053' => 'CAMT.053',
                             'mt940' => 'MT940',
@@ -62,7 +61,7 @@ final class EditBankStatement extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title("Imported {$count} bank statement lines")
+                        ->title(__('erp.messages.importedStatementLines', ['count' => $count]))
                         ->success()
                         ->send();
                 }),

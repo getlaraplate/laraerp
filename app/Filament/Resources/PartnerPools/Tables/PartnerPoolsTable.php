@@ -18,7 +18,6 @@ final class PartnerPoolsTable
         return self::configureTable($table, static function (Collection $columns): void {
             $columns->unshift(...[
                 TextColumn::make('company.name')
-                    ->label('Company')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('name')
@@ -27,8 +26,7 @@ final class PartnerPoolsTable
                 TextColumn::make('currency')
                     ->sortable(),
                 TextColumn::make('members_count')
-                    ->counts('members')
-                    ->label('Members'),
+                    ->counts('members'),
             ]);
         });
     }

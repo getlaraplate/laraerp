@@ -50,7 +50,6 @@ final class QuotationForm
                     ->required()
                     ->live(),
                 Select::make('opportunity_id')
-                    ->label('Opportunity')
                     ->relationship(
                         'opportunity',
                         'name',
@@ -92,7 +91,6 @@ final class QuotationForm
                 Repeater::make('line_items')
                     ->schema([
                         Select::make('price_list_item_id')
-                            ->label('Price list item')
                             ->relationship('price_list_item', 'name')
                             ->searchable()
                             ->preload()

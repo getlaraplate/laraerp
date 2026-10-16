@@ -20,7 +20,6 @@ final class OpportunitiesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('name')
                         ->searchable()
@@ -29,10 +28,8 @@ final class OpportunitiesTable
                         ->badge()
                         ->sortable(),
                     TextColumn::make('stage.name')
-                        ->label('Stage')
                         ->toggleable(),
                     TextColumn::make('party.name')
-                        ->label('Party')
                         ->toggleable(),
                     TextColumn::make('expected_close_date')
                         ->date()

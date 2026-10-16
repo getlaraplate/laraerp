@@ -35,11 +35,10 @@ final class EditPartnerPool extends EditRecord
     {
         return [
             Action::make('allocate_expense')
-                ->label('Split expense')
+                ->label(__('erp.actions.splitExpense'))
                 ->icon(Heroicon::OutlinedArrowsRightLeft)
                 ->schema([
                     Select::make('movement_id')
-                        ->label('Expense movement')
                         ->options(fn (): array => ConnectionScopedModels::for($this->pool())
                             ->query(Movement::class)
                             ->where('company_id', $this->pool()->company_id)
@@ -69,14 +68,14 @@ final class EditPartnerPool extends EditRecord
                         $this->pool(),
                         $shares,
                     );
-                    Notification::make()->title('Expense split saved')->success()->send();
+                    Notification::make()->title(__('erp.messages.expenseSplitSaved'))->success()->send();
                 }),
             Action::make('settle_up')
-                ->label('Settle up')
+                ->label(__('erp.actions.settleUp'))
                 ->icon(Heroicon::OutlinedBanknotes)
                 ->schema([
-                    Select::make('from_user_id')->label('Paid by')->options(fn (): array => $this->pool()->members()->pluck('name', 'users.id')->all())->required(),
-                    Select::make('to_user_id')->label('Paid to')->options(fn (): array => $this->pool()->members()->pluck('name', 'users.id')->all())->different('from_user_id')->required(),
+                    Select::make('from_user_id')->options(fn (): array => $this->pool()->members()->pluck('name', 'users.id')->all())->required(),
+                    Select::make('to_user_id')->options(fn (): array => $this->pool()->members()->pluck('name', 'users.id')->all())->different('from_user_id')->required(),
                     TextInput::make('amount')->numeric()->minValue(0.0001)->required(),
                     DatePicker::make('occurred_on')->default(now())->disabled(),
                     TextInput::make('description')->maxLength(255),
@@ -89,7 +88,7 @@ final class EditPartnerPool extends EditRecord
                         (string) $data['amount'],
                         $data['description'] ?? null,
                     );
-                    Notification::make()->title('Settlement recorded')->success()->send();
+                    Notification::make()->title(__('erp.messages.settlementRecorded'))->success()->send();
                 }),
             DeleteAction::make(),
         ];

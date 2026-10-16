@@ -18,7 +18,7 @@ final class PaymentRunActions
     public static function approve(): Action
     {
         return Action::make('approve')
-            ->label('Approve')
+            ->label(__('erp.actions.approve'))
             ->icon(Heroicon::OutlinedCheckCircle)
             ->color('success')
             ->requiresConfirmation()
@@ -29,7 +29,7 @@ final class PaymentRunActions
                 $record->save();
 
                 Notification::make()
-                    ->title('Payment run approved')
+                    ->title(__('erp.messages.paymentRunApproved'))
                     ->success()
                     ->send();
             });
@@ -38,7 +38,7 @@ final class PaymentRunActions
     public static function exportSepa(): Action
     {
         return Action::make('export_sepa')
-            ->label('Export SEPA')
+            ->label(__('erp.actions.exportSepa'))
             ->icon(Heroicon::OutlinedArrowDownTray)
             ->color('primary')
             ->visible(static fn (PaymentRun $record): bool => $record->status === PaymentRunStatus::Approved)
@@ -57,7 +57,7 @@ final class PaymentRunActions
     public static function exportCbiBonifici(): Action
     {
         return Action::make('export_cbi_bonifici')
-            ->label('Export CBI')
+            ->label(__('erp.actions.exportCbi'))
             ->icon(Heroicon::OutlinedArrowDownTray)
             ->color('gray')
             ->visible(static fn (PaymentRun $record): bool => $record->status === PaymentRunStatus::Approved)
@@ -76,7 +76,7 @@ final class PaymentRunActions
     public static function cancel(): Action
     {
         return Action::make('cancel')
-            ->label('Cancel')
+            ->label(__('erp.actions.cancel'))
             ->icon(Heroicon::OutlinedXCircle)
             ->color('danger')
             ->requiresConfirmation()
@@ -91,7 +91,7 @@ final class PaymentRunActions
                 $record->lines()->update(['status' => \Modules\ERP\Casts\PaymentRunLineStatus::Cancelled->value]);
 
                 Notification::make()
-                    ->title('Payment run cancelled')
+                    ->title(__('erp.messages.paymentRunCancelled'))
                     ->success()
                     ->send();
             });

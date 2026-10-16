@@ -76,7 +76,6 @@ final class ReturnOrderForm
                             ->preload()
                             ->required(),
                         Select::make('invoice_line_id')
-                            ->label('Invoice line')
                             ->searchable()
                             ->preload()
                             ->options(static fn (Get $get): array => self::invoiceLineOptions($get))
@@ -88,7 +87,7 @@ final class ReturnOrderForm
                         TextInput::make('unit_price')
                             ->numeric()
                             ->minValue(0)
-                            ->helperText('Defaults to the source invoice line price.'),
+                            ->helperText(__('erp.help.unitPriceFromInvoiceLine')),
                         TextInput::make('unit_cost')
                             ->numeric()
                             ->minValue(0)

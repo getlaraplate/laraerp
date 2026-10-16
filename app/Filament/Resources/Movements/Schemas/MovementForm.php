@@ -39,17 +39,14 @@ final class MovementForm
                 ->required()
                 ->default(now()),
             TextInput::make('amount_doc')
-                ->label('Amount')
                 ->numeric()
                 ->minValue(0.0001)
                 ->required(),
             TextInput::make('currency_doc')
-                ->label('Currency')
                 ->length(3)
                 ->default('EUR')
                 ->required(),
             Select::make('counterparty_account_id')
-                ->label('Revenue / expense account')
                 ->options(fn (Get $get): array => Account::query()
                     ->when($get('company_id'), static fn ($query, mixed $company_id) => $query->where('company_id', $company_id))
                     ->where('kind', MovementType::Income->value === $get('type')

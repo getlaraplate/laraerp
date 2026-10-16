@@ -20,7 +20,6 @@ final class BankStatementsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('bank_account.name')
-                        ->label('Bank account')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('period_start')
@@ -30,7 +29,6 @@ final class BankStatementsTable
                         ->date()
                         ->sortable(),
                     TextColumn::make('lines_count')
-                        ->label('Lines')
                         ->counts('lines'),
                     TextColumn::make('imported_at')
                         ->dateTime()

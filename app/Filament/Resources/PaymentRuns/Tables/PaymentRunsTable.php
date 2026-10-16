@@ -20,10 +20,8 @@ final class PaymentRunsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->sortable(),
                     TextColumn::make('bank_account.name')
-                        ->label('Bank')
                         ->sortable(),
                     TextColumn::make('execution_date')
                         ->date()

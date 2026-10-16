@@ -23,7 +23,7 @@ final class SupplierReturnsTable
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('party.name')
-                        ->label('Supplier')
+                        ->label(__('erp.fields.supplier'))
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('status')

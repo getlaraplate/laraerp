@@ -12,16 +12,16 @@ final class MovementInfolist
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            TextEntry::make('company.name')->label('Company'),
+            TextEntry::make('company.name')->label(__('erp.fields.company')),
             TextEntry::make('type'),
             TextEntry::make('occurred_on')->date(),
-            TextEntry::make('counterparty_account.code')->label('Counterparty account'),
+            TextEntry::make('counterparty_account.code')->label(__('erp.fields.counterparty_account')),
             TextEntry::make('amount_doc')->numeric(4),
             TextEntry::make('currency_doc'),
             TextEntry::make('amount_local')->numeric(4),
             TextEntry::make('currency_local'),
             TextEntry::make('fx_rate')->numeric(8),
-            TextEntry::make('posted_journal_entry_id')->label('Journal entry'),
+            TextEntry::make('posted_journal_entry_id'),
             TextEntry::make('description')->columnSpanFull()->placeholder('—'),
         ]);
     }

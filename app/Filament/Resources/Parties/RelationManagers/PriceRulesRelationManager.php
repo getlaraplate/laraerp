@@ -36,7 +36,6 @@ final class PriceRulesRelationManager extends RelationManager
                     ->preload()
                     ->rules(['nullable', 'required_without:taxonomy_id', 'prohibits:taxonomy_id']),
                 Select::make('taxonomy_id')
-                    ->label('Activity')
                     ->relationship('activity', 'name')
                     ->searchable()
                     ->preload()
@@ -65,7 +64,6 @@ final class PriceRulesRelationManager extends RelationManager
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('activity.name')
-                    ->label('Activity')
                     ->searchable()
                     ->sortable(),
                 TextColumn::make('discount_type')

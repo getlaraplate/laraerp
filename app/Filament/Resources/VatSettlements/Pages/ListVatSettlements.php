@@ -29,10 +29,9 @@ final class ListVatSettlements extends ListRecords
     {
         return [
             Action::make('compute_settlement')
-                ->label('Compute Settlement')
+                ->label(__('erp.actions.computeSettlement'))
                 ->form([
                     Select::make('fiscal_period_id')
-                        ->label('Fiscal Period')
                         ->options(static function (): array {
                             $company = self::currentCompany();
 

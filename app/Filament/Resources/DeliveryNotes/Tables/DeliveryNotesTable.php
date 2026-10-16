@@ -21,7 +21,6 @@ final class DeliveryNotesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('reference')
                         ->searchable()
@@ -30,7 +29,6 @@ final class DeliveryNotesTable
                         ->formatStateUsing(static fn (DeliveryNoteDirection|string|null $state): ?string => $state instanceof DeliveryNoteDirection ? $state->value : $state)
                         ->sortable(),
                     TextColumn::make('sales_order.reference')
-                        ->label('Sales order')
                         ->searchable()
                         ->toggleable(),
                     TextColumn::make('delivered_at')

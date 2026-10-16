@@ -20,14 +20,11 @@ final class QuotationsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('party.name')
-                        ->label('Party')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('opportunity.name')
-                        ->label('Opportunity')
                         ->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('currency')
                         ->sortable(),

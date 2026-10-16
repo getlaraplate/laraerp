@@ -44,13 +44,13 @@ final class BankReconciliationPage extends Page
     protected static ?string $slug = 'bank-reconciliation';
 
     #[Override]
-    protected static ?string $navigationLabel = 'Bank Reconciliation';
-
-    #[Override]
-    protected static ?string $title = 'Bank Reconciliation';
-
-    #[Override]
     protected string $view = 'erp::filament.pages.bank-reconciliation';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.bankReconciliation');
+    }
 
     public function form(Schema $schema): Schema
     {
@@ -58,24 +58,20 @@ final class BankReconciliationPage extends Page
             ->statePath('data')
             ->components([
                 Select::make('bank_statement_line_id')
-                    ->label('Statement line')
                     ->options(fn (): array => $this->lineOptions())
                     ->searchable()
                     ->required()
                     ->live(),
                 Select::make('payment_id')
-                    ->label('Payment')
                     ->options(fn (): array => $this->paymentOptions())
                     ->searchable()
                     ->live()
                     ->required(),
                 TextInput::make('difference_amount')
-                    ->label('Difference')
                     ->disabled()
                     ->dehydrated(false)
                     ->formatStateUsing(fn (): string => $this->currentDifferenceAmount()),
                 Select::make('expense_account_id')
-                    ->label('Difference account')
                     ->options(fn (): array => $this->expenseAccountOptions())
                     ->searchable()
                     ->required(),
@@ -95,7 +91,7 @@ final class BankReconciliationPage extends Page
         $this->pageForm()->fill();
 
         Notification::make()
-            ->title('Bank statement line matched')
+            ->title(__('erp.messages.bankStatementLineMatched'))
             ->success()
             ->send();
     }
@@ -110,7 +106,7 @@ final class BankReconciliationPage extends Page
         $this->pageForm()->fill();
 
         Notification::make()
-            ->title('Bank statement line ignored')
+            ->title(__('erp.messages.bankStatementLineIgnored'))
             ->success()
             ->send();
     }
@@ -129,7 +125,7 @@ final class BankReconciliationPage extends Page
         $this->pageForm()->fill();
 
         Notification::make()
-            ->title('Matched with difference')
+            ->title(__('erp.messages.matchedWithDifference'))
             ->success()
             ->send();
     }
@@ -217,6 +213,12 @@ final class BankReconciliationPage extends Page
                 ),
             ])
             ->all();
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.bankReconciliation');
     }
 
     /**

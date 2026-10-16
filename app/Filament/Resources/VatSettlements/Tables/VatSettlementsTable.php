@@ -20,7 +20,7 @@ final class VatSettlementsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('fiscal_period.period_no')
-                        ->label('Period')
+                        ->label(__('erp.fields.period_no'))
                         ->sortable(),
                     TextColumn::make('vat_sales')
                         ->numeric(2),

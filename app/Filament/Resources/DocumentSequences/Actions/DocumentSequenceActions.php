@@ -16,14 +16,13 @@ final class DocumentSequenceActions
     public static function reset(): Action
     {
         return Action::make('reset')
-            ->label('Reset counter')
+            ->label(__('erp.actions.resetCounter'))
             ->icon(Heroicon::OutlinedArrowPath)
             ->color('danger')
             ->requiresConfirmation()
-            ->modalDescription('Resetting a document sequence changes the next allocated number. Use this only for controlled administrative corrections.')
+            ->modalDescription(__('erp.messages.resetCounterDescription'))
             ->schema([
                 TextInput::make('last_number')
-                    ->label('Last number')
                     ->numeric()
                     ->minValue(0)
                     ->default(0)
@@ -34,7 +33,7 @@ final class DocumentSequenceActions
                 resolve(DocumentSequenceResetService::class)->reset($record, (int) $data['last_number']);
 
                 Notification::make()
-                    ->title('Document sequence reset')
+                    ->title(__('erp.messages.documentSequenceReset'))
                     ->success()
                     ->send();
             });

@@ -40,13 +40,13 @@ final class BalanceSheetPage extends Page
     protected static ?int $navigationSort = 20;
 
     #[Override]
-    protected static ?string $navigationLabel = 'Balance Sheet';
-
-    #[Override]
-    protected static ?string $title = 'Balance Sheet';
-
-    #[Override]
     protected string $view = 'erp::filament.pages.balance-sheet';
+
+    #[Override]
+    public static function getNavigationLabel(): string
+    {
+        return (string) __('erp.pages.balanceSheet');
+    }
 
     public function mount(): void
     {
@@ -61,11 +61,9 @@ final class BalanceSheetPage extends Page
             ->statePath('data')
             ->components([
                 Select::make('company_id')
-                    ->label('Company')
                     ->options(Company::query()->pluck('name', 'id')->all())
                     ->required(),
                 DatePicker::make('as_of_date')
-                    ->label('As of Date')
                     ->required(),
             ]);
     }
@@ -97,5 +95,11 @@ final class BalanceSheetPage extends Page
             'balance-sheet.csv',
             ['Content-Type' => 'text/csv; charset=UTF-8'],
         );
+    }
+
+    #[Override]
+    public function getTitle(): string
+    {
+        return (string) __('erp.pages.balanceSheet');
     }
 }

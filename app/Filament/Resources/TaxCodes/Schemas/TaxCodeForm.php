@@ -65,8 +65,7 @@ final class TaxCodeForm
                     ->relationship('replaced_by', 'code')
                     ->searchable()
                     ->preload()
-                    ->nullable()
-                    ->label('Superseding tax code'),
+                    ->nullable(),
                 KeyValue::make('meta')
                     ->keyLabel('Key')
                     ->valueLabel('Value')

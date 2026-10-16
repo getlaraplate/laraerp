@@ -20,7 +20,6 @@ final class LeadsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('title')
                         ->searchable()
@@ -29,7 +28,6 @@ final class LeadsTable
                         ->badge()
                         ->sortable(),
                     TextColumn::make('party.name')
-                        ->label('Party')
                         ->toggleable(),
                     TextColumn::make('source')
                         ->toggleable(isToggledHiddenByDefault: true),

@@ -39,7 +39,6 @@ final class FiscalYearForm
                     ->required()
                     ->native(false),
                 Toggle::make('is_closed')
-                    ->label('Closed')
                     ->disabled()
                     ->dehydrated(false),
             ]);

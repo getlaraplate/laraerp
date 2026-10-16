@@ -26,7 +26,7 @@ final class EditTask extends EditRecord
     protected function getHeaderActions(): array
     {
         return [
-            Action::make('export_ics')->label('Export calendar')->icon(Heroicon::OutlinedArrowDownTray)
+            Action::make('export_ics')->label(__('erp.actions.exportCalendar'))->icon(Heroicon::OutlinedArrowDownTray)
                 ->action(static function (Task $record): StreamedResponse {
                     $exporter = resolve(TaskIcsExporter::class);
                     $ics = $exporter->export($record);

@@ -37,7 +37,6 @@ final class ContactForm
                     ->maxLength(255)
                     ->nullable(),
                 Select::make('party_ids')
-                    ->label('Parties')
                     ->multiple()
                     ->options(static fn (): array => Party::query()->orderBy('name')->pluck('name', 'id')->all())
                     ->searchable()

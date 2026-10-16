@@ -20,7 +20,6 @@ final class TaxCodesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->searchable()
                         ->sortable()
                         ->toggleable(),

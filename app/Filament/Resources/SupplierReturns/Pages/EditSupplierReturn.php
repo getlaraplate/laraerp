@@ -29,7 +29,7 @@ final class EditSupplierReturn extends EditRecord
     {
         return [
             Action::make('approve')
-                ->label('Approve')
+                ->label(__('erp.actions.approve'))
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('info')
                 ->requiresConfirmation()
@@ -40,12 +40,12 @@ final class EditSupplierReturn extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Supplier return approved')
+                        ->title(__('erp.messages.supplierReturnApproved'))
                         ->success()
                         ->send();
                 }),
             Action::make('complete')
-                ->label('Complete')
+                ->label(__('erp.actions.complete'))
                 ->icon(Heroicon::OutlinedCheckCircle)
                 ->color('success')
                 ->requiresConfirmation()
@@ -56,12 +56,12 @@ final class EditSupplierReturn extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Supplier return completed')
+                        ->title(__('erp.messages.supplierReturnCompleted'))
                         ->success()
                         ->send();
                 }),
             Action::make('cancel')
-                ->label('Cancel')
+                ->label(__('erp.actions.cancel'))
                 ->icon(Heroicon::OutlinedXCircle)
                 ->color('danger')
                 ->requiresConfirmation()
@@ -72,12 +72,12 @@ final class EditSupplierReturn extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Supplier return cancelled')
+                        ->title(__('erp.messages.supplierReturnCancelled'))
                         ->success()
                         ->send();
                 }),
             Action::make('reverse_processed')
-                ->label('Reverse')
+                ->label(__('erp.actions.reverse'))
                 ->icon(Heroicon::OutlinedArrowUturnLeft)
                 ->color('warning')
                 ->requiresConfirmation()
@@ -89,12 +89,12 @@ final class EditSupplierReturn extends EditRecord
                     $this->record->refresh();
 
                     Notification::make()
-                        ->title('Supplier return reversed')
+                        ->title(__('erp.messages.supplierReturnReversed'))
                         ->success()
                         ->send();
                 }),
             Action::make('create_debit_note')
-                ->label('Create Debit Note')
+                ->label(__('erp.actions.createDebitNote'))
                 ->icon(Heroicon::OutlinedDocumentDuplicate)
                 ->requiresConfirmation()
                 ->visible(fn (): bool => $this->record instanceof SupplierReturn

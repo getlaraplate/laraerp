@@ -15,18 +15,18 @@ final class FiscalYearActions
     public static function close(): Action
     {
         return Action::make('close_year')
-            ->label('Close fiscal year')
+            ->label(__('erp.actions.closeFiscalYear'))
             ->icon(Heroicon::OutlinedLockClosed)
             ->color('danger')
             ->requiresConfirmation()
-            ->modalDescription('Closes all open periods in this year and locks the fiscal year.')
+            ->modalDescription(__('erp.messages.closeFiscalYearDescription'))
             ->authorize(static fn (FiscalYear $record): bool => auth()->user()?->can('close', $record) ?? false)
             ->visible(static fn (FiscalYear $record): bool => ! $record->is_closed)
             ->action(static function (FiscalYear $record): void {
                 resolve(FiscalPeriodCloser::class)->closeYear($record);
 
                 Notification::make()
-                    ->title('Fiscal year closed')
+                    ->title(__('erp.messages.fiscalYearClosed'))
                     ->success()
                     ->send();
             });

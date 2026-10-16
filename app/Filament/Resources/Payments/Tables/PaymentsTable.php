@@ -23,7 +23,6 @@ final class PaymentsTable
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('party.name')
-                        ->label('Party')
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('direction')

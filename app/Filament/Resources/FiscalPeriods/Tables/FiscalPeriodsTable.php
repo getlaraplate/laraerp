@@ -21,13 +21,11 @@ final class FiscalPeriodsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('fiscal_year.year')
-                        ->label('Year')
+                        ->label(__('erp.fields.year'))
                         ->sortable(),
                     TextColumn::make('fiscal_year.company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('period_no')
-                        ->label('Period')
                         ->sortable(),
                     TextColumn::make('start_date')
                         ->date()

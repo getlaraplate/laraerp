@@ -21,7 +21,6 @@ final class PartiesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->searchable()
                         ->sortable()
                         ->toggleable(),
@@ -29,11 +28,9 @@ final class PartiesTable
                         ->searchable()
                         ->sortable(),
                     IconColumn::make('is_customer')
-                        ->boolean()
-                        ->label('Customer'),
+                        ->boolean(),
                     IconColumn::make('is_supplier')
-                        ->boolean()
-                        ->label('Supplier'),
+                        ->boolean(),
                 ]);
             },
         );

@@ -71,7 +71,6 @@ final class InvoiceForm
                     ->default(InvoiceType::Invoice->value)
                     ->live(),
                 Select::make('credited_invoice_id')
-                    ->label('Credited Invoice')
                     ->relationship('credited_invoice', 'reference')
                     ->getOptionLabelFromRecordUsing(static fn (Invoice $record): string => $record->reference ?? 'Invoice #' . $record->getKey())
                     ->searchable()
@@ -83,30 +82,25 @@ final class InvoiceForm
                     ->default('EUR'),
                 TextInput::make('reference')
                     ->disabled()
-                    ->helperText('Assigned automatically at posting time'),
+                    ->helperText(__('erp.help.referenceAssignedAtPosting')),
                 TextInput::make('einvoice_transmission_format')
-                    ->label('FatturaPA format')
                     ->maxLength(5)
                     ->placeholder('FPR12')
                     ->visible(static fn (Get $get): bool => InvoiceDirection::Sale->value === $get('direction')),
                 TextInput::make('einvoice_recipient_code')
-                    ->label('SDI recipient code')
                     ->maxLength(7)
                     ->visible(static fn (Get $get): bool => InvoiceDirection::Sale->value === $get('direction')),
                 TextInput::make('einvoice_pec_email')
-                    ->label('PEC email')
                     ->email()
                     ->maxLength(255)
                     ->visible(static fn (Get $get): bool => InvoiceDirection::Sale->value === $get('direction')),
                 Placeholder::make('posted_at_display')
-                    ->label('Posted at')
                     ->content(static fn (?Invoice $record): string => $record?->posted_at?->format('Y-m-d H:i:s') ?? 'Draft')
                     ->visible(static fn (?Invoice $record): bool => $record !== null),
                 Repeater::make('line_items')
                     ->disabled(static fn (?Invoice $record): bool => $record?->journal_entry_id !== null)
                     ->schema([
                         Select::make('sales_order_line_id')
-                            ->label('Sales order line')
                             ->relationship('sales_order_line', 'id')
                             ->searchable()
                             ->preload()
@@ -114,19 +108,16 @@ final class InvoiceForm
                             ->visible(static fn (Get $get): bool => InvoiceDirection::Sale->value === $get('../../direction'))
                             ->afterStateUpdated(static fn (Get $get, Set $set, ?int $state): null => self::applySalesOrderLineDefaults($get, $set, $state)),
                         Select::make('purchase_order_line_id')
-                            ->label('Purchase order line')
                             ->relationship('purchase_order_line', 'id')
                             ->searchable()
                             ->preload()
                             ->visible(static fn (Get $get): bool => InvoiceDirection::Purchase->value === $get('../../direction')),
                         Select::make('goods_receipt_line_id')
-                            ->label('Goods receipt line')
                             ->relationship('goods_receipt_line', 'id')
                             ->searchable()
                             ->preload()
                             ->visible(static fn (Get $get): bool => InvoiceDirection::Purchase->value === $get('../../direction')),
                         TextInput::make('match_status')
-                            ->label('Match status')
                             ->disabled()
                             ->visible(static fn (Get $get): bool => InvoiceDirection::Purchase->value === $get('../../direction')
                                 && filled($get('match_status'))),
@@ -145,10 +136,8 @@ final class InvoiceForm
                             ->searchable()
                             ->preload(),
                         Repeater::make('delivery_note_line_links')
-                            ->label('Delivery note lines')
                             ->schema([
                                 Select::make('delivery_note_line_id')
-                                    ->label('DDT line')
                                     ->searchable()
                                     ->required()
                                     ->getSearchResultsUsing(static function (string $search, Get $get): array {
@@ -169,7 +158,7 @@ final class InvoiceForm
                                             ->limit(25)
                                             ->get()
                                             ->mapWithKeys(static fn (DeliveryNoteLine $line): array => [
-                                                $line->id => 'DDT line #' . $line->id . ' (qty ' . $line->quantity . ')',
+                                                $line->id => (string) __('erp.help.ddtLineOption', ['id' => $line->id, 'quantity' => $line->quantity]),
                                             ])
                                             ->all();
                                     })

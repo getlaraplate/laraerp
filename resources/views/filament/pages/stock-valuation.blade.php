@@ -12,30 +12,30 @@
     </form>
 
     @if (! empty($report_data))
-        <x-filament::section heading="Stock Valuation">
+        <x-filament::section :heading="__('erp.reports.stockValuation')">
             <div class="mb-4 grid grid-cols-1 gap-3 text-sm md:grid-cols-2">
                 <div>
-                    <span class="font-medium">Total quantity:</span>
+                    <span class="font-medium">{{ __('erp.reports.totalQuantity') }}</span>
                     {{ number_format((float) $report_data['total_quantity'], 2) }}
                 </div>
                 <div>
-                    <span class="font-medium">Total value:</span>
+                    <span class="font-medium">{{ __('erp.reports.totalValue') }}</span>
                     {{ number_format((float) $report_data['total_value'], 2) }}
                 </div>
             </div>
 
             @if (count($report_data['rows']) === 0)
-                <div class="text-sm text-gray-500">No stock valuation rows for the selected filters.</div>
+                <div class="text-sm text-gray-500">{{ __('erp.reports.noStockValuationRows') }}</div>
             @else
                 <table class="w-full text-sm">
                     <thead>
                         <tr class="border-b font-medium">
-                            <th class="py-2 text-left">SKU</th>
-                            <th class="py-2 text-left">Item</th>
-                            <th class="py-2 text-left">Warehouse</th>
-                            <th class="py-2 text-right">Quantity</th>
-                            <th class="py-2 text-right">Avg Cost</th>
-                            <th class="py-2 text-right">Value</th>
+                            <th class="py-2 text-left">{{ __('erp.reports.sku') }}</th>
+                            <th class="py-2 text-left">{{ __('erp.reports.item') }}</th>
+                            <th class="py-2 text-left">{{ __('erp.reports.warehouse') }}</th>
+                            <th class="py-2 text-right">{{ __('erp.reports.quantity') }}</th>
+                            <th class="py-2 text-right">{{ __('erp.reports.avgCost') }}</th>
+                            <th class="py-2 text-right">{{ __('erp.reports.value') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -52,7 +52,7 @@
                     </tbody>
                     <tfoot>
                         <tr class="border-t-2 font-bold">
-                            <td class="py-2" colspan="3">Total</td>
+                            <td class="py-2" colspan="3">{{ __('erp.reports.total') }}</td>
                             <td class="py-2 text-right">{{ number_format((float) $report_data['total_quantity'], 2) }}</td>
                             <td class="py-2"></td>
                             <td class="py-2 text-right">{{ number_format((float) $report_data['total_value'], 2) }}</td>

@@ -45,8 +45,7 @@ final class DocumentSequenceForm
                     ->required()
                     ->numeric()
                     ->minValue(0),
-                Toggle::make('gap_allowed')
-                    ->label('Gap allowed'),
+                Toggle::make('gap_allowed'),
                 TextInput::make('prefix')
                     ->maxLength(32)
                     ->default(''),

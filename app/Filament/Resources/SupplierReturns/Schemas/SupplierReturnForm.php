@@ -79,14 +79,13 @@ final class SupplierReturnForm
                             ->preload()
                             ->required(),
                         Select::make('purchase_order_line_id')
-                            ->label('Purchase order line')
                             ->searchable()
                             ->preload()
                             ->live()
                             ->options(static fn (Get $get): array => self::purchaseOrderLineOptions($get))
                             ->getOptionLabelUsing(static fn (int|string|null $value): ?string => self::purchaseOrderLineLabel($value)),
                         Select::make('invoice_line_id')
-                            ->label('Purchase invoice line')
+                            ->label(__('erp.fields.purchase_invoice_line'))
                             ->searchable()
                             ->preload()
                             ->options(static fn (Get $get): array => self::purchaseInvoiceLineOptions($get))
@@ -98,7 +97,7 @@ final class SupplierReturnForm
                         TextInput::make('unit_price')
                             ->numeric()
                             ->minValue(0)
-                            ->helperText('Defaults to the source purchase invoice line price.'),
+                            ->helperText(__('erp.help.unitPriceFromPurchaseInvoiceLine')),
                     ])
                     ->defaultItems(1)
                     ->minItems(1)

@@ -15,7 +15,7 @@ final class FiscalPeriodActions
     public static function close(): Action
     {
         return Action::make('close_period')
-            ->label('Close period')
+            ->label(__('erp.actions.closePeriod'))
             ->icon(Heroicon::OutlinedLockClosed)
             ->color('warning')
             ->requiresConfirmation()
@@ -25,7 +25,7 @@ final class FiscalPeriodActions
                 resolve(FiscalPeriodCloser::class)->closePeriod($record);
 
                 Notification::make()
-                    ->title('Fiscal period closed')
+                    ->title(__('erp.messages.fiscalPeriodClosed'))
                     ->success()
                     ->send();
             });
@@ -34,7 +34,7 @@ final class FiscalPeriodActions
     public static function reopen(): Action
     {
         return Action::make('reopen_period')
-            ->label('Reopen period')
+            ->label(__('erp.actions.reopenPeriod'))
             ->icon(Heroicon::OutlinedLockOpen)
             ->color('gray')
             ->requiresConfirmation()
@@ -44,7 +44,7 @@ final class FiscalPeriodActions
                 resolve(FiscalPeriodCloser::class)->reopenPeriod($record);
 
                 Notification::make()
-                    ->title('Fiscal period reopened')
+                    ->title(__('erp.messages.fiscalPeriodReopened'))
                     ->success()
                     ->send();
             });

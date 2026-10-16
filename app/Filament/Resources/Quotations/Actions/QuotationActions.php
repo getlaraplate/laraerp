@@ -16,7 +16,7 @@ final class QuotationActions
     public static function createRevision(): Action
     {
         return Action::make('create_revision')
-            ->label('Create revision')
+            ->label(__('erp.actions.createRevision'))
             ->icon(Heroicon::OutlinedDocumentDuplicate)
             ->requiresConfirmation()
             ->authorize(static fn (Quotation $record): bool => auth()->user()?->can('update', $record) ?? false)
@@ -24,7 +24,7 @@ final class QuotationActions
             ->action(static function (Quotation $record, Action $action): void {
                 $revision = app(QuotationRevisionService::class)->createRevision($record);
 
-                Notification::make()->title('Quotation revision created')->success()->send();
+                Notification::make()->title(__('erp.messages.quotationRevisionCreated'))->success()->send();
                 $action->redirect(QuotationResource::getUrl('edit', ['record' => $revision]));
             });
     }
@@ -32,7 +32,7 @@ final class QuotationActions
     public static function unlock(): Action
     {
         return Action::make('unlock')
-            ->label('Unlock')
+            ->label(__('erp.actions.unlock'))
             ->icon(Heroicon::OutlinedLockOpen)
             ->color('warning')
             ->requiresConfirmation()
@@ -42,7 +42,7 @@ final class QuotationActions
                 $record->unlock();
 
                 Notification::make()
-                    ->title('Quotation unlocked')
+                    ->title(__('erp.messages.quotationUnlocked'))
                     ->success()
                     ->send();
             });

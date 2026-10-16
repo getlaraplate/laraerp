@@ -23,7 +23,6 @@ final class PaymentTermsTable
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->sortable(),
                     TextColumn::make('rate_lines')
                         ->formatStateUsing(static fn (mixed $state): string => count((array) $state) . ' installments'),

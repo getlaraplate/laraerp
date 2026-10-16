@@ -40,13 +40,11 @@ final class PriceListForm
                     ->relationship('price_list_items')
                     ->schema([
                         Select::make('item_id')
-                            ->label('Item')
                             ->relationship('item', 'name')
                             ->searchable()
                             ->preload()
                             ->rules(['nullable', 'required_without:taxonomy_id', 'prohibits:taxonomy_id']),
                         Select::make('taxonomy_id')
-                            ->label('Activity')
                             ->relationship('taxonomy', 'name')
                             ->searchable()
                             ->preload()
@@ -55,7 +53,6 @@ final class PriceListForm
                             ->required()
                             ->maxLength(255),
                         TextInput::make('uom')
-                            ->label('UOM')
                             ->maxLength(64),
                         TextInput::make('unit_price')
                             ->numeric()

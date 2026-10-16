@@ -17,13 +17,13 @@ final class PaymentRequestsTable
     {
         return self::configureTable($table, static function (Collection $columns): void {
             $columns->unshift(...[
-                TextColumn::make('company.name')->label('Company')->sortable(),
-                TextColumn::make('party.name')->label('Party')->placeholder('—'),
-                TextColumn::make('user.name')->label('Internal user')->placeholder('—'),
+                TextColumn::make('company.name')->sortable(),
+                TextColumn::make('party.name')->placeholder('—'),
+                TextColumn::make('user.name')->label(__('erp.fields.internal_user'))->placeholder('—'),
                 TextColumn::make('amount')->numeric(decimalPlaces: 4)->sortable(),
                 TextColumn::make('currency'),
                 TextColumn::make('status')->badge(),
-                TextColumn::make('checkout_url')->label('Checkout')->url(fn (?string $state): ?string => $state)->openUrlInNewTab()->limit(35),
+                TextColumn::make('checkout_url')->url(fn (?string $state): ?string => $state)->openUrlInNewTab()->limit(35),
             ]);
         });
     }

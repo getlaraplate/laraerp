@@ -17,9 +17,9 @@ final class TasksTable
     {
         return self::configureTable($table, static function (Collection $columns): void {
             $columns->unshift(...[
-                TextColumn::make('taxonomy.name')->label('Activity')->searchable(),
-                TextColumn::make('project.name')->label('Project')->placeholder('—'),
-                TextColumn::make('site.name')->label('Site')->placeholder('—'),
+                TextColumn::make('taxonomy.name')->searchable(),
+                TextColumn::make('project.name')->placeholder('—'),
+                TextColumn::make('site.name')->placeholder('—'),
             ]);
         });
     }

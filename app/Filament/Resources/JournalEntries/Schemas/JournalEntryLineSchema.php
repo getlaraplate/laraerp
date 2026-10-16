@@ -21,7 +21,6 @@ final class JournalEntryLineSchema
     {
         return [
             Select::make('account_id')
-                ->label('Account')
                 ->required()
                 ->searchable()
                 ->getSearchResultsUsing(static function (string $search, Get $get): array {
@@ -49,7 +48,6 @@ final class JournalEntryLineSchema
                     return $account instanceof Account ? $account->code . ' — ' . $account->name : null;
                 }),
             Select::make('tax_code_id')
-                ->label('Tax code')
                 ->searchable()
                 ->nullable()
                 ->getSearchResultsUsing(static function (string $search, Get $get): array {

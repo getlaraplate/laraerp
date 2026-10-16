@@ -24,16 +24,14 @@ final class JournalEntriesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('id')
                         ->sortable(),
                     TextColumn::make('posted_at')
                         ->dateTime()
                         ->sortable()
-                        ->placeholder('Draft'),
+                        ->placeholder(__('app.filters.draft')),
                     IconColumn::make('is_posted')
-                        ->label('Posted')
                         ->boolean()
                         ->state(static fn (JournalEntry $record): bool => $record->posted_at !== null),
                     TextColumn::make('description')
@@ -44,7 +42,7 @@ final class JournalEntriesTable
             actions: static function (Collection $default_actions): void {
                 $default_actions->prepend(
                     Action::make('fullPageView')
-                        ->label('Details')
+                        ->label(__('erp.actions.details'))
                         ->url(static fn (JournalEntry $record): string => JournalEntryResource::getUrl('view', ['record' => $record])),
                 );
             },

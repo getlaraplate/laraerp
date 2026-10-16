@@ -24,7 +24,6 @@ final class InvoicesTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->toggleable(),
                     TextColumn::make('reference')
                         ->searchable()
@@ -40,9 +39,9 @@ final class InvoicesTable
                     TextColumn::make('posted_at')
                         ->dateTime()
                         ->sortable()
-                        ->placeholder('Draft'),
+                        ->placeholder(__('app.filters.draft')),
                     TextColumn::make('lines.match_status')
-                        ->label('3-way match')
+                        ->label(__('erp.fields.three_way_match'))
                         ->badge()
                         ->toggleable()
                         ->visible(static fn (): bool => true)

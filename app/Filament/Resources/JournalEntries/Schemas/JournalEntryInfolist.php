@@ -15,25 +15,22 @@ final class JournalEntryInfolist
         return $schema
             ->components([
                 TextEntry::make('company.name')
-                    ->label('Company'),
+                    ->label(__('erp.fields.company')),
                 TextEntry::make('fiscal_period_id')
-                    ->label('Fiscal period id')
                     ->placeholder('—'),
                 TextEntry::make('posted_at')
                     ->dateTime()
                     ->placeholder('—'),
                 TextEntry::make('posted_by')
-                    ->label('Posted by (user id)')
                     ->placeholder('—'),
                 TextEntry::make('description')
                     ->placeholder('—')
                     ->columnSpanFull(),
                 RepeatableEntry::make('lines')
-                    ->label('Lines')
                     ->schema([
                         TextEntry::make('line_no')->label('#'),
-                        TextEntry::make('account.code')->label('Account'),
-                        TextEntry::make('amount_local')->label('Amount (local)'),
+                        TextEntry::make('account.code')->label(__('erp.fields.account')),
+                        TextEntry::make('amount_local'),
                         TextEntry::make('currency_local'),
                         TextEntry::make('description')->placeholder('—'),
                     ])

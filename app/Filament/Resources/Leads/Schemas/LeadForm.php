@@ -58,8 +58,7 @@ final class LeadForm
                     ->relationship('owner', 'email')
                     ->searchable()
                     ->preload()
-                    ->nullable()
-                    ->label('Owner'),
+                    ->nullable(),
                 Textarea::make('notes')
                     ->rows(2)
                     ->nullable()

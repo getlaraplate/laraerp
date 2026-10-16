@@ -17,11 +17,11 @@ final class SalesOrderAmendmentActions
     public static function amend(): Action
     {
         return Action::make('amend')
-            ->label('Create amendment')
+            ->label(__('erp.actions.createAmendment'))
             ->icon(Heroicon::OutlinedDocumentDuplicate)
             ->color('primary')
             ->requiresConfirmation()
-            ->modalDescription('Creates a new draft sales order with remaining quantities from this order.')
+            ->modalDescription(__('erp.messages.createAmendmentDescription'))
             ->authorize(static fn (SalesOrder $record): bool => auth()->user()?->can('amend', $record) ?? false)
             ->visible(static fn (SalesOrder $record): bool => in_array($record->status, [
                 SalesOrderStatus::Confirmed,
@@ -31,8 +31,8 @@ final class SalesOrderAmendmentActions
                 $amendment = resolve(SalesOrderAmendmentService::class)->amend($record);
 
                 Notification::make()
-                    ->title('Amendment created')
-                    ->body('Reference: ' . ($amendment->reference ?? '—'))
+                    ->title(__('erp.messages.amendmentCreated'))
+                    ->body(__('erp.messages.reference', ['reference' => $amendment->reference ?? '—']))
                     ->success()
                     ->send();
 

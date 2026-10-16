@@ -20,9 +20,9 @@ final class TaskForm
         return $schema->components([
             Select::make('project_id')->relationship('project', 'name')->searchable()->preload(),
             Select::make('site_id')->relationship('site', 'name')->searchable()->preload(),
-            Select::make('taxonomy_id')->relationship('taxonomy', 'name')->label('Activity')->searchable()->preload()->required(),
-            DateTimePicker::make('valid_from')->label('Starts at')->required(),
-            DateTimePicker::make('valid_to')->label('Ends at')->afterOrEqual('valid_from'),
+            Select::make('taxonomy_id')->relationship('taxonomy', 'name')->searchable()->preload()->required(),
+            DateTimePicker::make('valid_from')->label(__('erp.fields.starts_at'))->required(),
+            DateTimePicker::make('valid_to')->label(__('erp.fields.ends_at'))->afterOrEqual('valid_from'),
         ]);
     }
 }

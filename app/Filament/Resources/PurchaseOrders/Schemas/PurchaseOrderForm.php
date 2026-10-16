@@ -71,7 +71,6 @@ final class PurchaseOrderForm
                 Repeater::make('line_items')
                     ->schema([
                         Select::make('item_id')
-                            ->label('Item')
                             ->searchable()
                             ->nullable()
                             ->getSearchResultsUsing(static function (string $search, Get $get): array {

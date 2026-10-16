@@ -32,7 +32,7 @@ final class EditPaymentRequest extends EditRecord
                 ->action(function (): void {
                     resolve(PaymentRequestService::class)->send($this->record);
                     $this->record->refresh();
-                    Notification::make()->title('Payment request sent')->success()->send();
+                    Notification::make()->title(__('erp.messages.paymentRequestSent'))->success()->send();
                 }),
             DeleteAction::make()->visible(fn (): bool => $this->record->status === PaymentRequestStatus::Draft),
         ];

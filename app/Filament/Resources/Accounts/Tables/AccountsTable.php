@@ -20,7 +20,6 @@ final class AccountsTable
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
-                        ->label('Company')
                         ->searchable()
                         ->sortable()
                         ->toggleable(),
@@ -34,7 +33,7 @@ final class AccountsTable
                         ->badge()
                         ->sortable(),
                     TextColumn::make('parent.code')
-                        ->label('Parent code')
+                        ->label(__('erp.fields.parent_code'))
                         ->toggleable(isToggledHiddenByDefault: true),
                 ]);
             },

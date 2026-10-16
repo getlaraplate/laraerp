@@ -30,7 +30,7 @@ final class CompaniesTable
                     TextColumn::make('legal_name')
                         ->toggleable(isToggledHiddenByDefault: true),
                     TextColumn::make('tax_id')
-                        ->label('Tax ID')
+                        ->label(__('erp.fields.company_tax_id'))
                         ->searchable()
                         ->toggleable(),
                     TextColumn::make('fiscal_country')
@@ -41,7 +41,6 @@ final class CompaniesTable
                         ->alignCenter(),
                     IconColumn::make('is_default')
                         ->boolean()
-                        ->label('Default')
                         ->alignCenter(),
                 ]);
             },

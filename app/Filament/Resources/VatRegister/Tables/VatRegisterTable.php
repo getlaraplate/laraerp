@@ -25,10 +25,8 @@ final class VatRegisterTable
                         ->badge()
                         ->sortable(),
                     TextColumn::make('invoice.reference')
-                        ->label('Invoice')
                         ->searchable(),
-                    TextColumn::make('tax_code.code')
-                        ->label('Tax Code'),
+                    TextColumn::make('tax_code.code'),
                     TextColumn::make('registration_date')
                         ->date()
                         ->sortable(),
@@ -39,7 +37,7 @@ final class VatRegisterTable
                         ->numeric(2)
                         ->sortable(),
                     TextColumn::make('fiscal_year.year')
-                        ->label('Year')
+                        ->label(__('erp.fields.year'))
                         ->sortable(),
                 ]);
             },
