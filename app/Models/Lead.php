@@ -11,6 +11,8 @@ use Modules\Core\Enums\CoreTables;
 use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\User;
 use Modules\Core\Overrides\Model;
+use Modules\CRM\Enums\CRMTables;
+use Modules\CRM\Models\Contact;
 use Modules\ERP\Casts\LeadStatus;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
@@ -90,7 +92,7 @@ final class Lead extends Model
         $rules['create'] = array_merge($rules['create'], [
             'company_id' => ['required', 'integer', 'exists:' . ERPTables::Companies->value . ',id'],
             'party_id' => ['nullable', 'integer', 'exists:' . ERPTables::Parties->value . ',id'],
-            'contact_id' => ['nullable', 'integer', 'exists:' . ERPTables::Contacts->value . ',id'],
+            'contact_id' => ['nullable', 'integer', 'exists:' . CRMTables::Contacts->value . ',id'],
             'title' => ['required', 'string', 'max:255'],
             'source' => ['nullable', 'string', 'max:128'],
             'status' => ['required', 'string', LeadStatus::validationRule()],
@@ -100,7 +102,7 @@ final class Lead extends Model
         ]);
         $rules['update'] = array_merge($rules['update'], [
             'party_id' => ['nullable', 'integer', 'exists:' . ERPTables::Parties->value . ',id'],
-            'contact_id' => ['nullable', 'integer', 'exists:' . ERPTables::Contacts->value . ',id'],
+            'contact_id' => ['nullable', 'integer', 'exists:' . CRMTables::Contacts->value . ',id'],
             'title' => ['sometimes', 'string', 'max:255'],
             'source' => ['nullable', 'string', 'max:128'],
             'status' => ['sometimes', 'string', LeadStatus::validationRule()],

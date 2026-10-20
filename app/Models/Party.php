@@ -14,11 +14,12 @@ use Modules\Core\Contracts\IActivatableModel;
 use Modules\Core\Models\Concerns\HasActivation;
 use Modules\Core\Overrides\Model;
 use Modules\CRM\Enums\CRMTables;
+use Modules\CRM\Models\Contact;
+use Modules\CRM\Models\Counterparty;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Concerns\ProxiesCounterparty;
 use Modules\ERP\Database\Factories\PartyFactory;
 use Modules\ERP\Enums\ERPTables;
-use Modules\ERP\Models\Pivot\Contactable;
 use Modules\ERP\Observers\PartyObserver;
 use Override;
 
@@ -45,13 +46,13 @@ final class Party extends Model implements IActivatableModel
     ];
 
     /**
-     * @return BelongsToMany<Contact, $this>
+     * The contacts of the party's counterparty (the contact list is shared by every company).
+     *
+     * @return BelongsToMany<Contact, Counterparty>
      */
     public function contacts(): BelongsToMany
     {
-        return $this->belongsToMany(Contact::class, ERPTables::Contactables->value, 'party_id', 'contact_id')
-            ->using(Contactable::class)
-            ->withTimestamps();
+        return $this->counterparty->contacts();
     }
 
     /**

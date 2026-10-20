@@ -7,6 +7,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Enums\CoreTables;
 use Modules\Core\Helpers\MigrateUtils;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Casts\LeadStatus;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Helpers\ERPMigrateUtils;
@@ -27,7 +28,7 @@ return new class extends Migration
             MigrateUtils::prefixIndex($table, 'party_id');
             $table->foreignId('contact_id')
                 ->nullable()
-                ->constrained(ERPTables::Contacts->value, 'id', "{$leads_table}_contact_id_FK")
+                ->constrained(CRMTables::Contacts->value, 'id', "{$leads_table}_contact_id_FK")
                 ->nullOnDelete()
                 ->comment('Primary contact person when known');
             MigrateUtils::prefixIndex($table, 'contact_id');

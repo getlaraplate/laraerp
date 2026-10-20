@@ -8,7 +8,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Modules\Core\Filament\Utils\HasForm;
-use Modules\ERP\Models\Party;
+use Modules\CRM\Models\Counterparty;
 
 final class ContactForm
 {
@@ -20,12 +20,6 @@ final class ContactForm
 
         return $schema
             ->components([
-                Select::make('company_id')
-                    ->relationship('company', 'name')
-                    ->searchable()
-                    ->preload()
-                    ->required()
-                    ->disabledOn('edit'),
                 TextInput::make('name')
                     ->required()
                     ->maxLength(255),
@@ -36,9 +30,9 @@ final class ContactForm
                 TextInput::make('phone')
                     ->maxLength(255)
                     ->nullable(),
-                Select::make('party_ids')
+                Select::make('counterparty_ids')
                     ->multiple()
-                    ->options(static fn (): array => Party::query()->orderBy('name')->pluck('name', 'id')->all())
+                    ->options(static fn (): array => Counterparty::query()->orderBy('name')->pluck('name', 'id')->all())
                     ->searchable()
                     ->preload(),
             ]);

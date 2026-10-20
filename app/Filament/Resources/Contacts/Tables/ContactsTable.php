@@ -19,10 +19,6 @@ final class ContactsTable
             table: $table,
             columns: static function (Collection $default_columns): void {
                 $default_columns->unshift(...[
-                    TextColumn::make('company.name')
-                        ->searchable()
-                        ->sortable()
-                        ->toggleable(),
                     TextColumn::make('name')
                         ->searchable()
                         ->sortable(),

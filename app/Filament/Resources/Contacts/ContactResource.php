@@ -12,12 +12,12 @@ use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Filament\Utils\HasTranslatedResourceLabels;
+use Modules\CRM\Models\Contact;
 use Modules\ERP\Filament\Resources\Contacts\Pages\CreateContact;
 use Modules\ERP\Filament\Resources\Contacts\Pages\EditContact;
 use Modules\ERP\Filament\Resources\Contacts\Pages\ListContacts;
 use Modules\ERP\Filament\Resources\Contacts\Schemas\ContactForm;
 use Modules\ERP\Filament\Resources\Contacts\Tables\ContactsTable;
-use Modules\ERP\Models\Contact;
 use Override;
 use UnitEnum;
 
@@ -53,7 +53,7 @@ final class ContactResource extends Resource
     public static function table(Table $table): Table
     {
         return ContactsTable::configure($table)
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('company'))
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('user'))
             ->defaultSort('name');
     }
 

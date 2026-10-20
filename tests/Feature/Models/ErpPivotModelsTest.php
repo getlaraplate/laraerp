@@ -3,17 +3,18 @@
 declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Modules\CRM\Enums\CRMTables;
+use Modules\CRM\Models\Contact;
+use Modules\CRM\Models\Pivot\Contactable;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Models\Company;
-use Modules\ERP\Models\Contact;
 use Modules\ERP\Models\DeliveryNote;
 use Modules\ERP\Models\DeliveryNoteLine;
 use Modules\ERP\Models\Invoice;
 use Modules\ERP\Models\Item;
 use Modules\ERP\Models\Party;
-use Modules\ERP\Models\Pivot\Contactable;
 use Modules\ERP\Models\Pivot\InvoiceLineHasDeliveryNoteLine;
 use Modules\ERP\Models\Warehouse;
 
@@ -78,7 +79,7 @@ it('hydrates invoice delivery note line links with the ERP pivot model', functio
         ->and($linked_delivery_note_line->pivot->updated_at)->not->toBeNull();
 });
 
-it('hydrates party contact links with the ERP contactable pivot model', function (): void {
+it('exposes the counterparty contacts through the party with the CRM contactable pivot model', function (): void {
     $company = erpPivotCompany();
     $party = Party::query()->create([
         'company_id' => $company->id,
@@ -86,7 +87,6 @@ it('hydrates party contact links with the ERP contactable pivot model', function
         'is_customer' => true,
     ]);
     $contact = Contact::query()->forceCreate([
-        'company_id' => $company->id,
         'name' => 'Pivot Contact',
         'email' => 'pivot@example.test',
     ]);
@@ -99,5 +99,5 @@ it('hydrates party contact links with the ERP contactable pivot model', function
 
     expect($contactable->getConnection()->table($contactable->getTable())->count())->toBe(1)
         ->and($linked_contact->pivot)->toBeInstanceOf(Contactable::class)
-        ->and($linked_contact->pivot->getTable())->toBe(ERPTables::Contactables->value);
+        ->and($linked_contact->pivot->getTable())->toBe(CRMTables::Contactables->value);
 });

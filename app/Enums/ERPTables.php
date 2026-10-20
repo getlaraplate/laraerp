@@ -40,8 +40,6 @@ enum ERPTables: string
     case PriceListItems = 'erp_price_list_items';
     case PriceListItemLines = 'erp_price_list_item_lines';
     case Parties = 'erp_parties';
-    case Contacts = 'erp_contacts';
-    case Contactables = 'erp_contactables';
     case Sites = 'erp_sites';
     case Movements = 'erp_movements';
     case PartnerPools = 'erp_partner_pools';

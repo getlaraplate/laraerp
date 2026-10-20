@@ -7,8 +7,8 @@ namespace Modules\ERP\Filament\Resources\Contacts\Pages;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
+use Modules\CRM\Models\Contact;
 use Modules\ERP\Filament\Resources\Contacts\ContactResource;
-use Modules\ERP\Models\Contact;
 use Override;
 
 final class EditContact extends EditRecord
@@ -23,7 +23,7 @@ final class EditContact extends EditRecord
     {
         /** @var Contact $contact */
         $contact = $this->record;
-        $data['party_ids'] = $contact->parties()->pluck('id')->all();
+        $data['counterparty_ids'] = $contact->counterparties()->pluck('id')->all();
 
         return $data;
     }
@@ -31,12 +31,12 @@ final class EditContact extends EditRecord
     #[Override]
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        $party_ids = $data['party_ids'] ?? [];
-        unset($data['party_ids']);
+        $counterparty_ids = $data['counterparty_ids'] ?? [];
+        unset($data['counterparty_ids']);
 
         /** @var Contact $record */
         $record->update($data);
-        $record->parties()->sync($party_ids);
+        $record->counterparties()->sync($counterparty_ids);
 
         return $record;
     }

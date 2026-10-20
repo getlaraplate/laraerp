@@ -107,8 +107,8 @@ it('contact resource form includes party linkage field', function (): void {
         $schema->getComponents(),
     );
 
-    expect($names)->toContain('company_id')
-        ->and($names)->toContain('party_ids');
+    expect($names)->toContain('counterparty_ids')
+        ->and($names)->not->toContain('company_id');
 });
 
 it('defines Filament pages for quotation resource', function (): void {
