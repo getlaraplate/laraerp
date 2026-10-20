@@ -10,6 +10,7 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Modules\Core\Filament\Utils\HasForm;
+use Modules\ERP\Filament\Support\PartySelect;
 
 final class PaymentRequestForm
 {
@@ -21,7 +22,7 @@ final class PaymentRequestForm
 
         return $schema->components([
             Select::make('company_id')->relationship('company', 'name')->searchable()->preload()->required()->disabledOn('edit'),
-            Select::make('party_id')->relationship('party', 'name')->searchable()->preload()
+            PartySelect::make('party_id')
                 ->rules(['nullable', 'required_without:user_id', 'prohibits:user_id']),
             Select::make('user_id')->relationship('user', 'name')->searchable()->preload()
                 ->rules(['nullable', 'required_without:party_id', 'prohibits:party_id']),

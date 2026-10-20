@@ -16,6 +16,7 @@ use Modules\Core\Filament\Utils\HasForm;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
 use Modules\ERP\Casts\ReturnStatus;
+use Modules\ERP\Filament\Support\PartySelect;
 use Modules\ERP\Models\InvoiceLine;
 use Modules\ERP\Models\PurchaseOrderLine;
 
@@ -35,14 +36,7 @@ final class SupplierReturnForm
                     ->preload()
                     ->required()
                     ->disabledOn('edit'),
-                Select::make('party_id')
-                    ->relationship(
-                        'party',
-                        'name',
-                        modifyQueryUsing: static fn (Builder $query): Builder => $query->suppliers(),
-                    )
-                    ->searchable()
-                    ->preload()
+                PartySelect::make('party_id', static fn (Builder $query): Builder => $query->suppliers())
                     ->required(),
                 Select::make('purchase_order_id')
                     ->relationship('purchase_order', 'reference')

@@ -17,6 +17,7 @@ use Illuminate\Validation\ValidationException;
 use Modules\Core\Filament\Utils\HasForm;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
+use Modules\ERP\Filament\Support\PartySelect;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\DeliveryNoteLine;
 use Modules\ERP\Models\Invoice;
@@ -47,20 +48,14 @@ final class InvoiceForm
                     ->required()
                     ->live()
                     ->disabled(static fn (?Invoice $record): bool => $record?->journal_entry_id !== null),
-                Select::make('party_id')
-                    ->relationship(
-                        'party',
-                        'name',
-                        modifyQueryUsing: static function (Builder $query, Get $get): Builder {
-                            return match ($get('direction')) {
-                                InvoiceDirection::Sale->value => $query->customers(),
-                                InvoiceDirection::Purchase->value => $query->suppliers(),
-                                default => $query,
-                            };
-                        },
-                    )
-                    ->searchable()
-                    ->preload()
+                PartySelect::make(
+                    'party_id',
+                    static fn (Builder $query, Get $get): Builder => match ($get('direction')) {
+                        InvoiceDirection::Sale->value => $query->customers(),
+                        InvoiceDirection::Purchase->value => $query->suppliers(),
+                        default => $query,
+                    },
+                )
                     ->nullable()
                     ->live(),
                 Select::make('invoice_type')

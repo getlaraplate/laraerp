@@ -12,6 +12,7 @@ use Filament\Schemas\Schema;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Filament\Utils\HasForm;
 use Modules\ERP\Casts\ProjectStatus;
+use Modules\ERP\Filament\Support\PartySelect;
 use Modules\ERP\Models\Quotation;
 
 final class ProjectForm
@@ -34,10 +35,7 @@ final class ProjectForm
                     ->preload()
                     ->required()
                     ->disabledOn('edit'),
-                Select::make('party_id')
-                    ->relationship('party', 'name', modifyQueryUsing: static fn (Builder $query): Builder => $query->customers())
-                    ->searchable()
-                    ->preload()
+                PartySelect::make('party_id', static fn (Builder $query): Builder => $query->customers())
                     ->required(),
                 Select::make('quotation_id')
                     ->relationship('quotation', 'id')

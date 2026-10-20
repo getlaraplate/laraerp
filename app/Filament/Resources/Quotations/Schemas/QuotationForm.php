@@ -12,11 +12,11 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
-use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Query\Builder;
 use Modules\Core\Filament\Utils\HasForm;
 use Modules\ERP\Casts\BillingMode;
 use Modules\ERP\Casts\QuoteStatus;
+use Modules\ERP\Filament\Support\PartySelect;
 use Modules\ERP\Models\PriceListItem;
 
 final class QuotationForm
@@ -43,10 +43,7 @@ final class QuotationForm
                     ->preload()
                     ->required()
                     ->disabledOn('edit'),
-                Select::make('party_id')
-                    ->relationship('party', 'name', modifyQueryUsing: static fn (EloquentBuilder $query): EloquentBuilder => $query->customers())
-                    ->searchable()
-                    ->preload()
+                PartySelect::make('party_id')
                     ->required()
                     ->live(),
                 Select::make('opportunity_id')

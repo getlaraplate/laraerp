@@ -147,7 +147,7 @@ final class Party extends Model implements IActivatableModel
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function customers(Builder $builder): Builder
     {
-        return $builder->where('is_customer', true);
+        return $builder->where($builder->getModel()->qualifyColumn('is_customer'), true);
     }
 
     /**
@@ -157,6 +157,6 @@ final class Party extends Model implements IActivatableModel
     #[\Illuminate\Database\Eloquent\Attributes\Scope]
     protected function suppliers(Builder $builder): Builder
     {
-        return $builder->where('is_supplier', true);
+        return $builder->where($builder->getModel()->qualifyColumn('is_supplier'), true);
     }
 }

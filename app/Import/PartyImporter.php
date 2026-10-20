@@ -77,11 +77,11 @@ final readonly class PartyImporter implements EntityImporterInterface
 
         $existing = Party::query()
             ->where('company_id', $companyId)
-            ->when(
+            ->whereHas('counterparty', static fn (Builder $query): Builder => $query->when(
                 $vat !== '',
                 static fn (Builder $query): Builder => $query->where('vat_number', $vat),
                 static fn (Builder $query): Builder => $query->where('name', $name),
-            )
+            ))
             ->first();
 
         $party = $existing ?? new Party(['company_id' => $companyId]);

@@ -24,9 +24,13 @@ final class PartiesTable
                         ->searchable()
                         ->sortable()
                         ->toggleable(),
-                    TextColumn::make('name')
+                    TextColumn::make('counterparty.name')
+                        ->label(__('erp.fields.name'))
                         ->searchable()
                         ->sortable(),
+                    TextColumn::make('counterparty.vat_number')
+                        ->searchable()
+                        ->toggleable(),
                     IconColumn::make('is_customer')
                         ->boolean(),
                     IconColumn::make('is_supplier')

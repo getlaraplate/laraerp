@@ -214,17 +214,12 @@ final class SalesOrderForm
             return [];
         }
 
-        return self::applySearch(
+        return Party::optionLabels(
             $models->query(Party::class)
                 ->where('company_id', $company_id)
                 ->customers(),
             $search,
-            ['name'],
-        )
-            ->orderBy('name')
-            ->limit(50)
-            ->pluck('name', 'id')
-            ->all();
+        );
     }
 
     private static function partyLabel(int $company_id, ?int $party_id): ?string
@@ -236,7 +231,7 @@ final class SalesOrderForm
         return self::modelsForCompany($company_id)?->query(Party::class)
             ->where('company_id', $company_id)
             ->whereKey($party_id)
-            ->value('name');
+            ->first()?->name;
     }
 
     /**

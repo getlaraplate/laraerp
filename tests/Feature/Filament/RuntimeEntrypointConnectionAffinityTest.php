@@ -8,6 +8,7 @@ use Filament\Schemas\Schema as FilamentSchema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
+use Modules\CRM\Models\Counterparty;
 use Modules\ERP\Casts\AccountKind;
 use Modules\ERP\Casts\BankStatementLineStatus;
 use Modules\ERP\Casts\PaymentDirection;
@@ -134,10 +135,17 @@ it('creates purchase orders only on the company affinity connection', function (
         $table->string('name');
         $table->boolean('is_deleted')->default(false);
     });
+    $schema->create((new Counterparty)->getTable(), function (Blueprint $table): void {
+        $table->increments('id');
+        $table->string('name');
+        $table->string('vat_number')->nullable();
+        $table->string('tax_id')->nullable();
+        $table->boolean('is_deleted')->default(false);
+    });
     $schema->create((new Party)->getTable(), function (Blueprint $table): void {
         $table->increments('id');
         $table->unsignedInteger('company_id');
-        $table->string('name');
+        $table->unsignedInteger('counterparty_id');
         $table->boolean('is_supplier')->default(false);
         $table->boolean('is_deleted')->default(false);
     });
@@ -158,10 +166,11 @@ it('creates purchase orders only on the company affinity connection', function (
         'id' => 9702,
         'name' => 'Secondary purchase company',
     ]);
+    $connection->table((new Counterparty)->getTable())->insert(['id' => 9702, 'name' => 'Secondary supplier']);
     $connection->table((new Party)->getTable())->insert([
         'id' => 9702,
         'company_id' => 9702,
-        'name' => 'Secondary supplier',
+        'counterparty_id' => 9702,
         'is_supplier' => true,
     ]);
     config()->set('erp.model_connections', [
@@ -395,10 +404,17 @@ function createEntrypointOrderLookupTables(Illuminate\Database\Schema\Builder $s
         $table->string('name');
         $table->boolean('is_deleted')->default(false);
     });
+    $schema->create((new Counterparty)->getTable(), function (Blueprint $table): void {
+        $table->increments('id');
+        $table->string('name');
+        $table->string('vat_number')->nullable();
+        $table->string('tax_id')->nullable();
+        $table->boolean('is_deleted')->default(false);
+    });
     $schema->create((new Party)->getTable(), function (Blueprint $table): void {
         $table->increments('id');
         $table->unsignedInteger('company_id');
-        $table->string('name');
+        $table->unsignedInteger('counterparty_id');
         $table->boolean('is_customer')->default(false);
         $table->boolean('is_supplier')->default(false);
         $table->boolean('is_deleted')->default(false);
@@ -423,10 +439,14 @@ function seedEntrypointOrderLookups(
         'id' => $id,
         'name' => 'Secondary Company ' . $id,
     ]);
+    $connection->table((new Counterparty)->getTable())->insert([
+        'id' => $id,
+        'name' => ($is_supplier ? 'Secondary Supplier ' : 'Secondary Customer ') . $id,
+    ]);
     $connection->table((new Party)->getTable())->insert([
         'id' => $id,
         'company_id' => $id,
-        'name' => ($is_supplier ? 'Secondary Supplier ' : 'Secondary Customer ') . $id,
+        'counterparty_id' => $id,
         'is_customer' => $is_customer,
         'is_supplier' => $is_supplier,
     ]);

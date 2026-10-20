@@ -74,7 +74,7 @@ test('the party importer dedupes by VAT within the company and parses flags', fu
     ));
 
     expect(Party::query()->count())->toBe(2)
-        ->and(Party::query()->where('vat_number', 'IT123')->value('is_customer'))->toBeTruthy();
+        ->and(Party::query()->whereHas('counterparty', fn ($query) => $query->where('vat_number', 'IT123'))->value('is_customer'))->toBeTruthy();
 
     // Re-import the VAT-matched party with a new name → updated, not duplicated.
     $second = erpImportSession('erp.party', "name,vat_number,company\nAcme Group,IT123,acme\n",
@@ -83,5 +83,5 @@ test('the party importer dedupes by VAT within the company and parses flags', fu
 
     expect($second->fresh()->updated_rows)->toBe(1)
         ->and(Party::query()->count())->toBe(2)
-        ->and(Party::query()->where('vat_number', 'IT123')->value('name'))->toBe('Acme Group');
+        ->and(Party::query()->whereHas('counterparty', fn ($query) => $query->where('vat_number', 'IT123'))->first()?->name)->toBe('Acme Group');
 });

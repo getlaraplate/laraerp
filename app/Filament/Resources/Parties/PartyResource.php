@@ -46,6 +46,15 @@ final class PartyResource extends Resource
         return 'business/parties';
     }
 
+    /**
+     * @return array<int, string>
+     */
+    #[Override]
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['counterparty.name', 'counterparty.vat_number', 'counterparty.tax_id'];
+    }
+
     public static function form(Schema $schema): Schema
     {
         return PartyForm::configure($schema);
@@ -54,8 +63,8 @@ final class PartyResource extends Resource
     public static function table(Table $table): Table
     {
         return PartiesTable::configure($table)
-            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with('company'))
-            ->defaultSort('name');
+            ->modifyQueryUsing(fn (Builder $query): Builder => $query->with(['company', 'counterparty']))
+            ->defaultSort(static fn (Builder $query): Builder => $query->orderByName());
     }
 
     public static function getRelations(): array

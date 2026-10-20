@@ -11,6 +11,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Modules\Core\Filament\Utils\HasForm;
 use Modules\ERP\Casts\PaymentDirection;
+use Modules\ERP\Filament\Support\PartySelect;
 
 final class PaymentForm
 {
@@ -33,10 +34,7 @@ final class PaymentForm
                     ->required()
                     ->disabledOn('edit')
                     ->live(),
-                Select::make('party_id')
-                    ->relationship('party', 'name')
-                    ->searchable()
-                    ->preload()
+                PartySelect::make('party_id')
                     ->required(),
                 Select::make('direction')
                     ->options($direction_options)

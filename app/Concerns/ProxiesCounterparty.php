@@ -15,7 +15,7 @@ use Override;
  * its own (`$party->name`, `$party->vat_number`), so code written before the identity moved to the
  * CRM keeps working.
  *
- * - The relation is always loaded (`$with`), so a list of models costs one extra query, not one per row.
+ * - The relation is loaded for every retrieved collection (`newCollection`), so a list of models costs one extra query, not one per row.
  * - On save without a `counterparty_id`, the model attaches to the counterparty with the same fiscal
  *   identity, or creates one; an attach never overwrites the stored attributes. A blank identifier
  *   never matches. With a `counterparty_id`, changed identity attributes are written through to the
@@ -54,10 +54,54 @@ trait ProxiesCounterparty
         ];
     }
 
+    /**
+     * Id to display name map of the matching parties, searched and ordered by the counterparty name.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder<static>  $query
+     * @return array<int, string>
+     */
+    public static function optionLabels($query, ?string $search = null, int $limit = 50): array
+    {
+        if (filled($search)) {
+            $query->searchIdentity($search);
+        }
+
+        return $query->orderByName()
+            ->limit($limit)
+            ->get()
+            ->mapWithKeys(static fn (self $party): array => [(int) $party->getKey() => (string) $party->name])
+            ->all();
+    }
+
     public function initializeProxiesCounterparty(): void
     {
-        $this->with = array_values(array_unique([...$this->with, 'counterparty']));
         $this->fillable = array_values(array_unique([...$this->fillable, 'counterparty_id', ...self::counterpartyAttributes()]));
+    }
+
+    /**
+     * Load the counterparty of every retrieved row in one query. Done here rather than through `$with`
+     * because a partial select (`value('is_customer')`, `select('id')`) carries no `counterparty_id`
+     * and must stay readable.
+     *
+     * @param  array<int, static>  $models
+     * @return \Illuminate\Database\Eloquent\Collection<int, static>
+     */
+    #[Override]
+    public function newCollection(array $models = [])
+    {
+        $collection = parent::newCollection($models);
+
+        $unloaded = $collection->filter(
+            static fn (mixed $model): bool => $model instanceof self
+                && array_key_exists('counterparty_id', $model->getAttributes())
+                && ! $model->relationLoaded('counterparty'),
+        );
+
+        if ($unloaded->isNotEmpty()) {
+            $unloaded->load('counterparty');
+        }
+
+        return $collection;
     }
 
     /**
@@ -126,13 +170,13 @@ trait ProxiesCounterparty
      */
     public function scopeSearchIdentity($query, string $term)
     {
-        $like = '%' . str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], mb_strtolower($term)) . '%';
+        $like = '%' . str_replace(['!', '%', '_'], ['!!', '!%', '!_'], mb_strtolower($term)) . '%';
 
         return $query->whereHas('counterparty', static function ($counterparties) use ($like): void {
             $counterparties->where(static function ($group) use ($like): void {
-                $group->whereRaw('LOWER(name) LIKE ?', [$like])
-                    ->orWhereRaw('LOWER(vat_number) LIKE ?', [$like])
-                    ->orWhereRaw('LOWER(tax_id) LIKE ?', [$like]);
+                $group->whereRaw("LOWER(name) LIKE ? ESCAPE '!'", [$like])
+                    ->orWhereRaw("LOWER(vat_number) LIKE ? ESCAPE '!'", [$like])
+                    ->orWhereRaw("LOWER(tax_id) LIKE ? ESCAPE '!'", [$like]);
             });
         });
     }
@@ -143,13 +187,13 @@ trait ProxiesCounterparty
      */
     public function scopeOrderByName($query, string $direction = 'asc')
     {
-        $counterparties = (new Counterparty())->getTable();
-        $own = $this->getTable();
-
-        return $query
-            ->leftJoin($counterparties, "{$counterparties}.id", '=', "{$own}.counterparty_id")
-            ->orderBy("{$counterparties}.name", $direction)
-            ->select("{$own}.*");
+        return $query->orderBy(
+            Counterparty::query()
+                ->withTrashed()
+                ->select('name')
+                ->whereColumn((new Counterparty())->qualifyColumn('id'), $this->qualifyColumn('counterparty_id')),
+            $direction,
+        );
     }
 
     private function resolveCounterparty(): void
