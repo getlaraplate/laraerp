@@ -52,11 +52,11 @@ In a full Laraplate application you typically depend on **Core** first, then add
 "repositories": [
     {
         "type": "composer",
-        "url": "https://github.com/swolley/laraplate-core.git"
+        "url": "https://github.com/getlaraplate/laraplate-core.git"
     },
     {
         "type": "composer",
-        "url": "https://github.com/swolley/laraplate-erp.git"
+        "url": "https://github.com/getlaraplate/laraplate-erp.git"
     }
 ]
 ```
@@ -511,8 +511,8 @@ composer run version:minor ERP   # or version:major / version:patch, see docs/re
 If you still have a clone using the old remote:
 
 ```bash
-git remote set-url origin git@github.com:swolley/laraplate-erp.git
-# or HTTPS: https://github.com/swolley/laraplate-erp.git
+git remote set-url origin git@github.com:getlaraplate/laraplate-erp.git
+# or HTTPS: https://github.com/getlaraplate/laraplate-erp.git
 ```
 
 In the parent Laraplate app, update `.gitmodules` to `path = Modules/ERP` and `url` / `pushurl` for `laraplate-erp`, then run `git submodule sync` and `composer update`.
