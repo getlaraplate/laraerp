@@ -7,6 +7,7 @@ namespace Modules\ERP\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Modules\Core\Contracts\IActivatableModel;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\Concerns\HasActivation;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Casts\TaxKind;
@@ -14,7 +15,6 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Exceptions\TaxCodeImmutableAttributeException;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Immutable fiscal code row (VAT / withholding). Rate changes = new row + supersession link.

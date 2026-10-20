@@ -5,11 +5,11 @@ declare(strict_types=1);
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Modules\Core\Database\Seeders\CoreDatabaseSeeder;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\Concerns\HasVersions;
 use Modules\Core\Tests\Support\ForcedModelConfiguration;
 use Modules\ERP\Models\Account;
 use Modules\ERP\Models\FiscalPeriod;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 uses(RefreshDatabase::class);
 

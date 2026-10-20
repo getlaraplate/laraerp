@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\ValidationException;
 use Modules\Core\Enums\CoreTables;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Casts\OpportunityStatus;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * CRM opportunity (M3.1): qualified deal linked to a {@see Party} and pipeline {@see OpportunityStage}.

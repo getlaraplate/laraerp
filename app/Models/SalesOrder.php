@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\ValidationException;
 use Modules\Core\Contracts\ILockableModel;
 use Modules\Core\Contracts\IValidatableModel;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Locking\Traits\HasLocks;
 use Modules\Core\Models\Concerns\HasValidity;
 use Modules\Core\Overrides\Model;
@@ -21,7 +22,6 @@ use Modules\ERP\Events\SalesOrderCancelled;
 use Modules\ERP\Events\SalesOrderConfirmed;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Party sales order (M3.2) with optional links to a {@see Quotation} and {@see Project}.

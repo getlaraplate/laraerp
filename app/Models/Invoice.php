@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\ValidationException;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
@@ -17,7 +18,6 @@ use Modules\ERP\Database\Factories\InvoiceFactory;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Observers\InvoiceObserver;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Minimal commercial invoice header (M2/M3 bridge): full lifecycle comes in M3.5.

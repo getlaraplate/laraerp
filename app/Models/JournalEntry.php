@@ -10,13 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Modules\Core\Contracts\RestrictsCrudWrites;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\Concerns\DeniesGenericCrudWrites;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Exceptions\PostedJournalImmutableException;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Header for a posted double-entry journal voucher.

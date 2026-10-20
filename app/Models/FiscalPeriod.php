@@ -8,12 +8,12 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\Concerns\HasValidations;
 use Modules\Core\Models\Concerns\HasVersions;
 use Modules\ERP\Database\Factories\FiscalPeriodFactory;
 use Modules\ERP\Enums\ERPTables;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Sub-year accounting bucket (typically a calendar month).

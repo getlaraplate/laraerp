@@ -6,12 +6,12 @@ namespace Modules\ERP\Models;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Database\Factories\FiscalYearFactory;
 use Modules\ERP\Enums\ERPTables;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * Fiscal year boundary for accounting closes and reporting.

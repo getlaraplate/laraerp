@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Validation\ValidationException;
 use Modules\Core\Enums\CoreTables;
+use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\User;
 use Modules\Core\Overrides\Model;
 use Modules\ERP\Casts\LeadStatus;
@@ -15,7 +16,6 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
-use Overtrue\LaravelVersionable\VersionStrategy;
 
 /**
  * CRM lead (M3.1): early-stage prospect before a formal {@see Opportunity}.
