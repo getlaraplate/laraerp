@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\ERP\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\CRM\Models\Counterparty;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\Party;
 
@@ -28,15 +29,7 @@ final class PartyFactory extends Factory
     {
         return [
             'company_id' => Company::factory(),
-            'name' => $this->faker->unique()->company(),
-            'tax_id' => (string) $this->faker->numerify('###########'),
-            'vat_number' => 'IT' . $this->faker->numerify('###########'),
-            'fiscal_country' => 'IT',
-            'address_line' => $this->faker->streetAddress(),
-            'postal_code' => (string) $this->faker->numerify('#####'),
-            'city' => $this->faker->city(),
-            'province' => mb_strtoupper($this->faker->lexify('??')),
-            'country' => 'IT',
+            'counterparty_id' => Counterparty::factory(),
             'is_customer' => true,
             'is_supplier' => false,
         ];

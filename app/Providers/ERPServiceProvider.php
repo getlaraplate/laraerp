@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Gate;
 use Modules\Core\Import\Support\EntityImporterRegistry;
 use Modules\Core\Overrides\ModuleServiceProvider;
 use Modules\Core\Services\Crud\DomainActionRegistry;
+use Modules\CRM\Models\Counterparty;
 use Modules\ERP\Console\ExpireStockReservationsCommand;
 use Modules\ERP\Contracts\ChartOfAccountsProvider;
 use Modules\ERP\Contracts\CurrencyConverter;
@@ -18,6 +19,7 @@ use Modules\ERP\Import\ItemImporter;
 use Modules\ERP\Import\PartyImporter;
 use Modules\ERP\Import\Services\ExternalCashMovementImportService;
 use Modules\ERP\Import\Services\ExternalExpenseAllocationService;
+use Modules\ERP\Listeners\GuardCounterpartyDeletion;
 use Modules\ERP\Models\BankStatement;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\DeliveryNote;
@@ -97,6 +99,10 @@ class ERPServiceProvider extends ModuleServiceProvider
         foreach ($this->policyModels() as $model) {
             Gate::policy($model, ERPModelPolicy::class);
         }
+
+        Counterparty::deleting(static function (Counterparty $counterparty): void {
+            resolve(GuardCounterpartyDeletion::class)->handle($counterparty);
+        });
 
         resolve(ErpDomainActionRegistrar::class)->register(resolve(DomainActionRegistry::class));
 

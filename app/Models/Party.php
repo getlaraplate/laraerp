@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ERP\Models;
 
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -12,16 +13,21 @@ use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Modules\Core\Contracts\IActivatableModel;
 use Modules\Core\Models\Concerns\HasActivation;
 use Modules\Core\Overrides\Model;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Concerns\BelongsToCompany;
+use Modules\ERP\Concerns\ProxiesCounterparty;
 use Modules\ERP\Database\Factories\PartyFactory;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Models\Pivot\Contactable;
+use Modules\ERP\Observers\PartyObserver;
 use Override;
 
+#[ObservedBy([PartyObserver::class])]
 final class Party extends Model implements IActivatableModel
 {
     use BelongsToCompany;
     use HasActivation;
+    use ProxiesCounterparty;
 
     /**
      * @var string
@@ -34,17 +40,6 @@ final class Party extends Model implements IActivatableModel
      */
     #[Override]
     protected $fillable = [
-        'name',
-        'tax_id',
-        'vat_number',
-        'fiscal_country',
-        'address_line',
-        'postal_code',
-        'city',
-        'province',
-        'country',
-        'einvoice_recipient_code',
-        'einvoice_pec_email',
         'is_customer',
         'is_supplier',
     ];
@@ -130,30 +125,7 @@ final class Party extends Model implements IActivatableModel
     {
         $rules = parent::getRules();
         $rules['create'] = array_merge($rules['create'], [
-            'name' => ['required', 'string', 'max:255'],
-            'tax_id' => ['nullable', 'string', 'max:32'],
-            'vat_number' => ['nullable', 'string', 'max:32'],
-            'fiscal_country' => ['nullable', 'string', 'size:2'],
-            'address_line' => ['nullable', 'string', 'max:255'],
-            'postal_code' => ['nullable', 'string', 'max:16'],
-            'city' => ['nullable', 'string', 'max:128'],
-            'province' => ['nullable', 'string', 'max:8'],
-            'country' => ['nullable', 'string', 'size:2'],
-            'einvoice_recipient_code' => ['nullable', 'string', 'max:7'],
-            'einvoice_pec_email' => ['nullable', 'email', 'max:255'],
-        ]);
-        $rules['update'] = array_merge($rules['update'], [
-            'name' => ['sometimes', 'string', 'max:255'],
-            'tax_id' => ['nullable', 'string', 'max:32'],
-            'vat_number' => ['nullable', 'string', 'max:32'],
-            'fiscal_country' => ['nullable', 'string', 'size:2'],
-            'address_line' => ['nullable', 'string', 'max:255'],
-            'postal_code' => ['nullable', 'string', 'max:16'],
-            'city' => ['nullable', 'string', 'max:128'],
-            'province' => ['nullable', 'string', 'max:8'],
-            'country' => ['nullable', 'string', 'size:2'],
-            'einvoice_recipient_code' => ['nullable', 'string', 'max:7'],
-            'einvoice_pec_email' => ['nullable', 'email', 'max:255'],
+            'counterparty_id' => ['required', 'integer', 'exists:' . CRMTables::Counterparties->value . ',id'],
         ]);
 
         return $rules;
