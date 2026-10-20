@@ -42,17 +42,17 @@ In a full Laraplate application you typically depend on **Core** first, then add
 "repositories": [
     {
         "type": "composer",
-        "url": "https://github.com/getlaraplate/laraplate-core.git"
+        "url": "https://github.com/getlaraplate/laracore.git"
     },
     {
         "type": "composer",
-        "url": "https://github.com/getlaraplate/laraplate-erp.git"
+        "url": "https://github.com/getlaraplate/laraerp.git"
     }
 ]
 ```
 
 ```bash
-composer require joshbrw/laravel-module-installer getlaraplate/laraplate-core getlaraplate/laraplate-erp
+composer require joshbrw/laravel-module-installer getlaraplate/laracore getlaraplate/laraerp
 ```
 
 Then install and activate the modules:
@@ -115,7 +115,7 @@ The ERP module aligns with the same quality toolchain as **Cms** and **Core**:
 
 -   **Priority:** `999` in `module.json` (load order consistent with other feature modules)
 -   **Namespace:** `Modules\ERP\...`
--   **Composer package:** `getlaraplate/laraplate-erp`
+-   **Composer package:** `getlaraplate/laraerp`
 -   **Web / API routes:** `Modules/ERP/routes/web.php`, `Modules/ERP/routes/api.php`
 
 ### M0 — Multi-tenancy & Multi-currency Foundation
@@ -572,11 +572,11 @@ Without a forced level, git-cliff infers it from the conventional commits since 
 If you still have a clone using the old remote:
 
 ```bash
-git remote set-url origin git@github.com:getlaraplate/laraplate-erp.git
-# or HTTPS: https://github.com/getlaraplate/laraplate-erp.git
+git remote set-url origin git@github.com:getlaraplate/laraerp.git
+# or HTTPS: https://github.com/getlaraplate/laraerp.git
 ```
 
-In the parent Laraplate app, update `.gitmodules` to `path = Modules/ERP` and `url` / `pushurl` for `laraplate-erp`, then run `git submodule sync` and `composer update`.
+In the parent Laraplate app, update `.gitmodules` to `path = Modules/ERP` and `url` / `pushurl` for `laraerp`, then run `git submodule sync` and `composer update`.
 
 ## Contributing
 
