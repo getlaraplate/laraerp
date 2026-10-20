@@ -1,7 +1,7 @@
 {
   "name": "getlaraplate/laraplate-erp",
   "vendor": "getlaraplate",
-  "description": "ERP module for Laraplate: accounting, fiscal calendar, commercial scaffolding, and related services.",
+  "description": "Laraplate ERP module: multi-company accounting, sales, purchases, invoicing, inventory and projects.",
   "version": "v1.25.0",
   "keywords": [
     "laravel",
