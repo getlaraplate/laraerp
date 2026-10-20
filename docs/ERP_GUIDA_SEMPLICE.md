@@ -52,7 +52,7 @@ In a full Laraplate application you typically depend on **Core** first, then add
 ```
 
 ```bash
-composer require joshbrw/laravel-module-installer swolley/laraplate-core swolley/laraplate-erp
+composer require joshbrw/laravel-module-installer getlaraplate/laraplate-core getlaraplate/laraplate-erp
 ```
 
 Then install and activate the modules:
@@ -115,7 +115,7 @@ The ERP module aligns with the same quality toolchain as **Cms** and **Core**:
 
 -   **Priority:** `999` in `module.json` (load order consistent with other feature modules)
 -   **Namespace:** `Modules\ERP\...`
--   **Composer package:** `swolley/laraplate-erp`
+-   **Composer package:** `getlaraplate/laraplate-erp`
 -   **Web / API routes:** `Modules/ERP/routes/web.php`, `Modules/ERP/routes/api.php`
 
 ### M0 — Multi-tenancy & Multi-currency Foundation

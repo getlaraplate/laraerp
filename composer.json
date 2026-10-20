@@ -1,6 +1,6 @@
 {
-  "name": "swolley/laraplate-erp",
-  "vendor": "swolley",
+  "name": "getlaraplate/laraplate-erp",
+  "vendor": "getlaraplate",
   "description": "ERP module for Laraplate: accounting, fiscal calendar, commercial scaffolding, and related services.",
   "version": "v1.25.0",
   "keywords": [
