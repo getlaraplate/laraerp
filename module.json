@@ -2,7 +2,7 @@
     "name": "ERP",
     "laraplate_owned": true,
     "alias": "erp",
-    "description": "ERP module — accounting and operations domain for Laraplate.",
+    "description": "Laraplate ERP module: multi-company accounting, sales, purchases, invoicing, inventory and projects.",
     "color": "yellow",
     "keywords": [
         "erp",
