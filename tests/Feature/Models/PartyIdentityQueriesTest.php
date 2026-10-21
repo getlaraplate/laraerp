@@ -59,3 +59,45 @@ it('filters parties by an identity attribute through the crud query builder', fu
 
     expect($query->pluck('id')->all())->toBe([$alpha->getKey()]);
 });
+
+it('sorts parties by an identity attribute and returns it as a column through the crud query builder', function (): void {
+    $charlie = partyNamed('Charlie S.p.A.');
+    $alpha = partyNamed('Alpha S.r.l.');
+    $bravo = partyNamed('Bravo S.n.c.');
+
+    $model = new Party;
+    $data = (new ReflectionClass(Modules\Core\Casts\ListRequestData::class))->newInstanceWithoutConstructor();
+
+    foreach ([
+        'request' => new Illuminate\Http\Request,
+        'mainEntity' => $model->getTable(),
+        'primaryKey' => 'id',
+        'connection' => null,
+        'model' => $model,
+        'columns' => [
+            new Modules\Core\Casts\Column('erp_parties.id', Modules\Core\Casts\ColumnType::Column),
+            new Modules\Core\Casts\Column('erp_parties.name', Modules\Core\Casts\ColumnType::Column),
+        ],
+        'relations' => [],
+        'sort' => [new Modules\Core\Casts\Sort('name', Modules\Core\Casts\SortDirection::Asc)],
+        'filters' => null,
+        'group_by' => [],
+        'pagination' => 25,
+        'page' => null,
+        'skip' => null,
+        'take' => null,
+        'from' => null,
+        'to' => null,
+        'limit' => null,
+        'count' => false,
+    ] as $property => $value) {
+        (new ReflectionProperty($data, $property))->setValue($data, $value);
+    }
+
+    $query = Party::query();
+    (new Modules\Core\Services\Crud\QueryBuilder)->prepareQuery($query, $data);
+    $rows = $query->get();
+
+    expect($rows->pluck('id')->all())->toBe([(int) $alpha->getKey(), (int) $bravo->getKey(), (int) $charlie->getKey()])
+        ->and($rows->map(fn (Party $party): string => $party->name)->all())->toBe(['Alpha S.r.l.', 'Bravo S.n.c.', 'Charlie S.p.A.']);
+});
