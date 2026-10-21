@@ -2,7 +2,7 @@
   "name": "getlaraplate/laraerp",
   "vendor": "getlaraplate",
   "description": "Laraplate ERP module: multi-company accounting, sales, purchases, invoicing, inventory and projects.",
-  "version": "v1.25.0",
+  "version": "v2.0.0",
   "keywords": [
     "laravel",
     "laraplate",

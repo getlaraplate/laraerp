@@ -2,6 +2,60 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.0.0] - 2026-10-21
+
+### 🚀 Features
+
+- Mark the provider callbacks as self-authenticated api routes
+- *(filament)* Split the ERP sidebar into six navigation groups
+- *(filament)* Sort ERP navigation items alphabetically within each group
+- *(erp)* Mark the document lines and other parts for related-record authorization
+- *(lang)* Labels for the detail pages in every locale
+- *(erp)* Translation keys named like the database
+- *(erp)* Translated resource names and navigation groups
+- *(erp)* Backoffice strings from the erp lang file
+- *(erp)* Party over Counterparty
+
+### 🐛 Bug Fixes
+
+- *(erp)* Update module priority to ensure correct loading order
+- *(erp)* Party lists, CRUD filters and trashed counterparty handling
+- *(erp)* Party aggregates follow moves, fewer queries, organisational parent guard
+
+### 🚜 Refactor
+
+- *(erp)* Streamline language files by removing redundant declarations and formatting
+- Import Core VersionStrategy (D14)
+- *(erp)* Party identity queries through the counterparty
+- *(erp)* Contacts live in the CRM
+- *(erp)* CRM entities leave the ERP
+- *(erp)* Party bank accounts point to the counterparty bank account
+- *(erp)* Sales pipeline report leaves the ERP
+
+### 📚 Documentation
+
+- API access control
+- Verbatim AGPL-3.0 licence text, copyright in the README
+- Point the links to the getlaraplate organization
+- Use the Laraplate brand logo in the README
+
+### 🧪 Testing
+
+- Follow the renamed API switch
+- *(erp)* Invoice lines hydrated with the invoice permission
+- *(erp)* Create the invoice after its permissions in the hydration test
+- *(erp)* Demo parties get a counterparty and stay single on a second run
+- *(erp)* Sort and select party identity attributes through the crud query builder
+
+### ⚙️ Miscellaneous Tasks
+
+- Point repository links to the getlaraplate organization
+- Rename the Composer package to the getlaraplate vendor
+- Align the package description with the repository description
+- Align the module description with the repository description
+- Call the organization CLA workflow
+- Rename the repository and package from laraplate-<module> to lara<module>
+
 ## [1.25.0] - 2026-10-07
 
 ### 🚀 Features
@@ -440,6 +494,8 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ### 🚀 Features
 
 - *(erp)* Add document sequence reset functionality and price rules management
+
+## [1.14.8] - 2026-07-10
 
 ### 🐛 Bug Fixes
 
