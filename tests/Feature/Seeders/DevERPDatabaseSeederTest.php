@@ -97,3 +97,17 @@ it('keeps seeding the taxonomies it seeded before', function (): void {
 
     expect(Modules\ERP\Models\Activity::query()->count())->toBeGreaterThan(0);
 });
+
+it('gives the demo parties a counterparty each and does not duplicate them on a second run', function (): void {
+    seedErpDev($this);
+    seedErpDev($this);
+
+    $customer = Party::query()->withoutGlobalScopes()
+        ->whereHas('counterparty', fn ($query) => $query->where('tax_id', '01234567890'))
+        ->get();
+
+    expect($customer)->toHaveCount(1)
+        ->and($customer->first()->counterparty->name)->toBe('Cliente Demo S.p.A.')
+        ->and($customer->first()->counterparty->fresh()->is_customer)->toBeTrue()
+        ->and(Modules\CRM\Models\Counterparty::query()->whereIn('tax_id', ['01234567890', '09876543210'])->count())->toBe(2);
+});
