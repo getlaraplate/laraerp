@@ -7,16 +7,20 @@ namespace Modules\ERP\Models;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Modules\Core\Contracts\IsPartOfParent;
 use Modules\Core\Overrides\Model;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Concerns\BelongsToCompany;
+use Modules\ERP\Concerns\ProxiesCounterpartyBankAccount;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
 /**
- * Supplier or customer bank account used for payment execution snapshots.
+ * The link between a party (one company) and a bank account of its counterparty: which account the company
+ * uses by default and the direct debit mandate it holds. The account data is proxied from the counterparty.
  */
 final class PartyBankAccount extends Model implements IsPartOfParent
 {
     use BelongsToCompany;
+    use ProxiesCounterpartyBankAccount;
 
     /**
      * @var string
@@ -28,15 +32,10 @@ final class PartyBankAccount extends Model implements IsPartOfParent
     protected $fillable = [
         'company_id',
         'party_id',
-        'beneficiary_name',
-        'iban',
-        'bic',
-        'currency',
         'direct_debit_mandate_reference',
         'direct_debit_mandate_signed_on',
         'direct_debit_mandate_scheme',
         'is_default',
-        'is_active',
     ];
 
     /**
@@ -66,40 +65,20 @@ final class PartyBankAccount extends Model implements IsPartOfParent
         $rules['create'] = array_merge($rules['create'], [
             'company_id' => ['required', 'integer', 'exists:' . ERPTables::Companies->value . ',id'],
             'party_id' => ['required', 'integer', 'exists:' . ERPTables::Parties->value . ',id'],
-            'beneficiary_name' => ['required', 'string', 'max:255'],
-            'iban' => ['required', 'string', 'max:34'],
-            'bic' => ['nullable', 'string', 'max:11'],
-            'currency' => ['required', 'string', 'size:3'],
+            'counterparty_bank_account_id' => ['required', 'integer', 'exists:' . CRMTables::CounterpartyBankAccounts->value . ',id'],
             'direct_debit_mandate_reference' => ['nullable', 'string', 'max:35'],
             'direct_debit_mandate_signed_on' => ['nullable', 'date'],
             'direct_debit_mandate_scheme' => ['nullable', 'string', 'max:16'],
             'is_default' => ['sometimes', 'boolean'],
-            'is_active' => ['sometimes', 'boolean'],
         ]);
         $rules['update'] = array_merge($rules['update'], [
-            'beneficiary_name' => ['sometimes', 'string', 'max:255'],
-            'iban' => ['sometimes', 'string', 'max:34'],
-            'bic' => ['nullable', 'string', 'max:11'],
-            'currency' => ['sometimes', 'string', 'size:3'],
             'direct_debit_mandate_reference' => ['nullable', 'string', 'max:35'],
             'direct_debit_mandate_signed_on' => ['nullable', 'date'],
             'direct_debit_mandate_scheme' => ['nullable', 'string', 'max:16'],
             'is_default' => ['sometimes', 'boolean'],
-            'is_active' => ['sometimes', 'boolean'],
         ]);
 
         return $rules;
-    }
-
-    protected static function booted(): void
-    {
-        self::saving(static function (PartyBankAccount $bank_account): void {
-            $bank_account->iban = mb_strtoupper(str_replace(' ', '', (string) $bank_account->iban));
-            $bank_account->bic = $bank_account->bic !== null
-                ? mb_strtoupper(str_replace(' ', '', (string) $bank_account->bic))
-                : null;
-            $bank_account->currency = mb_strtoupper((string) $bank_account->currency);
-        });
     }
 
     protected function casts(): array
@@ -107,7 +86,6 @@ final class PartyBankAccount extends Model implements IsPartOfParent
         return [
             'direct_debit_mandate_signed_on' => 'date',
             'is_default' => 'boolean',
-            'is_active' => 'boolean',
         ];
     }
 }

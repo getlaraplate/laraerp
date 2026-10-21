@@ -6,6 +6,7 @@ namespace Modules\ERP\Services\Payments;
 
 use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
@@ -172,7 +173,7 @@ final class PaymentRunBuilderService
         $accounts = $models->query(PartyBankAccount::class)
             ->where('company_id', $company_id)
             ->where('party_id', $party_id)
-            ->where('is_active', true)
+            ->whereHas('counterparty_bank_account', static fn (Builder $query): Builder => $query->where('is_active', true))
             ->where('is_default', true)
             ->get();
 
