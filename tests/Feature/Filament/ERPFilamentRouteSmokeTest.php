@@ -11,7 +11,6 @@ use Modules\ERP\Casts\InvoiceType;
 use Modules\ERP\Filament\Pages\BalanceSheetPage;
 use Modules\ERP\Filament\Pages\BankReconciliationPage;
 use Modules\ERP\Filament\Pages\IncomeStatementPage;
-use Modules\ERP\Filament\Pages\SalesPipelinePage;
 use Modules\ERP\Filament\Pages\StockValuationPage;
 use Modules\ERP\Filament\Pages\TrialBalancePage;
 use Modules\ERP\Filament\Resources\BankAccounts\BankAccountResource;
@@ -35,7 +34,6 @@ it('registers ERP Filament resource and page routes on the admin panel', functio
         ->and(ReturnOrderResource::getUrl('index'))->toContain('/admin/business/return-orders')
         ->and(SupplierReturnResource::getUrl('index'))->toContain('/admin/business/supplier-returns')
         ->and(BankReconciliationPage::getUrl())->toEndWith('/admin/bank-reconciliation')
-        ->and(SalesPipelinePage::getUrl())->toEndWith('/admin/sales-pipeline')
         ->and(StockValuationPage::getUrl())->toEndWith('/admin/stock-valuation');
 });
 
@@ -77,7 +75,6 @@ it('renders ERP Filament smoke pages for an authenticated admin', function (): v
     $this->get(TrialBalancePage::getUrl())->assertOk();
     $this->get(BalanceSheetPage::getUrl())->assertOk();
     $this->get(IncomeStatementPage::getUrl())->assertOk();
-    $this->get(SalesPipelinePage::getUrl())->assertOk();
     $this->get(StockValuationPage::getUrl())->assertOk();
     $this->get(BankAccountResource::getUrl('index'))->assertOk();
     $this->get(BankStatementResource::getUrl('index'))->assertOk();

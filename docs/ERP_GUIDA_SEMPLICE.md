@@ -336,7 +336,7 @@ Leads, opportunities, pipeline stages and contacts moved to the CRM module (`Mod
 -   Implemented Phase 2B items also include supplier payment runs with SEPA `pain.001` and CBI bonifici exports.
 -   Implemented Phase 2B banking items also include bank difference journals, match-with-difference UI, and CAMT.053 / MT940 statement import.
 -   Implemented Phase 2B reporting items also include CSV export actions and immutable CSV/PDF snapshot archives for trial balance, balance sheet, and income statement.
--   Implemented Phase 2B operational dashboard items also include Sales Pipeline filters/KPIs/CSV export and Stock Valuation warehouse filter/KPIs/CSV export.
+-   Implemented Phase 2B operational dashboard items also include Stock Valuation warehouse filter/KPIs/CSV export (the Sales Pipeline report, with its filters, KPIs and CSV export, moved to the CRM module).
 
 ### Supplier Payment Runs
 
@@ -354,7 +354,7 @@ Leads, opportunities, pipeline stages and contacts moved to the CRM module (`Mod
 
 -   **Resources:** Party, Quotation, Project, SalesOrder, DeliveryNote, Invoice, PurchaseOrder, GoodsReceipt, ReturnOrder, SupplierReturn, PaymentTerm, Payment, PaymentRun, BankAccount, BankStatement, VatRegister (read-only), VatSettlement (read-only)
 -   **Core accounting:** Company, Account, JournalEntry (with view page), FiscalYear, FiscalPeriod, DocumentSequence, TaxCode
--   **Report pages:** Trial Balance, Balance Sheet, Income Statement, Sales Pipeline, Stock Valuation. Financial and operational report pages expose CSV export actions; financial reports can be archived through immutable CSV/PDF snapshots.
+-   **Report pages:** Trial Balance, Balance Sheet, Income Statement, Stock Valuation (the Sales Pipeline report lives in the CRM module). Financial and operational report pages expose CSV export actions; financial reports can be archived through immutable CSV/PDF snapshots.
 
 ### Current ERP Status
 
