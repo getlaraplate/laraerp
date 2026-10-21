@@ -69,3 +69,26 @@ it('creates the counterparty bank account from the identity attributes given to 
         ->and($link->fresh()->beneficiary_name)->toBe('Direct Beneficiary')
         ->and($link->fresh()->is_active)->toBeTrue();
 });
+
+it('reuses a soft deleted counterparty bank account with the same iban', function (): void {
+    $party = Party::factory()->create();
+    $account = CounterpartyBankAccount::query()->create([
+        'counterparty_id' => $party->counterparty_id,
+        'beneficiary_name' => 'Old Beneficiary',
+        'iban' => 'IT60X0542811101000000123456',
+        'currency' => 'EUR',
+    ]);
+    $account->delete();
+
+    $link = PartyBankAccount::query()->create([
+        'company_id' => $party->company_id,
+        'party_id' => $party->getKey(),
+        'beneficiary_name' => 'New Beneficiary',
+        'iban' => 'it60 x054 2811 1010 0000 0123 456',
+        'currency' => 'EUR',
+    ]);
+
+    expect($link->counterparty_bank_account_id)->toBe($account->getKey())
+        ->and(CounterpartyBankAccount::query()->withTrashed()->count())->toBe(1)
+        ->and($account->fresh()->trashed())->toBeFalse();
+});

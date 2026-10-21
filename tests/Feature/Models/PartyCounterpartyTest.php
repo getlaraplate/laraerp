@@ -135,3 +135,38 @@ it('loads parties with their counterparty without one query per row', function (
 
     expect($names)->toHaveCount(10)->and($queries)->toBeLessThanOrEqual(3);
 });
+
+it('matches and restores a soft deleted counterparty with the same vat number', function (): void {
+    $trashed = Counterparty::factory()->create(['fiscal_country' => 'IT', 'vat_number' => 'IT05555555555']);
+    $trashed->delete();
+    $company = Company::factory()->create();
+
+    $party = Party::query()->create(['company_id' => $company->getKey(), 'name' => 'Whatever', 'fiscal_country' => 'IT', 'vat_number' => 'IT05555555555']);
+
+    expect($party->counterparty_id)->toBe($trashed->getKey())
+        ->and(Counterparty::query()->withTrashed()->where('vat_number', 'IT05555555555')->count())->toBe(1)
+        ->and($trashed->fresh()->trashed())->toBeFalse();
+});
+
+it('restores the trashed counterparty when a trashed party is restored', function (): void {
+    $party = Party::factory()->create();
+    $counterparty = Counterparty::query()->findOrFail($party->counterparty_id);
+
+    $party->delete();
+    $counterparty->delete();
+    $party->restore();
+
+    expect($party->fresh()->trashed())->toBeFalse()
+        ->and($counterparty->fresh()->trashed())->toBeFalse();
+});
+
+it('validates a create payload that carries identity attributes instead of a counterparty id', function (): void {
+    $rules = (new Party)->getRules()['create'];
+    $company = Company::factory()->create();
+
+    $valid = Illuminate\Support\Facades\Validator::make(['company_id' => $company->getKey(), 'name' => 'Payload Co', 'vat_number' => 'IT09999999999'], $rules);
+    $nameless = Illuminate\Support\Facades\Validator::make(['company_id' => $company->getKey(), 'vat_number' => 'IT09999999999'], $rules);
+
+    expect($valid->passes())->toBeTrue()
+        ->and($nameless->passes())->toBeFalse();
+});

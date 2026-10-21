@@ -22,7 +22,8 @@ final class SupplierReturnsTable
                     TextColumn::make('reference')
                         ->searchable()
                         ->sortable(),
-                    TextColumn::make('party.name')
+                    TextColumn::make('party.counterparty.name')
+                        ->label(__('erp.fields.party'))
                         ->label(__('erp.fields.supplier'))
                         ->searchable()
                         ->sortable(),

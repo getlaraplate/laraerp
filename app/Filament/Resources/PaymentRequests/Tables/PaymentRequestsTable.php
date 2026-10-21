@@ -18,7 +18,8 @@ final class PaymentRequestsTable
         return self::configureTable($table, static function (Collection $columns): void {
             $columns->unshift(...[
                 TextColumn::make('company.name')->sortable(),
-                TextColumn::make('party.name')->placeholder('—'),
+                TextColumn::make('party.counterparty.name')
+                    ->label(__('erp.fields.party'))->placeholder('—'),
                 TextColumn::make('user.name')->label(__('erp.fields.internal_user'))->placeholder('—'),
                 TextColumn::make('amount')->numeric(decimalPlaces: 4)->sortable(),
                 TextColumn::make('currency'),

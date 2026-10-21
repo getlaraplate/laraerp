@@ -47,3 +47,15 @@ it('combines the role scopes with search and ordering', function (): void {
     expect(Party::optionLabels(Party::query()->customers()))->toBe([(int) $customer->getKey() => 'Zeta Customer'])
         ->and(array_values(Party::optionLabels(Party::query()->suppliers(), 'alpha')))->toBe(['Alpha Supplier']);
 });
+
+it('filters parties by an identity attribute through the crud query builder', function (): void {
+    $alpha = partyNamed('Alpha S.r.l.', ['vat_number' => 'IT00000000001']);
+    partyNamed('Bravo S.n.c.', ['vat_number' => 'IT00000000002']);
+
+    $query = Party::query();
+    (new Modules\Core\Services\Crud\QueryBuilder)->applyFilters($query, new Modules\Core\Casts\FiltersGroup([
+        new Modules\Core\Casts\Filter('name', 'Alpha S.r.l.', Modules\Core\Casts\FilterOperator::Equals),
+    ]));
+
+    expect($query->pluck('id')->all())->toBe([$alpha->getKey()]);
+});

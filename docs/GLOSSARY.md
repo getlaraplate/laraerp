@@ -19,9 +19,8 @@ The Core table `taxonomies` stores hierarchical catalog data. **Business** discr
 | EntityType value | Model (subclass of Taxonomy) | Typical use |
 |------------------|------------------------------|-------------|
 | `activities` | `Activity` | Work types for tasks, time entries, price list items. |
-| `opportunity_stages` | `OpportunityStage` | CRM pipeline stages (M3.1+). |
 
-Leaf nodes hold operational catalog data; they are **not** replaced by enums per vertical. Seeds: `DevERPTaxonomySeeder`, `DevERPOpportunityStagesTaxonomySeeder`.
+Leaf nodes hold operational catalog data; they are **not** replaced by enums per vertical. Seeds: `DevERPTaxonomySeeder`.
 
 **Removed:** `EntityType::MOVEMENTS` — cash movement tagging is expressed via **Chart of Accounts** (`JournalEntryLine.account_id`) and optional analytic FKs (e.g. `project_id`, `site_id`).
 
@@ -51,18 +50,17 @@ Italian baseline codes are seeded by `ItalianTaxCodesSeeder` on the default comp
 
 | Term | Meaning |
 |------|---------|
-| **Party** | Unified entity replacing `Customer`. Flags `is_customer` / `is_supplier` (both booleans, both can be true). Table: `parties`. |
+| **Party** | The relationship between a CRM `Counterparty` and one `Company`: unique on (`counterparty_id`, `company_id`). Keeps the flags `is_customer` / `is_supplier` (both can be true), price rules and the bank account links; its legal identity (name, VAT number, tax id, address, e-invoice routing) is read and written through the counterparty. Table: `erp_parties`. |
 | **scopeCustomers()** | Scope on `Party` model filtering `is_customer = true`. Used by sales-side Filament dropdowns. |
 | **scopeSuppliers()** | Scope on `Party` model filtering `is_supplier = true`. Used by purchase-side Filament dropdowns. |
 
-## CRM (M3.1)
+## CRM
+
+The CRM entities (`Counterparty`, `Contact`, `Lead`, `Opportunity`, `OpportunityStage`, their statuses and the opportunity lifecycle service) live in the CRM module: see `Modules/CRM/docs/GLOSSARY.md`. The ERP side of the link is the `Party` and the `QuotationObserver`.
 
 | Term | Meaning |
 |------|---------|
-| **Lead** | Early-stage prospect with `LeadStatus` lifecycle (new, contacted, qualified, converted, lost). |
-| **Opportunity** | Qualified deal linked to a party with `OpportunityStatus` (open, won, lost) and taxonomy-based pipeline stages. |
-| **OpportunityLifecycleService** | Manages opportunity status transitions. |
-| **QuotationObserver** | Auto-marks opportunity as `won` when linked quotation status = accepted. |
+| **QuotationObserver** | When a quotation becomes `accepted`, makes its `Party` a customer and calls the CRM `OpportunityLifecycleService::markWon()` for the linked opportunity. |
 
 ## Sales orders (M3.2)
 

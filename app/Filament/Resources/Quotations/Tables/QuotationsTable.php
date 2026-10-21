@@ -21,7 +21,8 @@ final class QuotationsTable
                 $default_columns->unshift(...[
                     TextColumn::make('company.name')
                         ->toggleable(),
-                    TextColumn::make('party.name')
+                    TextColumn::make('party.counterparty.name')
+                        ->label(__('erp.fields.party'))
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('opportunity.name')

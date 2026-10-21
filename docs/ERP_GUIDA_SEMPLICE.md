@@ -145,11 +145,9 @@ The ERP module aligns with the same quality toolchain as **Cms** and **Core**:
 -   `ItalianTaxCodesSeeder` baseline
 -   Invoice / InvoiceLine stub with tax snapshot columns
 
-### M3.1 — CRM
+### M3.1 — CRM (moved)
 
--   Leads (`Lead` model, `LeadStatus` enum)
--   Opportunities (`Opportunity`, `OpportunityStatus`, `OpportunityStage` taxonomy)
--   `OpportunityLifecycleService` + `QuotationObserver` (auto-win on quotation accepted)
+Leads, opportunities, pipeline stages and contacts moved to the CRM module (`Modules/CRM/docs/rag/MODULE.md`). The ERP keeps `QuotationObserver`: an accepted quotation makes its `Party` a customer and closes the linked CRM opportunity as won.
 
 ### M3.2 — Sales Order Processing
 
@@ -354,7 +352,7 @@ The ERP module aligns with the same quality toolchain as **Cms** and **Core**:
 -   **Sites** collega ogni sede operativa a un indirizzo canonico gestito da Core `Place`. L'indirizzo non viene copiato in ERP e può essere riutilizzato da altri moduli.
 -   La sede ha una finestra di validità standard; il Place selezionato fornirà anche la posizione agli export calendario.
 
--   **Resources:** Party, Contact, Quotation, Project, Lead, Opportunity, SalesOrder, DeliveryNote, Invoice, PurchaseOrder, GoodsReceipt, ReturnOrder, SupplierReturn, PaymentTerm, Payment, PaymentRun, BankAccount, BankStatement, VatRegister (read-only), VatSettlement (read-only)
+-   **Resources:** Party, Quotation, Project, SalesOrder, DeliveryNote, Invoice, PurchaseOrder, GoodsReceipt, ReturnOrder, SupplierReturn, PaymentTerm, Payment, PaymentRun, BankAccount, BankStatement, VatRegister (read-only), VatSettlement (read-only)
 -   **Core accounting:** Company, Account, JournalEntry (with view page), FiscalYear, FiscalPeriod, DocumentSequence, TaxCode
 -   **Report pages:** Trial Balance, Balance Sheet, Income Statement, Sales Pipeline, Stock Valuation. Financial and operational report pages expose CSV export actions; financial reports can be archived through immutable CSV/PDF snapshots.
 

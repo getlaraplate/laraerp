@@ -24,7 +24,8 @@ final class SalesOrdersTable
                     TextColumn::make('reference')
                         ->searchable()
                         ->toggleable(),
-                    TextColumn::make('party.name')
+                    TextColumn::make('party.counterparty.name')
+                        ->label(__('erp.fields.party'))
                         ->searchable()
                         ->sortable(),
                     TextColumn::make('currency')

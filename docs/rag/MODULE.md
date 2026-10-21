@@ -145,11 +145,9 @@ The ERP module aligns with the same quality toolchain as **Cms** and **Core**:
 -   `ItalianTaxCodesSeeder` baseline
 -   Invoice / InvoiceLine stub with tax snapshot columns
 
-### M3.1 — CRM
+### M3.1 — CRM (moved)
 
--   Leads (`Lead` model, `LeadStatus` enum)
--   Opportunities (`Opportunity`, `OpportunityStatus`, `OpportunityStage` taxonomy)
--   `OpportunityLifecycleService` + `QuotationObserver` (auto-win on quotation accepted)
+Leads, opportunities, pipeline stages and contacts moved to the CRM module (`Modules/CRM/docs/rag/MODULE.md`). The ERP keeps `QuotationObserver`: an accepted quotation makes its `Party` a customer and closes the linked CRM opportunity as won.
 
 ### M3.2 — Sales Order Processing
 
@@ -407,7 +405,7 @@ ERP owns a native stock reservation, so a confirmed but not yet shipped sales or
 -   `SiteResource` manages company/name/validity and selects the canonical Core `Place`; ERP does not duplicate postal/geographic fields.
 -   `Site` uses Core `HasValidity`, exposes `place(): BelongsTo`, and is the location source for task calendar exports.
 
--   **Resources:** Party, Contact, Quotation, Project, Lead, Opportunity, SalesOrder, DeliveryNote, Invoice, PurchaseOrder, GoodsReceipt, ReturnOrder, SupplierReturn, PaymentTerm, Payment, PaymentRun, BankAccount, BankStatement, VatRegister (read-only), VatSettlement (read-only)
+-   **Resources:** Party, Quotation, Project, SalesOrder, DeliveryNote, Invoice, PurchaseOrder, GoodsReceipt, ReturnOrder, SupplierReturn, PaymentTerm, Payment, PaymentRun, BankAccount, BankStatement, VatRegister (read-only), VatSettlement (read-only)
 -   **Core accounting:** Company, Account, JournalEntry (with view page), FiscalYear, FiscalPeriod, DocumentSequence, TaxCode
 -   **Report pages:** Trial Balance, Balance Sheet, Income Statement, Sales Pipeline, Stock Valuation. Financial and operational report pages expose CSV export actions; financial reports can be archived through immutable CSV/PDF snapshots.
 
@@ -518,7 +516,7 @@ frame, document chain), resolved through `newFactory()` on each model. They neve
 `reference`: numbering belongs to `DocumentNumberAllocator` at posting time. `->for($company)`
 keeps a whole document chain inside one company, which the models require.
 
-`DevERPDatabaseSeeder` seeds the CRM taxonomies **and** a demo company with both commercial flows
+`DevERPDatabaseSeeder` seeds a demo company with both commercial flows
 (sales order to delivery note to invoice; purchase order to goods receipt to invoice), on stable
 identifiers (`DEMO-ITEM-001..003`, warehouse `DEMO-WH`) and idempotently.
 

@@ -46,7 +46,7 @@ The module's boundaries, invariants, supported service-container replacements, o
 
 If you want to add this module to your project, you can use the `joshbrw/laravel-module-installer` package.
 
-In a full Laraplate application you typically depend on **Core** first, then add **ERP**. Add the repositories to your `composer.json` file (adjust URLs if you use forks or private registries):
+In a full Laraplate application you depend on **Core** first, then **CRM** (the ERP requires it: the legal identity of every party lives on the CRM counterparty), then add **ERP**. Add the repositories to your `composer.json` file (adjust URLs if you use forks or private registries):
 
 ```json
 "repositories": [
@@ -109,7 +109,7 @@ Per-company ERP settings are stored in `companies.settings` (JSON). Use `ErpComp
 
 -   PHP >= 8.5
 -   Laravel 12.0+
--   **Recommended:** Laraplate **Core** for users, permissions, and shared infrastructure (typical production setup)
+-   **Required:** Laraplate **Core** for users, permissions, and shared infrastructure, and **CRM** for counterparties, contacts, leads and opportunities
 
 ### Quality toolchain (declared by the application)
 

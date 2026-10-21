@@ -143,10 +143,15 @@ trait ProxiesCounterpartyBankAccount
             $iban = CounterpartyBankAccount::normalizeIban((string) ($pending['iban'] ?? ''));
 
             $account = ($iban === '' ? null : CounterpartyBankAccount::query()
+                ->withTrashed()
                 ->where('counterparty_id', $party->counterparty_id)
                 ->where('iban', $iban)
                 ->first())
                 ?? CounterpartyBankAccount::query()->create([...$pending, 'counterparty_id' => $party->counterparty_id]);
+
+            if ($account->trashed()) {
+                $account->restore();
+            }
 
             parent::setAttribute('counterparty_bank_account_id', $account->getKey());
             $this->setRelation('counterparty_bank_account', $account);

@@ -217,6 +217,10 @@ trait ProxiesCounterparty
                 $pending['tax_id'] ?? null,
             ) ?? Counterparty::query()->create($pending);
 
+            if ($counterparty->trashed()) {
+                $counterparty->restore();
+            }
+
             parent::setAttribute('counterparty_id', $counterparty->getKey());
             $this->setRelation('counterparty', $counterparty);
         }

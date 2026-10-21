@@ -14,6 +14,18 @@ use Modules\ERP\Scopes\BelongsToCompanyScope;
  */
 final class PartyObserver
 {
+    /**
+     * A restored party never lives on a trashed counterparty: the subject comes back with it.
+     */
+    public function restoring(Party $party): void
+    {
+        $counterparty = Counterparty::query()->withTrashed()->find($party->counterparty_id);
+
+        if ($counterparty instanceof Counterparty && $counterparty->trashed()) {
+            $counterparty->restore();
+        }
+    }
+
     public function saved(Party $party): void
     {
         $this->syncAggregates($party);

@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Modules\Core\Contracts\IActivatableModel;
+use Modules\Core\Contracts\IMountsRelatedAttributes;
 use Modules\Core\Models\Concerns\HasActivation;
 use Modules\Core\Overrides\Model;
 use Modules\CRM\Enums\CRMTables;
@@ -24,7 +25,7 @@ use Modules\ERP\Observers\PartyObserver;
 use Override;
 
 #[ObservedBy([PartyObserver::class])]
-final class Party extends Model implements IActivatableModel
+final class Party extends Model implements IActivatableModel, IMountsRelatedAttributes
 {
     use BelongsToCompany;
     use HasActivation;
@@ -103,14 +104,42 @@ final class Party extends Model implements IActivatableModel
         return $this->hasMany(PartyBankAccount::class);
     }
 
+    #[Override]
+    public function mountedRelation(): string
+    {
+        return 'counterparty';
+    }
+
+    #[Override]
+    public function isMountedAttribute(string $key): bool
+    {
+        return in_array($key, self::counterpartyAttributes(), true);
+    }
+
     /**
      * @return array<string, mixed>
      */
     public function getRules(): array
     {
         $rules = parent::getRules();
-        $rules['create'] = array_merge($rules['create'], [
-            'counterparty_id' => ['required', 'integer', 'exists:' . CRMTables::Counterparties->value . ',id'],
+        $identity = [
+            'tax_id' => ['nullable', 'string', 'max:32'],
+            'vat_number' => ['nullable', 'string', 'max:32'],
+            'fiscal_country' => ['nullable', 'string', 'size:2'],
+            'address_line' => ['nullable', 'string', 'max:255'],
+            'postal_code' => ['nullable', 'string', 'max:16'],
+            'city' => ['nullable', 'string', 'max:128'],
+            'province' => ['nullable', 'string', 'max:8'],
+            'country' => ['nullable', 'string', 'size:2'],
+            'einvoice_recipient_code' => ['nullable', 'string', 'max:7'],
+            'einvoice_pec_email' => ['nullable', 'email', 'max:255'],
+        ];
+        $rules['create'] = array_merge($rules['create'], $identity, [
+            'counterparty_id' => ['nullable', 'integer', 'exists:' . CRMTables::Counterparties->value . ',id'],
+            'name' => ['required_without:counterparty_id', 'string', 'max:255'],
+        ]);
+        $rules['update'] = array_merge($rules['update'], $identity, [
+            'name' => ['sometimes', 'string', 'max:255'],
         ]);
 
         return $rules;
