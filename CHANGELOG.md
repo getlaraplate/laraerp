@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.0] - 2026-10-21
+
+### 🚀 Features
+
+- *(erp)* Company counterparty and intercompany recognition, person name parts through the party
+
 ## [2.0.0] - 2026-10-21
 
 ### 🚀 Features
