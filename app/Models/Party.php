@@ -88,22 +88,6 @@ final class Party extends Model implements IActivatableModel
     }
 
     /**
-     * @return HasMany<Lead, $this>
-     */
-    public function leads(): HasMany
-    {
-        return $this->hasMany(Lead::class);
-    }
-
-    /**
-     * @return HasMany<Opportunity, $this>
-     */
-    public function opportunities(): HasMany
-    {
-        return $this->hasMany(Opportunity::class);
-    }
-
-    /**
      * @return HasMany<PartyPriceRule, $this>
      */
     public function price_rules(): HasMany

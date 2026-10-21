@@ -3,46 +3,33 @@
 declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Modules\ERP\Casts\OpportunityStatus;
+use Modules\CRM\Casts\OpportunityStatus;
+use Modules\CRM\Models\Opportunity;
+use Modules\CRM\Tests\Support\OpportunityStageTaxonomy;
 use Modules\ERP\Filament\Pages\SalesPipelinePage;
 use Modules\ERP\Filament\Pages\StockValuationPage;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\Item;
-use Modules\ERP\Models\Opportunity;
 use Modules\ERP\Models\Party;
 use Modules\ERP\Models\StockLevel;
 use Modules\ERP\Models\Warehouse;
 use Modules\ERP\Services\Reporting\OperationalReportCsvExporter;
 use Modules\ERP\Services\Reporting\SalesPipelineService;
 use Modules\ERP\Services\Reporting\StockValuationService;
-use Modules\ERP\Tests\Support\OpportunityStageTaxonomy;
 
 uses(RefreshDatabase::class);
 
 it('summarizes sales pipeline values by opportunity status', function (): void {
     $stage_id = OpportunityStageTaxonomy::insertMinimalId('pipeline-summary');
-    $company = Company::query()->where('slug', 'default')->firstOrFail();
-    $other_company = Company::query()->create([
-        'slug' => 'other-pipeline',
-        'name' => 'Other Pipeline Company',
-        'fiscal_country' => 'IT',
-        'default_currency' => 'EUR',
-        'is_default' => false,
-    ]);
+    $company = Company::factory()->create();
     $party = Party::query()->create([
         'company_id' => $company->id,
         'name' => 'Customer',
         'is_customer' => true,
     ]);
-    $other_party = Party::query()->create([
-        'company_id' => $other_company->id,
-        'name' => 'Other Customer',
-        'is_customer' => true,
-    ]);
 
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Open deal',
         'status' => OpportunityStatus::Open->value,
@@ -54,8 +41,7 @@ it('summarizes sales pipeline values by opportunity status', function (): void {
         'probability' => 50,
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Won deal',
         'status' => OpportunityStatus::Won->value,
@@ -68,8 +54,7 @@ it('summarizes sales pipeline values by opportunity status', function (): void {
         'won_at' => now(),
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Lost deal',
         'status' => OpportunityStatus::Lost->value,
@@ -81,21 +66,8 @@ it('summarizes sales pipeline values by opportunity status', function (): void {
         'probability' => 0,
         'lost_at' => now(),
     ]);
-    Opportunity::query()->create([
-        'company_id' => $other_company->id,
-        'party_id' => $other_party->id,
-        'stage_taxonomy_id' => $stage_id,
-        'name' => 'Other company deal',
-        'status' => OpportunityStatus::Open->value,
-        'expected_value_doc' => '9999.0000',
-        'expected_currency_doc' => 'EUR',
-        'expected_value_local' => '9999.0000',
-        'expected_currency_local' => 'EUR',
-        'expected_fx_rate' => '1.00000000',
-        'probability' => 10,
-    ]);
 
-    $result = app(SalesPipelineService::class)->generate((int) $company->id);
+    $result = app(SalesPipelineService::class)->generate();
 
     expect($result['total_count'])->toBe(3)
         ->and($result['won_count'])->toBe(1)
@@ -111,7 +83,7 @@ it('summarizes sales pipeline values by opportunity status', function (): void {
 
 it('filters won pipeline metrics by won date range without dropping open pipeline', function (): void {
     $stage_id = OpportunityStageTaxonomy::insertMinimalId('pipeline-won-range');
-    $company = Company::query()->where('slug', 'default')->firstOrFail();
+    $company = Company::factory()->create();
     $party = Party::query()->create([
         'company_id' => $company->id,
         'name' => 'Pipeline Filter Customer',
@@ -119,8 +91,7 @@ it('filters won pipeline metrics by won date range without dropping open pipelin
     ]);
 
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Open current pipeline',
         'status' => OpportunityStatus::Open->value,
@@ -132,8 +103,7 @@ it('filters won pipeline metrics by won date range without dropping open pipelin
         'probability' => 50,
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Won inside range',
         'status' => OpportunityStatus::Won->value,
@@ -146,8 +116,7 @@ it('filters won pipeline metrics by won date range without dropping open pipelin
         'won_at' => '2026-02-15 12:00:00',
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage_id,
         'name' => 'Won outside range',
         'status' => OpportunityStatus::Won->value,
@@ -160,7 +129,7 @@ it('filters won pipeline metrics by won date range without dropping open pipelin
         'won_at' => '2025-12-31 12:00:00',
     ]);
 
-    $result = app(SalesPipelineService::class)->generate((int) $company->id, [
+    $result = app(SalesPipelineService::class)->generate([
         'won_from' => '2026-02-01',
         'won_to' => '2026-02-28',
     ]);

@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Helpers\MigrateUtils;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Casts\QuoteStatus;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Helpers\ERPMigrateUtils;
@@ -25,7 +26,7 @@ return new class extends Migration
             MigrateUtils::prefixIndex($table, 'party_id');
             $table->foreignId('opportunity_id')
                 ->nullable()
-                ->constrained(ERPTables::Opportunities->value, 'id', "{$quotations_table}_opportunity_id_FK")
+                ->constrained(CRMTables::Opportunities->value, 'id', "{$quotations_table}_opportunity_id_FK")
                 ->nullOnDelete()
                 ->comment('Originating CRM opportunity when applicable');
             MigrateUtils::prefixIndex($table, 'opportunity_id');

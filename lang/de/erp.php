@@ -50,10 +50,6 @@ return [
             'plural' => 'Unternehmen',
             'singular' => 'Unternehmen',
         ],
-        'contacts' => [
-            'plural' => 'Kontakte',
-            'singular' => 'Kontakt',
-        ],
         'customers' => [
             'plural' => 'Kunden',
             'singular' => 'Kunde',
@@ -90,17 +86,9 @@ return [
             'plural' => 'Buchungen',
             'singular' => 'Buchung',
         ],
-        'leads' => [
-            'plural' => 'Leads',
-            'singular' => 'Lead',
-        ],
         'movements' => [
             'plural' => 'Bewegungen',
             'singular' => 'Bewegung',
-        ],
-        'opportunities' => [
-            'plural' => 'Verkaufschancen',
-            'singular' => 'Verkaufschance',
         ],
         'parties' => [
             'plural' => 'Geschäftspartner',
@@ -264,7 +252,6 @@ return [
         'owner_user_id' => 'Verantwortlich',
         'parent_code' => 'Übergeordneter Code',
         'party' => 'Geschäftspartner',
-        'party_ids' => 'Geschäftspartner',
         'payment_id' => 'Zahlung',
         'payment_schedule_line_ids' => 'Lieferantenfälligkeiten',
         'payment_term_id' => 'Zahlungsbedingung',
@@ -327,7 +314,6 @@ return [
         'forceThreeWayMatch' => 'Auch buchen, wenn Preis- oder Mengenabweichungen zu Bestellung/Wareneingang die konfigurierten Toleranzen überschreiten.',
         'paymentMethodExamples' => 'z. B. bank_transfer, check',
         'referenceAssignedAtPosting' => 'Wird beim Buchen automatisch vergeben',
-        'stageTaxonomiesRequired' => 'Pipeline-Phasen benötigen Taxonomien: Führen Sie ERPDatabaseSeeder und dann DevERPOpportunityStagesTaxonomySeeder (oder Gleichwertiges) aus, damit die Phasen existieren.',
         'unitPriceFromInvoiceLine' => 'Standardmäßig der Preis der ursprünglichen Rechnungsposition.',
         'unitPriceFromPurchaseInvoiceLine' => 'Standardmäßig der Preis der ursprünglichen Eingangsrechnungsposition.',
     ],

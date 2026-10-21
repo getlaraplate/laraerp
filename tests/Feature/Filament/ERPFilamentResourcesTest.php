@@ -10,7 +10,6 @@ use Modules\ERP\Filament\Resources\Accounts\AccountResource;
 use Modules\ERP\Filament\Resources\BankAccounts\BankAccountResource;
 use Modules\ERP\Filament\Resources\BankStatements\BankStatementResource;
 use Modules\ERP\Filament\Resources\Companies\CompanyResource;
-use Modules\ERP\Filament\Resources\Contacts\ContactResource;
 use Modules\ERP\Filament\Resources\DeliveryNotes\Actions\DeliveryNotePostingActions;
 use Modules\ERP\Filament\Resources\DeliveryNotes\DeliveryNoteResource;
 use Modules\ERP\Filament\Resources\DocumentSequences\DocumentSequenceResource;
@@ -22,9 +21,7 @@ use Modules\ERP\Filament\Resources\GoodsReceipts\GoodsReceiptResource;
 use Modules\ERP\Filament\Resources\Items\ItemResource;
 use Modules\ERP\Filament\Resources\JournalEntries\Actions\JournalEntryActions;
 use Modules\ERP\Filament\Resources\JournalEntries\JournalEntryResource;
-use Modules\ERP\Filament\Resources\Leads\LeadResource;
 use Modules\ERP\Filament\Resources\Movements\MovementResource;
-use Modules\ERP\Filament\Resources\Opportunities\OpportunityResource;
 use Modules\ERP\Filament\Resources\Parties\PartyResource;
 use Modules\ERP\Filament\Resources\PartnerPools\PartnerPoolResource;
 use Modules\ERP\Filament\Resources\PaymentRequests\PaymentRequestResource;
@@ -187,12 +184,9 @@ it('configures erp resource forms and tables without throwing', function (): voi
         BankAccountResource::class,
         AccountResource::class,
         BankStatementResource::class,
-        ContactResource::class,
         DocumentSequenceResource::class,
         FiscalPeriodResource::class,
         FiscalYearResource::class,
-        LeadResource::class,
-        OpportunityResource::class,
         MovementResource::class,
         PartyResource::class,
         PartnerPoolResource::class,

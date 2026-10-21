@@ -18,11 +18,6 @@ enum EntityType: string implements IDynamicEntityTypable
     case Activities = 'activities';
 
     /**
-     * CRM pipeline stages ({@see OpportunityStage} / `taxonomies`) for opportunities.
-     */
-    case OpportunityStages = 'opportunity_stages';
-
-    /**
      * Get all values as array.
      *
      * @return array<string>

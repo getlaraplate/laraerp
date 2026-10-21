@@ -14,6 +14,8 @@ use Modules\Core\Contracts\IValidatableModel;
 use Modules\Core\Locking\Traits\HasLocks;
 use Modules\Core\Models\Concerns\HasValidity;
 use Modules\Core\Overrides\Model;
+use Modules\CRM\Enums\CRMTables;
+use Modules\CRM\Models\Opportunity;
 use Modules\ERP\Casts\QuoteStatus;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
@@ -105,7 +107,7 @@ final class Quotation extends Model implements ILockableModel, IValidatableModel
         $rules = parent::getRules();
         $rules['create'] = array_merge($rules['create'], [
             'party_id' => ['required', 'integer', 'exists:' . ERPTables::Parties->value . ',id'],
-            'opportunity_id' => ['nullable', 'integer', 'exists:' . ERPTables::Opportunities->value . ',id'],
+            'opportunity_id' => ['nullable', 'integer', 'exists:' . CRMTables::Opportunities->value . ',id'],
             'currency' => ['required', 'string', 'size:3'],
             'notes' => ['nullable', 'string'],
             'status' => ['required', 'string', QuoteStatus::validationRule()],
@@ -114,7 +116,7 @@ final class Quotation extends Model implements ILockableModel, IValidatableModel
         ]);
         $rules['update'] = array_merge($rules['update'], [
             'party_id' => ['sometimes', 'integer', 'exists:' . ERPTables::Parties->value . ',id'],
-            'opportunity_id' => ['nullable', 'integer', 'exists:' . ERPTables::Opportunities->value . ',id'],
+            'opportunity_id' => ['nullable', 'integer', 'exists:' . CRMTables::Opportunities->value . ',id'],
             'currency' => ['sometimes', 'string', 'size:3'],
             'notes' => ['nullable', 'string'],
             'status' => ['sometimes', 'string', QuoteStatus::validationRule()],
@@ -128,23 +130,11 @@ final class Quotation extends Model implements ILockableModel, IValidatableModel
     protected static function booted(): void
     {
         self::saving(static function (Quotation $quotation): void {
-            $models = ConnectionScopedModels::for($quotation);
-
-            if ($quotation->party_id !== null) {
-                $party = $models->query(Party::class)
-                    ->whereKey($quotation->party_id)
-                    ->first();
-
-                if ($party instanceof Party && ! $party->is_customer) {
-                    throw ValidationException::withMessages([
-                        'party_id' => ['The selected party must be a customer.'],
-                    ]);
-                }
-            }
-
             if ($quotation->opportunity_id === null) {
                 return;
             }
+
+            $models = ConnectionScopedModels::for($quotation);
 
             $opportunity = $models->query(Opportunity::class)
                 ->whereKey($quotation->opportunity_id)
@@ -156,15 +146,13 @@ final class Quotation extends Model implements ILockableModel, IValidatableModel
                 ]);
             }
 
-            if ($opportunity->party_id !== $quotation->party_id) {
-                throw ValidationException::withMessages([
-                    'opportunity_id' => ['The opportunity must belong to the same party as this quotation.'],
-                ]);
-            }
+            $party = $quotation->party_id === null
+                ? null
+                : $models->query(Party::class)->whereKey($quotation->party_id)->first();
 
-            if ($opportunity->company_id !== $quotation->company_id) {
+            if ($party instanceof Party && $opportunity->counterparty_id !== $party->counterparty_id) {
                 throw ValidationException::withMessages([
-                    'opportunity_id' => ['The opportunity must belong to the same company as this quotation.'],
+                    'opportunity_id' => ['The opportunity must belong to the same counterparty as this quotation.'],
                 ]);
             }
         });

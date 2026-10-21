@@ -6,12 +6,10 @@ namespace Modules\ERP\Filament\Pages;
 
 use BackedEnum;
 use Filament\Forms\Components\DatePicker;
-use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
 use Modules\Core\Filament\Utils\HasPageForm;
-use Modules\ERP\Models\Company;
 use Modules\ERP\Services\Reporting\OperationalReportCsvExporter;
 use Modules\ERP\Services\Reporting\SalesPipelineService;
 use Override;
@@ -55,9 +53,6 @@ final class SalesPipelinePage extends Page
         return $schema
             ->statePath('data')
             ->components([
-                Select::make('company_id')
-                    ->options(Company::query()->pluck('name', 'id')->all())
-                    ->required(),
                 DatePicker::make('won_from'),
                 DatePicker::make('won_to'),
             ]);
@@ -69,7 +64,7 @@ final class SalesPipelinePage extends Page
 
         $service = resolve(SalesPipelineService::class);
 
-        $this->report_data = $service->generate((int) $state['company_id'], [
+        $this->report_data = $service->generate([
             'won_from' => $state['won_from'] ?? null,
             'won_to' => $state['won_to'] ?? null,
         ]);

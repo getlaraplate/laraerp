@@ -27,9 +27,9 @@ use Modules\ERP\Support\ConnectionScopedTransaction;
 use Spatie\Permission\PermissionRegistrar;
 
 /**
- * Bootstraps the ERP module: default company (tenant), Activity and opportunity-stage
- * entities, Italian chart of accounts, calendar fiscal year (via FiscalCalendarInstaller),
- * and default Italian tax codes. Taxonomy trees for activities and opportunity stages are
+ * Bootstraps the ERP module: default company (tenant), Activity
+ * entity, Italian chart of accounts, calendar fiscal year (via FiscalCalendarInstaller),
+ * and default Italian tax codes. The activity taxonomy tree is
  * seeded by dev fixtures ({@see DevERPTaxonomySeeder}).
  */
 final class ERPDatabaseSeeder extends Seeder
@@ -172,11 +172,6 @@ final class ERPDatabaseSeeder extends Seeder
                 [
                     'name' => 'activity',
                     'type' => EntityType::Activities,
-                    'preset' => 'standard',
-                ],
-                [
-                    'name' => 'opportunity_stage',
-                    'type' => EntityType::OpportunityStages,
                     'preset' => 'standard',
                 ],
             ];

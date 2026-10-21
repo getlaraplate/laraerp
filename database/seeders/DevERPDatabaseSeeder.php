@@ -25,7 +25,6 @@ use Modules\ERP\Models\GoodsReceiptLine;
 use Modules\ERP\Models\Invoice;
 use Modules\ERP\Models\InvoiceLine;
 use Modules\ERP\Models\Item;
-use Modules\ERP\Models\OpportunityStage;
 use Modules\ERP\Models\Party;
 use Modules\ERP\Models\Pivot\Presettable;
 use Modules\ERP\Models\PurchaseOrder;
@@ -36,8 +35,8 @@ use Modules\ERP\Models\Warehouse;
 use Modules\ERP\Support\ConnectionScopedTransaction;
 
 /**
- * Dev fixture: CRM taxonomies ({@see EntityType::OpportunityStages}) plus one demo company
- * carrying both commercial flows end to end.
+ * Dev fixture: one demo company carrying both commercial flows end to end (the CRM pipeline fixtures
+ * live in the CRM module).
  *
  * Every row is keyed on a stable identifier so a second run changes nothing, and so a test, an
  * evaluation or a screenshot can anchor on a known record the way SAO work anchors on `SAO-1`.
@@ -65,96 +64,36 @@ final class DevERPDatabaseSeeder extends Seeder
     {
         $entity_model = new Entity;
         $presettable_model = new Presettable;
-        $stage_model = new OpportunityStage;
         $activity_model = new Activity;
         $translation_model = new TaxonomyTranslation;
         ConnectionScopedTransaction::connection(
             $entity_model,
             $presettable_model,
-            $stage_model,
             $activity_model,
             $translation_model,
         );
 
         Model::unguarded(function () use ($entity_model): void {
             $entity_model->getConnection()->transaction(function (): void {
-                $this->seedOpportunityStages();
                 $this->seedActivities();
                 $this->seedDemoDataset();
             });
         });
     }
 
-    private function seedOpportunityStages(): void
+    /**
+     * The demo party of a company for a tax id: found through its counterparty, created otherwise.
+     *
+     * @param  array<string, mixed>  $attributes
+     */
+    private function demoParty(Company $company, string $tax_id, array $attributes): Party
     {
-        $this->logOperation(OpportunityStage::class);
+        $party = Party::query()
+            ->where('company_id', $company->id)
+            ->whereHas('counterparty', static fn ($query) => $query->where('tax_id', $tax_id))
+            ->first();
 
-        /**
-         * @var array<int, array{slug: string, it: string, en: string}> $stages
-         */
-        $stages = [
-            ['slug' => 'opp-new', 'it' => 'Nuovo', 'en' => 'New'],
-            ['slug' => 'opp-qualified', 'it' => 'Qualificata', 'en' => 'Qualified'],
-            ['slug' => 'opp-proposal', 'it' => 'Proposta', 'en' => 'Proposal'],
-            ['slug' => 'opp-won', 'it' => 'Vinta', 'en' => 'Won'],
-            ['slug' => 'opp-lost', 'it' => 'Persa', 'en' => 'Lost'],
-        ];
-
-        $entity_id = Entity::query()
-            ->withoutGlobalScopes()
-            ->where('name', 'opportunity_stage')
-            ->where('type', EntityType::OpportunityStages->value)
-            ->value('id');
-
-        if (! $entity_id) {
-            $this->command?->warn('Skipping opportunity stages: Entity "opportunity_stage" not found. Run ERPDatabaseSeeder first.');
-
-            return;
-        }
-
-        $presettable_id = Presettable::query()
-            ->withoutEagerLoads()
-            ->where('entity_id', $entity_id)
-            ->whereNull('deleted_at')
-            ->latest('id')
-            ->value('id');
-
-        if (! $presettable_id) {
-            $this->command?->warn('Skipping opportunity stages: no active presettable for entity.');
-
-            return;
-        }
-
-        $existing_slugs = TaxonomyTranslation::query()
-            ->whereIn('slug', array_column($stages, 'slug'))
-            ->pluck('slug')
-            ->all();
-
-        foreach ($stages as $node) {
-            if (in_array($node['slug'], $existing_slugs, true)) {
-                $this->command?->line("    - opportunity stage {$node['slug']} already exists");
-
-                continue;
-            }
-
-            $stage = OpportunityStage::query()->forceCreate([
-                'parent_id' => null,
-                'presettable_id' => $presettable_id,
-                'entity_id' => $entity_id,
-            ]);
-
-            foreach (['it', 'en'] as $locale) {
-                TaxonomyTranslation::query()->forceCreate([
-                    'taxonomy_id' => $stage->id,
-                    'locale' => $locale,
-                    'name' => $node[$locale],
-                    'slug' => Str::slug($node['slug']),
-                    'components' => [],
-                ]);
-            }
-
-            $this->command?->line("    - opportunity stage {$node['slug']} <fg=green>created</>");
-        }
+        return $party ?? Party::query()->create([...$attributes, 'company_id' => $company->id, 'tax_id' => $tax_id]);
     }
 
     private function seedActivities(): void
@@ -262,8 +201,9 @@ final class DevERPDatabaseSeeder extends Seeder
             ],
         );
 
-        $customer = Party::query()->firstOrCreate(
-            ['company_id' => $company->id, 'tax_id' => self::DEMO_CUSTOMER_TAX_ID],
+        $customer = $this->demoParty(
+            $company,
+            self::DEMO_CUSTOMER_TAX_ID,
             [
                 'name' => 'Cliente Demo S.p.A.',
                 'fiscal_country' => 'IT',
@@ -274,8 +214,9 @@ final class DevERPDatabaseSeeder extends Seeder
             ],
         );
 
-        $supplier = Party::query()->firstOrCreate(
-            ['company_id' => $company->id, 'tax_id' => self::DEMO_SUPPLIER_TAX_ID],
+        $supplier = $this->demoParty(
+            $company,
+            self::DEMO_SUPPLIER_TAX_ID,
             [
                 'name' => 'Fornitore Demo S.r.l.',
                 'fiscal_country' => 'IT',

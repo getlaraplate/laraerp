@@ -95,6 +95,5 @@ it('uses stable identifiers a test or a screen can anchor on', function (): void
 it('keeps seeding the taxonomies it seeded before', function (): void {
     seedErpDev($this);
 
-    expect(Modules\ERP\Models\OpportunityStage::query()->count())->toBeGreaterThan(0)
-        ->and(Modules\ERP\Models\Activity::query()->count())->toBeGreaterThan(0);
+    expect(Modules\ERP\Models\Activity::query()->count())->toBeGreaterThan(0);
 });

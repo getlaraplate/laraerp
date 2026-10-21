@@ -57,7 +57,7 @@ function createEInvoiceParty(Company $company, bool $fatturapa_ready = true): Pa
 
     if ($fatturapa_ready) {
         $data = array_merge($data, [
-            'vat_number' => '09876543210',
+            'vat_number' => 'IT' . fake()->unique()->numerify('###########'),
             'fiscal_country' => 'IT',
             'address_line' => 'Via Milano 10',
             'postal_code' => '20100',

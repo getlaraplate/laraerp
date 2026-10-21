@@ -50,10 +50,6 @@ return [
             'plural' => 'Companies',
             'singular' => 'Company',
         ],
-        'contacts' => [
-            'plural' => 'Contacts',
-            'singular' => 'Contact',
-        ],
         'customers' => [
             'plural' => 'Customers',
             'singular' => 'Customer',
@@ -90,17 +86,9 @@ return [
             'plural' => 'Journal entries',
             'singular' => 'Journal entry',
         ],
-        'leads' => [
-            'plural' => 'Leads',
-            'singular' => 'Lead',
-        ],
         'movements' => [
             'plural' => 'Movements',
             'singular' => 'Movement',
-        ],
-        'opportunities' => [
-            'plural' => 'Opportunities',
-            'singular' => 'Opportunity',
         ],
         'parties' => [
             'plural' => 'Parties',
@@ -264,7 +252,6 @@ return [
         'owner_user_id' => 'Owner',
         'parent_code' => 'Parent code',
         'party' => 'Party',
-        'party_ids' => 'Parties',
         'payment_id' => 'Payment',
         'payment_schedule_line_ids' => 'Supplier schedule lines',
         'payment_term_id' => 'Payment term',
@@ -327,7 +314,6 @@ return [
         'forceThreeWayMatch' => 'Post even when PO/GR price or quantity discrepancies exceed configured tolerances.',
         'paymentMethodExamples' => 'e.g. bank_transfer, check',
         'referenceAssignedAtPosting' => 'Assigned automatically at posting time',
-        'stageTaxonomiesRequired' => 'Pipeline stages require taxonomies: run ERPDatabaseSeeder then DevERPOpportunityStagesTaxonomySeeder (or equivalent) so stages exist.',
         'unitPriceFromInvoiceLine' => 'Defaults to the source invoice line price.',
         'unitPriceFromPurchaseInvoiceLine' => 'Defaults to the source purchase invoice line price.',
     ],

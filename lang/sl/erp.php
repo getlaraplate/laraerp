@@ -50,10 +50,6 @@ return [
             'plural' => 'Podjetja',
             'singular' => 'Podjetje',
         ],
-        'contacts' => [
-            'plural' => 'Kontakti',
-            'singular' => 'Kontakt',
-        ],
         'customers' => [
             'plural' => 'Stranke',
             'singular' => 'Stranka',
@@ -90,17 +86,9 @@ return [
             'plural' => 'Knjižbe',
             'singular' => 'Knjižba',
         ],
-        'leads' => [
-            'plural' => 'Potencialne stranke',
-            'singular' => 'Potencialna stranka',
-        ],
         'movements' => [
             'plural' => 'Gibanja',
             'singular' => 'Gibanje',
-        ],
-        'opportunities' => [
-            'plural' => 'Priložnosti',
-            'singular' => 'Priložnost',
         ],
         'parties' => [
             'plural' => 'Partnerji',
@@ -264,7 +252,6 @@ return [
         'owner_user_id' => 'Odgovorna oseba',
         'parent_code' => 'Nadrejena koda',
         'party' => 'Partner',
-        'party_ids' => 'Poslovni partnerji',
         'payment_id' => 'Plačilo',
         'payment_schedule_line_ids' => 'Zapadlosti dobaviteljev',
         'payment_term_id' => 'Plačilni pogoj',
@@ -327,7 +314,6 @@ return [
         'forceThreeWayMatch' => 'Knjiži tudi, ko odstopanja cene ali količine glede na naročilnico/prevzem presegajo nastavljene tolerance.',
         'paymentMethodExamples' => 'npr. bank_transfer, check',
         'referenceAssignedAtPosting' => 'Samodejno dodeljeno ob knjiženju',
-        'stageTaxonomiesRequired' => 'Faze lijaka zahtevajo taksonomije: zaženite ERPDatabaseSeeder in nato DevERPOpportunityStagesTaxonomySeeder (ali enakovredno), da faze obstajajo.',
         'unitPriceFromInvoiceLine' => 'Privzeto cena izvorne postavke računa.',
         'unitPriceFromPurchaseInvoiceLine' => 'Privzeto cena izvorne postavke prejetega računa.',
     ],

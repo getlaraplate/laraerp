@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Modules\ERP\Services\Quotations;
 
 use Illuminate\Validation\ValidationException;
+use Modules\CRM\Models\Opportunity;
 use Modules\ERP\Casts\QuoteStatus;
-use Modules\ERP\Models\Opportunity;
 use Modules\ERP\Models\Party;
 use Modules\ERP\Models\Quotation;
 use Modules\ERP\Models\QuotationItem;

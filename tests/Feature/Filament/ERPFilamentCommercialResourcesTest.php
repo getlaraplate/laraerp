@@ -8,13 +8,10 @@ use Filament\Tables\Table;
 use Modules\ERP\Filament\Pages\BankReconciliationPage;
 use Modules\ERP\Filament\Resources\BankAccounts\BankAccountResource;
 use Modules\ERP\Filament\Resources\BankStatements\BankStatementResource;
-use Modules\ERP\Filament\Resources\Contacts\ContactResource;
 use Modules\ERP\Filament\Resources\DeliveryNotes\DeliveryNoteResource;
 use Modules\ERP\Filament\Resources\GoodsReceipts\GoodsReceiptResource;
 use Modules\ERP\Filament\Resources\Invoices\InvoiceResource;
 use Modules\ERP\Filament\Resources\Items\ItemResource;
-use Modules\ERP\Filament\Resources\Leads\LeadResource;
-use Modules\ERP\Filament\Resources\Opportunities\OpportunityResource;
 use Modules\ERP\Filament\Resources\Parties\PartyResource;
 use Modules\ERP\Filament\Resources\Parties\RelationManagers\PriceRulesRelationManager;
 use Modules\ERP\Filament\Resources\PriceLists\PriceListResource;
@@ -93,24 +90,6 @@ it('price list resource form includes list header and item repeater fields', fun
         ->and($names)->toContain('price_list_items');
 });
 
-it('defines Filament pages for contact resource', function (): void {
-    expect(ContactResource::getPages())
-        ->toHaveKey('index')
-        ->toHaveKey('create')
-        ->toHaveKey('edit');
-});
-
-it('contact resource form includes party linkage field', function (): void {
-    $schema = ContactResource::form(new Schema());
-    $names = array_map(
-        static fn ($component): ?string => method_exists($component, 'getName') ? $component->getName() : null,
-        $schema->getComponents(),
-    );
-
-    expect($names)->toContain('counterparty_ids')
-        ->and($names)->not->toContain('company_id');
-});
-
 it('defines Filament pages for quotation resource', function (): void {
     expect(QuotationResource::getPages())
         ->toHaveKey('index')
@@ -176,20 +155,6 @@ it('return forms include line repeaters', function (): void {
 
     expect($return_names)->toContain('lines')
         ->and($supplier_names)->toContain('lines');
-});
-
-it('defines Filament pages for lead resource', function (): void {
-    expect(LeadResource::getPages())
-        ->toHaveKey('index')
-        ->toHaveKey('create')
-        ->toHaveKey('edit');
-});
-
-it('defines Filament pages for opportunity resource', function (): void {
-    expect(OpportunityResource::getPages())
-        ->toHaveKey('index')
-        ->toHaveKey('create')
-        ->toHaveKey('edit');
 });
 
 it('defines Filament pages for sales order resource', function (): void {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\DB;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Casts\EInvoiceSubmissionStatus;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
@@ -45,7 +46,7 @@ it('creates fatturapa readiness columns on company party and invoice records', f
         'sole_shareholder',
         'liquidation_status',
     ]))->toBeTrue()
-        ->and($schema->hasColumns(ERPTables::Parties->value, [
+        ->and($schema->hasColumns(CRMTables::Counterparties->value, [
             'tax_id',
             'vat_number',
             'fiscal_country',

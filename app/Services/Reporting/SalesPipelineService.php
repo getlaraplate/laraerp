@@ -8,8 +8,8 @@ use Carbon\CarbonImmutable;
 use Carbon\CarbonInterface;
 use Closure;
 use Illuminate\Support\Enumerable;
-use Modules\ERP\Casts\OpportunityStatus;
-use Modules\ERP\Models\Opportunity;
+use Modules\CRM\Casts\OpportunityStatus;
+use Modules\CRM\Models\Opportunity;
 
 /**
  * Generates operational sales pipeline summaries from CRM opportunities.
@@ -17,10 +17,10 @@ use Modules\ERP\Models\Opportunity;
 final class SalesPipelineService
 {
     /**
-     * @param  (Closure(int): Enumerable<int, object>)|null  $opportunityProvider
-     *                                                                             Where the opportunities come from. Null means the database, which is the
-     *                                                                             only caller in production. A test passes its own rows instead of reaching
-     *                                                                             for a seam: the class stays final and its internals stay private.
+     * @param  (Closure(): Enumerable<int, object>)|null  $opportunityProvider
+     *                                                                          Where the opportunities come from. Null means the database, which is the
+     *                                                                          only caller in production. A test passes its own rows instead of reaching
+     *                                                                          for a seam: the class stays final and its internals stay private.
      */
     public function __construct(
         private readonly ?Closure $opportunityProvider = null,
@@ -39,7 +39,7 @@ final class SalesPipelineService
      *     total_expected_value_local: string,
      * }
      */
-    public function generate(int $company_id, array $filters = []): array
+    public function generate(array $filters = []): array
     {
         /** @var array<string, array{status: string, count: int, expected_value_doc: numeric-string, expected_value_local: numeric-string}> $by_status */
         $by_status = [];
@@ -48,7 +48,7 @@ final class SalesPipelineService
             $by_status[$status->value] = $this->emptyStatusBucket($status->value);
         }
 
-        $opportunities = $this->loadOpportunities($company_id);
+        $opportunities = $this->loadOpportunities();
 
         $total_count = 0;
         $won_count = 0;
@@ -105,14 +105,13 @@ final class SalesPipelineService
     /**
      * @return Enumerable<int, Opportunity|object>
      */
-    private function loadOpportunities(int $company_id): Enumerable
+    private function loadOpportunities(): Enumerable
     {
         if ($this->opportunityProvider instanceof Closure) {
-            return ($this->opportunityProvider)($company_id);
+            return ($this->opportunityProvider)();
         }
 
         return Opportunity::query()
-            ->where('company_id', $company_id)
             ->select([
                 'status',
                 'expected_value_doc',

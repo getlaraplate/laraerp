@@ -49,8 +49,6 @@ enum ERPTables: string
     case PaymentRequests = 'erp_payment_requests';
     case Balances = 'erp_balances';
     case EInvoiceSubmissions = 'erp_e_invoice_submissions';
-    case Leads = 'erp_leads';
-    case Opportunities = 'erp_opportunities';
     case Items = 'erp_items';
     case Warehouses = 'erp_warehouses';
     case StockLevels = 'erp_stock_levels';

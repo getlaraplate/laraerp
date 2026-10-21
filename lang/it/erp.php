@@ -50,10 +50,6 @@ return [
             'plural' => 'Aziende',
             'singular' => 'Azienda',
         ],
-        'contacts' => [
-            'plural' => 'Contatti',
-            'singular' => 'Contatto',
-        ],
         'customers' => [
             'plural' => 'Clienti',
             'singular' => 'Cliente',
@@ -90,17 +86,9 @@ return [
             'plural' => 'Registrazioni contabili',
             'singular' => 'Registrazione contabile',
         ],
-        'leads' => [
-            'plural' => 'Lead',
-            'singular' => 'Lead',
-        ],
         'movements' => [
             'plural' => 'Movimenti',
             'singular' => 'Movimento',
-        ],
-        'opportunities' => [
-            'plural' => 'Opportunità',
-            'singular' => 'Opportunità',
         ],
         'parties' => [
             'plural' => 'Anagrafiche',
@@ -264,7 +252,6 @@ return [
         'owner_user_id' => 'Responsabile',
         'parent_code' => 'Codice padre',
         'party' => 'Anagrafica',
-        'party_ids' => 'Soggetti',
         'payment_id' => 'Pagamento',
         'payment_schedule_line_ids' => 'Scadenze fornitori',
         'payment_term_id' => 'Termine di pagamento',
@@ -327,7 +314,6 @@ return [
         'forceThreeWayMatch' => 'Registra anche se le differenze di prezzo o quantità rispetto a ordine e ricevimento superano le tolleranze configurate.',
         'paymentMethodExamples' => 'ad esempio bank_transfer, check',
         'referenceAssignedAtPosting' => 'Assegnato automaticamente alla registrazione',
-        'stageTaxonomiesRequired' => 'Le fasi della pipeline richiedono le tassonomie: esegui ERPDatabaseSeeder e poi DevERPOpportunityStagesTaxonomySeeder (o equivalente) perché le fasi esistano.',
         'unitPriceFromInvoiceLine' => 'Per impostazione predefinita è il prezzo della riga di fattura di origine.',
         'unitPriceFromPurchaseInvoiceLine' => 'Per impostazione predefinita è il prezzo della riga della fattura di acquisto di origine.',
     ],

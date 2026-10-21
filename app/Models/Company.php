@@ -114,22 +114,6 @@ final class Company extends Model
     }
 
     /**
-     * @return HasMany<Lead, $this>
-     */
-    public function leads(): HasMany
-    {
-        return $this->hasMany(Lead::class);
-    }
-
-    /**
-     * @return HasMany<Opportunity, $this>
-     */
-    public function opportunities(): HasMany
-    {
-        return $this->hasMany(Opportunity::class);
-    }
-
-    /**
      * @return array<string, mixed>
      */
     #[Override]

@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Modules\ERP\Casts\OpportunityStatus;
-use Modules\ERP\Database\Seeders\ERPDatabaseSeeder;
+use Modules\CRM\Casts\OpportunityStatus;
+use Modules\CRM\Database\Seeders\CRMDatabaseSeeder;
+use Modules\CRM\Models\Entity;
+use Modules\CRM\Models\Opportunity;
+use Modules\CRM\Models\OpportunityStage;
+use Modules\CRM\Models\Pivot\Presettable;
 use Modules\ERP\Models\Company;
-use Modules\ERP\Models\Entity;
-use Modules\ERP\Models\Opportunity;
-use Modules\ERP\Models\OpportunityStage;
 use Modules\ERP\Models\Party;
-use Modules\ERP\Models\Pivot\Presettable;
 use Modules\ERP\Services\Reporting\SalesPipelineService;
 use Modules\ERP\Tests\Stubs\OpportunityStatusDouble;
 use Modules\ERP\Tests\Stubs\SalesPipelineOpportunityRowDouble;
@@ -36,7 +36,7 @@ it('creates buckets for unknown opportunity status values', function (): void {
 
     $result = new SalesPipelineService(
         opportunityProvider: static fn (): Collection => new Collection([$legacy_row]),
-    )->generate(99);
+    )->generate();
 
     expect($result['by_status']['archived']['count'])->toBe(1)
         ->and($result['by_status']['archived']['expected_value_doc'])->toBe('250.0000')
@@ -45,9 +45,9 @@ it('creates buckets for unknown opportunity status values', function (): void {
 });
 
 it('aggregates pipeline totals and status buckets for opportunities', function (): void {
-    $this->seed(ERPDatabaseSeeder::class);
+    $this->seed(CRMDatabaseSeeder::class);
 
-    $company = Company::query()->withoutGlobalScopes()->where('is_default', true)->firstOrFail();
+    $company = Company::factory()->create();
     $entity = Entity::query()->withoutGlobalScopes()->where('name', 'opportunity_stage')->firstOrFail();
     $presettable = Presettable::query()->where('entity_id', $entity->id)->firstOrFail();
     $stage = OpportunityStage::query()->forceCreate([
@@ -62,8 +62,7 @@ it('aggregates pipeline totals and status buckets for opportunities', function (
         'is_supplier' => false,
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage->id,
         'name' => 'Deal A',
         'status' => OpportunityStatus::Open,
@@ -75,8 +74,7 @@ it('aggregates pipeline totals and status buckets for opportunities', function (
         'won_at' => now(),
     ]);
     Opportunity::query()->create([
-        'company_id' => $company->id,
-        'party_id' => $party->id,
+        'counterparty_id' => $party->counterparty_id,
         'stage_taxonomy_id' => $stage->id,
         'name' => 'Deal B',
         'status' => OpportunityStatus::Lost,
@@ -88,7 +86,7 @@ it('aggregates pipeline totals and status buckets for opportunities', function (
         'lost_at' => now(),
     ]);
 
-    $result = app(SalesPipelineService::class)->generate((int) $company->id);
+    $result = app(SalesPipelineService::class)->generate();
 
     expect($result['total_count'])->toBe(2)
         ->and($result['won_count'])->toBe(1)

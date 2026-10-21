@@ -6,13 +6,13 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\ValidationException;
+use Modules\CRM\Models\Opportunity;
 use Modules\ERP\Casts\QuoteStatus;
 use Modules\ERP\Casts\SalesOrderLineStatus;
 use Modules\ERP\Casts\SalesOrderStatus;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\DeliveryNoteLine;
 use Modules\ERP\Models\Item;
-use Modules\ERP\Models\Opportunity;
 use Modules\ERP\Models\PurchaseOrder;
 use Modules\ERP\Models\PurchaseOrderLine;
 use Modules\ERP\Models\Quotation;
@@ -44,8 +44,7 @@ beforeEach(function (): void {
     });
     $schema->create((new Opportunity)->getTable(), function (Blueprint $table): void {
         $table->increments('id');
-        $table->unsignedInteger('company_id');
-        $table->unsignedInteger('party_id')->nullable();
+        $table->unsignedInteger('counterparty_id')->nullable();
         $table->string('status')->nullable();
         $table->timestamp('won_at')->nullable();
         $table->timestamps();
@@ -155,8 +154,7 @@ it('validates a quotation opportunity on the quotation connection', function ():
     $connection = Schema::connection('erp-model-secondary')->getConnection();
     $connection->table((new Opportunity)->getTable())->insert([
         'id' => 9101,
-        'company_id' => 71,
-        'party_id' => null,
+        'counterparty_id' => null,
     ]);
 
     $quotation = (new Quotation)->setConnection('erp-model-secondary');

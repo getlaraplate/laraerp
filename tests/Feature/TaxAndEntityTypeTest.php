@@ -17,11 +17,11 @@ use Modules\ERP\Services\Taxation\TaxLineCalculator;
 
 uses(RefreshDatabase::class);
 
-it('lists Business entity types without movements and with opportunity stages', function (): void {
+it('lists Business entity types without movements and without the CRM opportunity stages', function (): void {
     $values = EntityType::values();
 
     expect($values)->toContain('activities')
-        ->and($values)->toContain('opportunity_stages')
+        ->and($values)->not->toContain('opportunity_stages')
         ->and($values)->not->toContain('movements');
 });
 

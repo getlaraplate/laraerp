@@ -50,10 +50,6 @@ return [
             'plural' => 'Empresas',
             'singular' => 'Empresa',
         ],
-        'contacts' => [
-            'plural' => 'Contactos',
-            'singular' => 'Contacto',
-        ],
         'customers' => [
             'plural' => 'Clientes',
             'singular' => 'Cliente',
@@ -90,17 +86,9 @@ return [
             'plural' => 'Asientos contables',
             'singular' => 'Asiento contable',
         ],
-        'leads' => [
-            'plural' => 'Leads',
-            'singular' => 'Lead',
-        ],
         'movements' => [
             'plural' => 'Movimientos',
             'singular' => 'Movimiento',
-        ],
-        'opportunities' => [
-            'plural' => 'Oportunidades',
-            'singular' => 'Oportunidad',
         ],
         'parties' => [
             'plural' => 'Interlocutores',
@@ -264,7 +252,6 @@ return [
         'owner_user_id' => 'Responsable',
         'parent_code' => 'Código padre',
         'party' => 'Interlocutor',
-        'party_ids' => 'Terceros',
         'payment_id' => 'Pago',
         'payment_schedule_line_ids' => 'Vencimientos de proveedores',
         'payment_term_id' => 'Condición de pago',
@@ -327,7 +314,6 @@ return [
         'forceThreeWayMatch' => 'Contabilizar aunque las diferencias de precio o cantidad con el pedido o la recepción superen las tolerancias configuradas.',
         'paymentMethodExamples' => 'p. ej. bank_transfer, check',
         'referenceAssignedAtPosting' => 'Se asigna automáticamente al contabilizar',
-        'stageTaxonomiesRequired' => 'Las etapas del embudo requieren taxonomías: ejecuta ERPDatabaseSeeder y luego DevERPOpportunityStagesTaxonomySeeder (o equivalente) para que existan.',
         'unitPriceFromInvoiceLine' => 'Por defecto, el precio de la línea de factura de origen.',
         'unitPriceFromPurchaseInvoiceLine' => 'Por defecto, el precio de la línea de factura de compra de origen.',
     ],
