@@ -7,7 +7,7 @@ Canonical English names for ERP entities in this module. Use these terms in code
 
 | Term                 | Meaning                                                                                        |
 | -------------------- | ---------------------------------------------------------------------------------------------- |
-| **Company**          | Tenant root: fiscal country, default currency (`amount_local` basis), settings.                |
+| **Company**          | Tenant root: fiscal country, default currency (`amount_local` basis), settings. Optional `counterparty_id`: the company as a CRM subject, set with `Company::ensureCounterparty()` or by hand.                |
 | **BelongsToCompany** | Trait + global scope: transactional rows are scoped to the active company when context is set. |
 
 
@@ -57,6 +57,7 @@ Italian baseline codes are seeded by `ItalianTaxCodesSeeder` on the default comp
 | Term                 | Meaning                                                                                                                       |
 | -------------------- | ----------------------------------------------------------------------------------------------------------------------------- |
 | **Party**            | The relationship between a CRM `Counterparty` and one `Company`: unique on (`counterparty_id`, `company_id`). Keeps the flags `is_customer` / `is_supplier` (both can be true), price rules and the bank account links; its legal identity (name, VAT number, tax id, address, e-invoice routing) is read and written through the counterparty. Table: `erp_parties`. |
+| **Party::isIntercompany() / scopeIntercompany()** | A party is intercompany when its counterparty is the counterparty of another `Company` of the installation (derived, not stored). The party list has a filter for it. |
 | **scopeCustomers()** | Scope on `Party` model filtering `is_customer = true`. Used by sales-side Filament dropdowns.                                 |
 | **scopeSuppliers()** | Scope on `Party` model filtering `is_supplier = true`. Used by purchase-side Filament dropdowns.                              |
 

@@ -160,9 +160,9 @@ configured once in the root `composer.json`, and the module is analysed and form
 
 ### M3.1 — CRM
 
--   Leads (`Lead` model, `LeadStatus` enum)
--   Opportunities (`Opportunity`, `OpportunityStatus`, `OpportunityStage` taxonomy)
--   `OpportunityLifecycleService` + `QuotationObserver` (auto-win on quotation accepted)
+-   Leads, opportunities, contacts and pipeline stages moved to the **CRM** module (see its README); the ERP keeps `QuotationObserver` (an accepted quotation makes its party a customer and calls the CRM `OpportunityLifecycleService`)
+-   `Party` is the relationship between a CRM `Counterparty` and one `Company`
+-   `Company.counterparty_id` (optional, `Company::ensureCounterparty()`): the company as a CRM subject. A party whose counterparty belongs to another company of the group is intercompany (`Party::isIntercompany()`, party list filter); twin documents and consolidation eliminations are not built yet
 
 ### M3.2 — Sales Order Processing
 

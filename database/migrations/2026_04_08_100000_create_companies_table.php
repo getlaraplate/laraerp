@@ -6,6 +6,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Helpers\MigrateUtils;
+use Modules\CRM\Enums\CRMTables;
 use Modules\ERP\Enums\ERPTables;
 
 return new class extends Migration
@@ -34,6 +35,11 @@ return new class extends Migration
             $table->decimal('share_capital', 15, 2)->nullable();
             $table->boolean('sole_shareholder')->nullable();
             $table->string('liquidation_status', 2)->nullable()->comment('FatturaPA StatoLiquidazione code');
+            $table->foreignId('counterparty_id')
+                ->nullable()
+                ->constrained(CRMTables::Counterparties->value, 'id', "{$companies_table}_counterparty_FK")
+                ->restrictOnDelete()
+                ->comment('The company as a subject of the CRM: a party pointing at it from another company is an intercompany relationship');
 
             MigrateUtils::timestamps(
                 $table,

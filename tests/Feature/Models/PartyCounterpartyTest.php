@@ -213,3 +213,24 @@ it('refuses to give a parent to a counterparty that already has a party when the
 
     expect($child->save())->toBeTrue();
 });
+
+it('reads and writes the name parts of a person through the party', function (): void {
+    $company = Company::factory()->create();
+
+    $party = Party::query()->create([
+        'company_id' => $company->getKey(),
+        'kind' => 'person',
+        'first_name' => 'Mario',
+        'last_name' => 'Rossi',
+        'tax_id' => 'RSSMRA80A01H501U',
+    ]);
+
+    expect($party->name)->toBe('Rossi Mario')
+        ->and($party->first_name)->toBe('Mario');
+
+    $party->first_name = 'Luigi';
+    $party->save();
+
+    expect($party->fresh()->name)->toBe('Rossi Luigi')
+        ->and(Counterparty::query()->findOrFail($party->counterparty_id)->first_name)->toBe('Luigi');
+});

@@ -40,6 +40,8 @@ trait ProxiesCounterparty
     {
         return [
             'name',
+            'first_name',
+            'last_name',
             'kind',
             'tax_id',
             'vat_number',

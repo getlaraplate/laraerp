@@ -146,6 +146,22 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
     }
 
     /**
+     * Whether the counterparty of this party is another company of the group (D29): the sale or purchase is
+     * between two companies of the same installation.
+     */
+    public function isIntercompany(): bool
+    {
+        if ($this->counterparty_id === null) {
+            return false;
+        }
+
+        return Company::query()
+            ->where('counterparty_id', $this->counterparty_id)
+            ->whereKeyNot($this->company_id)
+            ->exists();
+    }
+
+    /**
      * @return Factory<self>
      */
     #[Override]
@@ -172,5 +188,25 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
     protected function suppliers(Builder $builder): Builder
     {
         return $builder->where($builder->getModel()->qualifyColumn('is_supplier'), true);
+    }
+
+    /**
+     * Parties whose counterparty is another company of the group.
+     *
+     * @param  Builder<Party>  $builder
+     * @return Builder<Party>
+     */
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function intercompany(Builder $builder): Builder
+    {
+        $companies = new Company;
+
+        return $builder->whereExists(
+            static fn ($query) => $query->selectRaw('1')
+                ->from($companies->getTable())
+                ->whereColumn($companies->qualifyColumn('counterparty_id'), $builder->getModel()->qualifyColumn('counterparty_id'))
+                ->whereColumn($companies->qualifyColumn('id'), '!=', $builder->getModel()->qualifyColumn('company_id'))
+                ->whereNull($companies->qualifyColumn('deleted_at')),
+        );
     }
 }

@@ -6,13 +6,15 @@ namespace Modules\ERP\Listeners;
 
 use Illuminate\Validation\ValidationException;
 use Modules\CRM\Models\Counterparty;
+use Modules\ERP\Models\Company;
 use Modules\ERP\Models\Party;
 use Modules\ERP\Scopes\BelongsToCompanyScope;
 
 /**
  * A counterparty with a live party carries fiscal documents and cannot be deleted; a soft-deleted party
- * does not block a soft delete (the foreign key still blocks a hard delete). The CRM cannot see
- * parties, so the ERP enforces the rule when the counterparty is deleted.
+ * does not block a soft delete (the foreign key still blocks a hard delete). The same holds for a
+ * counterparty that is the identity of a company. The CRM cannot see parties or companies, so the ERP
+ * enforces the rule when the counterparty is deleted.
  */
 final class GuardCounterpartyDeletion
 {
@@ -26,6 +28,12 @@ final class GuardCounterpartyDeletion
         if ($has_party) {
             throw ValidationException::withMessages([
                 'counterparty' => ['A counterparty with a party cannot be deleted.'],
+            ]);
+        }
+
+        if (Company::query()->where('counterparty_id', $counterparty->getKey())->exists()) {
+            throw ValidationException::withMessages([
+                'counterparty' => ['A counterparty that is the identity of a company cannot be deleted.'],
             ]);
         }
     }

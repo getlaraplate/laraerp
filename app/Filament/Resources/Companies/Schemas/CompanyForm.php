@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\ERP\Filament\Resources\Companies\Schemas;
 
 use Filament\Forms\Components\KeyValue;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -67,6 +68,12 @@ final class CompanyForm
                     ->length(3)
                     ->default('EUR')
                     ->placeholder('EUR'),
+                Select::make('counterparty_id')
+                    ->label(__('erp.fields.counterparty_id'))
+                    ->relationship('counterparty', 'name')
+                    ->searchable()
+                    ->preload()
+                    ->nullable(),
                 Toggle::make('is_default'),
                 KeyValue::make('settings')
                     ->keyLabel('Key')

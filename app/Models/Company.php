@@ -7,8 +7,13 @@ namespace Modules\ERP\Models;
 use Illuminate\Database\Eloquent\Attributes\Scope;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Validation\ValidationException;
 use Modules\Core\Overrides\Model;
+use Modules\CRM\Casts\CounterpartyKind;
+use Modules\CRM\Enums\CRMTables;
+use Modules\CRM\Models\Counterparty;
 use Modules\ERP\Database\Factories\CompanyFactory;
 use Modules\ERP\Enums\ERPTables;
 use Override;
@@ -48,6 +53,7 @@ final class Company extends Model
         'share_capital',
         'sole_shareholder',
         'liquidation_status',
+        'counterparty_id',
         'default_currency',
         'settings',
         'is_default',
@@ -63,6 +69,60 @@ final class Company extends Model
             ->where('is_default', true)
             ->orderBy('id')
             ->first();
+    }
+
+    /**
+     * The company as a subject of the CRM.
+     *
+     * @return BelongsTo<Counterparty, $this>
+     */
+    public function counterparty(): BelongsTo
+    {
+        return $this->belongsTo(Counterparty::class)->withTrashed();
+    }
+
+    /**
+     * Give the company its identity in the CRM: the counterparty with the same fiscal identity (the tax id read as
+     * VAT number, prefixed with the fiscal country when it carries none), else a new one built from the legal data.
+     * Explicit on purpose: saving a company never creates CRM data.
+     */
+    public function ensureCounterparty(): Counterparty
+    {
+        if ($this->counterparty_id !== null) {
+            return $this->counterparty;
+        }
+
+        $tax_id = Counterparty::normalizeIdentifier($this->tax_id);
+
+        if ($tax_id === null) {
+            throw ValidationException::withMessages([
+                'tax_id' => ['A company needs a tax id to become a counterparty.'],
+            ]);
+        }
+
+        $country = Counterparty::normalizeIdentifier($this->fiscal_country);
+        $vat_number = $country !== null && ! str_starts_with($tax_id, $country) ? $country . $tax_id : $tax_id;
+
+        $counterparty = Counterparty::findByFiscalIdentity($country, $vat_number, null)
+            ?? Counterparty::query()->create([
+                'name' => $this->legal_name ?? $this->name,
+                'kind' => CounterpartyKind::Company->value,
+                'vat_number' => $vat_number,
+                'fiscal_country' => $country,
+                'address_line' => $this->legal_address_line,
+                'postal_code' => $this->legal_postal_code,
+                'city' => $this->legal_city,
+                'province' => $this->legal_province,
+                'country' => $this->legal_country,
+            ]);
+
+        if ($counterparty->trashed()) {
+            $counterparty->restore();
+        }
+
+        $this->forceFill(['counterparty_id' => $counterparty->getKey()])->save();
+
+        return $counterparty;
     }
 
     /**
@@ -140,6 +200,7 @@ final class Company extends Model
             'default_currency' => ['required', 'string', 'size:3'],
             'settings' => ['nullable', 'array'],
             'is_default' => ['sometimes', 'boolean'],
+            'counterparty_id' => ['nullable', 'integer', 'exists:' . CRMTables::Counterparties->value . ',id'],
         ]);
         $rules['update'] = array_merge($rules['update'], [
             'slug' => ['sometimes', 'string', 'max:64', 'unique:' . ERPTables::Companies->value . ',slug,' . $this->companySlugUniqueId()],
@@ -161,6 +222,7 @@ final class Company extends Model
             'default_currency' => ['sometimes', 'string', 'size:3'],
             'settings' => ['nullable', 'array'],
             'is_default' => ['sometimes', 'boolean'],
+            'counterparty_id' => ['nullable', 'integer', 'exists:' . CRMTables::Counterparties->value . ',id'],
         ]);
 
         return $rules;
