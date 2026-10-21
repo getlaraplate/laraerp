@@ -170,3 +170,46 @@ it('validates a create payload that carries identity attributes instead of a cou
     expect($valid->passes())->toBeTrue()
         ->and($nameless->passes())->toBeFalse();
 });
+
+it('recomputes the flags of the counterparty a party moves away from', function (): void {
+    $old = Counterparty::factory()->create();
+    $new = Counterparty::factory()->create();
+    $party = Party::factory()->customer()->create(['counterparty_id' => $old->getKey()]);
+
+    expect($old->fresh()->is_customer)->toBeTrue();
+
+    $party->counterparty_id = $new->getKey();
+    $party->save();
+
+    expect($old->fresh()->is_customer)->toBeFalse()
+        ->and($new->fresh()->is_customer)->toBeTrue();
+});
+
+it('does not touch the counterparty aggregates when a party is saved without a relevant change', function (): void {
+    $party = Party::factory()->customer()->create();
+
+    DB::flushQueryLog();
+    DB::enableQueryLog();
+    $party->update(['is_active' => false]);
+    $statements = collect(DB::getQueryLog())->pluck('query')->implode(' | ');
+    DB::disableQueryLog();
+
+    expect($statements)->not->toContain('crm_counterparties')
+        ->and($statements)->not->toContain('"is_customer" = ?');
+});
+
+it('refuses to give a parent to a counterparty that already has a party when the parent is organisational', function (): void {
+    $group = Counterparty::factory()->create(['vat_number' => null, 'tax_id' => null]);
+    Party::factory()->create(['counterparty_id' => $group->getKey()]);
+    $child = Counterparty::factory()->create();
+
+    $child->parent_counterparty_id = $group->getKey();
+
+    expect(fn () => $child->save())->toThrow(ValidationException::class);
+
+    $legal_parent = Counterparty::factory()->create();
+    Party::factory()->create(['counterparty_id' => $legal_parent->getKey()]);
+    $child->parent_counterparty_id = $legal_parent->getKey();
+
+    expect($child->save())->toBeTrue();
+});

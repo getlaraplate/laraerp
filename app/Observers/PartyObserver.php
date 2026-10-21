@@ -26,25 +26,41 @@ final class PartyObserver
         }
     }
 
-    public function saved(Party $party): void
+    public function created(Party $party): void
     {
-        $this->syncAggregates($party);
+        $this->syncAggregates($party->counterparty_id);
+    }
+
+    /**
+     * The aggregates only depend on the flags and on which counterparty the party belongs to, so any other
+     * change of the party leaves them alone; a party that moves to another counterparty also refreshes the
+     * one it leaves.
+     */
+    public function updated(Party $party): void
+    {
+        if (! $party->wasChanged(['is_customer', 'is_supplier', 'counterparty_id'])) {
+            return;
+        }
+
+        $this->syncAggregates($party->counterparty_id);
+
+        if ($party->wasChanged('counterparty_id')) {
+            $this->syncAggregates($party->getOriginal('counterparty_id'));
+        }
     }
 
     public function deleted(Party $party): void
     {
-        $this->syncAggregates($party);
+        $this->syncAggregates($party->counterparty_id);
     }
 
     public function restored(Party $party): void
     {
-        $this->syncAggregates($party);
+        $this->syncAggregates($party->counterparty_id);
     }
 
-    private function syncAggregates(Party $party): void
+    private function syncAggregates(mixed $counterparty_id): void
     {
-        $counterparty_id = $party->counterparty_id;
-
         if ($counterparty_id === null) {
             return;
         }
