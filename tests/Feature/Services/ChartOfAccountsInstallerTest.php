@@ -145,6 +145,7 @@ it('writes chart accounts on the company affinity connection', function (): void
         $table->string('root_table_ref')->nullable();
         $table->unsignedBigInteger(config('versionable.user_foreign_key', 'user_id'))->nullable();
         $table->string('kind');
+        $table->string('capture')->default('best_effort');
         $table->string('reason')->nullable();
         $table->unsignedBigInteger('reverted_from_set_id')->nullable();
         $table->timestamps();
