@@ -108,8 +108,8 @@ final class ERPDatabaseSeeder extends Seeder
         $existing = (new Company)->newQuery()->withoutGlobalScopes()->where('is_default', true)->orderBy('id')->first();
 
         if ($existing instanceof Company) {
-            $this->command?->line('    - default company already exists');
-            $this->ensureCompanySettings($existing);
+            $realigned = $this->ensureCompanySettings($existing) ? 1 : 0;
+            $this->logOutcome(0, $realigned, 1 - $realigned);
 
             return $existing;
         }
@@ -127,35 +127,37 @@ final class ERPDatabaseSeeder extends Seeder
         $company->settings = ErpCompanySettings::defaultSettings();
         $company->save();
 
-        $this->command?->line('    - default company <fg=green>created</>');
+        $this->logOutcome(1);
 
         return $company;
     }
 
     private function ensureGlobalErpSettings(): void
     {
-        $outcome = app(SeedReconciler::class)->reconcile(
-            self::internalSettingsDefinition('ERP', ErpCompanySettings::globalSettingDefinitions()),
-        );
+        $this->logOperation(Setting::class);
 
-        $this->command?->line(
-            '    - global ERP settings: created ' . count($outcome->created) . ', realigned ' . count($outcome->realigned) . ", unchanged {$outcome->unchanged}",
-        );
+        $this->logReconciliation(app(SeedReconciler::class)->reconcile(
+            self::internalSettingsDefinition('ERP', ErpCompanySettings::globalSettingDefinitions()),
+        ));
     }
 
-    private function ensureCompanySettings(Company $company): void
+    /**
+     * Fill the settings a newer release added to the company, keeping the values it has.
+     * Returns whether the company changed.
+     */
+    private function ensureCompanySettings(Company $company): bool
     {
         $erp_company_settings = resolve(ErpCompanySettings::class);
         $merged = $erp_company_settings->mergeWithDefaults($company);
 
         if ($company->settings === $merged) {
-            return;
+            return false;
         }
 
         $company->settings = $merged;
         $company->save();
 
-        $this->command?->line('    - default company ERP settings <fg=green>initialized</>');
+        return true;
     }
 
     private function defaultEntities(): void
@@ -168,6 +170,7 @@ final class ERPDatabaseSeeder extends Seeder
         $this->entities = $entity_model->newQuery()->withoutGlobalScopes()->get()->keyBy('name');
 
         $entity_model->getConnection()->transaction(function (): void {
+            $created = 0;
             $entities = [
                 [
                     'name' => 'activity',
@@ -178,8 +181,6 @@ final class ERPDatabaseSeeder extends Seeder
 
             foreach ($entities as $entity) {
                 if ($this->entities->has($entity['name'])) {
-                    $this->command?->line("    - {$entity['name']} already exists");
-
                     continue;
                 }
 
@@ -198,8 +199,10 @@ final class ERPDatabaseSeeder extends Seeder
 
                 resolve(PresetVersioningService::class)->createVersion($preset);
 
-                $this->command?->line("    - {$entity['name']} <fg=green>created</>");
+                $created++;
             }
+
+            $this->logOutcome($created, 0, count($entities) - $created);
         });
     }
 
@@ -214,13 +217,19 @@ final class ERPDatabaseSeeder extends Seeder
     {
         app(PermissionRegistrar::class)->forgetCachedPermissions();
         $permission_model = new Permission;
+        $this->logOperation(Permission::class);
 
-        foreach (app(PermissionManifest::class)->namesFor('ERP') as $permission_name) {
-            $permission_model->newQuery()->firstOrCreate(['name' => $permission_name]);
+        $permission_names = app(PermissionManifest::class)->namesFor('ERP');
+        $created = 0;
+
+        foreach ($permission_names as $permission_name) {
+            if ($permission_model->newQuery()->firstOrCreate(['name' => $permission_name])->wasRecentlyCreated) {
+                $created++;
+            }
         }
 
         app(PermissionRegistrar::class)->forgetCachedPermissions();
 
-        $this->command?->line('    - ERP domain permissions <fg=green>updated</>');
+        $this->logOutcome($created, 0, count($permission_names) - $created);
     }
 }
