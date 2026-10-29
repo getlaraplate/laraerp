@@ -441,11 +441,7 @@ composer update:requirements  # composer bump + npm-check-updates
 
 ### Versioning
 
-Releases are run from the application, not from the module. From the `laraplate` root:
-
-```bash
-composer run version:minor ERP   # or version:major / version:patch, see docs/releasing.md
-```
+Releases are cut by the maintainers with private tooling; do not bump versions or edit `CHANGELOG.md` by hand.
 
 ## Repository rename (from laraplate-business)
 
