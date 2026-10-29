@@ -66,11 +66,14 @@ final class ItalianTaxCodesSeeder extends Seeder implements DeclaresSeedDependen
 
     public function seedForCompany(Company $company): void
     {
+        $this->logOperation(TaxCode::class);
+
         $effective = '2000-01-01';
         $tax_codes = ConnectionScopedModels::for($company)->query(TaxCode::class)->withoutGlobalScopes();
+        $created = 0;
 
         foreach (self::ROWS as $row) {
-            (clone $tax_codes)->firstOrCreate(
+            $tax_code = (clone $tax_codes)->firstOrCreate(
                 [
                     'company_id' => $company->id,
                     'code' => $row['code'],
@@ -86,8 +89,12 @@ final class ItalianTaxCodesSeeder extends Seeder implements DeclaresSeedDependen
                     'meta' => null,
                 ],
             );
+
+            if ($tax_code->wasRecentlyCreated) {
+                $created++;
+            }
         }
 
-        $this->command?->line('    - Italian tax codes ensured for company ' . $company->id);
+        $this->logOutcome($created, 0, count(self::ROWS) - $created);
     }
 }
