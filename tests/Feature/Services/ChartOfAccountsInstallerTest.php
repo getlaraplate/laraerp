@@ -6,6 +6,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Modules\Core\Models\Version;
+use Modules\Core\Models\VersionEpoch;
 use Modules\Core\Models\VersionSet;
 use Modules\ERP\Casts\AccountKind;
 use Modules\ERP\Models\Account;
@@ -150,6 +151,15 @@ it('writes chart accounts on the company affinity connection', function (): void
         $table->unsignedBigInteger('reverted_from_set_id')->nullable();
         $table->timestamps();
     });
+    $connection->create((new VersionEpoch)->getTable(), function (Blueprint $table): void {
+        $table->id();
+        $table->string('root_type');
+        $table->string('root_table');
+        $table->string('fingerprint', 64);
+        $table->json('definition');
+        $table->timestamp('first_seen_at');
+        $table->unique(['root_type', 'root_table', 'fingerprint']);
+    });
     $connection->create((new Version)->getTable(), function (Blueprint $table): void {
         $table->id();
         $table->unsignedBigInteger('version_set_id');
@@ -165,6 +175,7 @@ it('writes chart accounts on the company affinity connection', function (): void
         $table->json('original_contents')->nullable();
         $table->json('contents')->nullable();
         $table->string('version_strategy');
+        $table->unsignedBigInteger('epoch_id')->nullable();
         $table->timestamps();
         $table->softDeletes();
         $table->boolean('is_deleted')->default(false);
