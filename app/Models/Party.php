@@ -16,7 +16,7 @@ use Modules\Core\Models\Concerns\HasActivation;
 use Modules\Core\Overrides\Model;
 use Modules\CRM\Enums\CRMTables;
 use Modules\CRM\Models\Contact;
-use Modules\CRM\Models\Counterparty;
+use Modules\CRM\Models\Pivot\Contactable;
 use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Concerns\ProxiesCounterparty;
 use Modules\ERP\Database\Factories\PartyFactory;
@@ -49,11 +49,16 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
     /**
      * The contacts of the party's counterparty (the contact list is shared by every company).
      *
-     * @return BelongsToMany<Contact, Counterparty>
+     * Keyed on the party's `counterparty_id`, so the relation builds on a blank instance and eager loads.
+     *
+     * @return BelongsToMany<Contact, $this>
      */
     public function contacts(): BelongsToMany
     {
-        return $this->counterparty->contacts();
+        return $this->belongsToMany(Contact::class, CRMTables::Contactables->value, 'counterparty_id', 'contact_id', 'counterparty_id')
+            ->using(Contactable::class)
+            ->withPivot(['role_taxonomy_id', 'is_primary'])
+            ->withTimestamps();
     }
 
     /**

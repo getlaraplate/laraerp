@@ -101,3 +101,21 @@ it('exposes the counterparty contacts through the party with the CRM contactable
         ->and($linked_contact->pivot)->toBeInstanceOf(Contactable::class)
         ->and($linked_contact->pivot->getTable())->toBe(CRMTables::Contactables->value);
 });
+
+it('eager loads the counterparty contacts of the parties', function (): void {
+    $company = erpPivotCompany();
+    $party = Party::query()->create([
+        'company_id' => $company->id,
+        'name' => 'Eager Party',
+        'is_customer' => true,
+    ]);
+    $contact = Contact::query()->forceCreate([
+        'name' => 'Eager Contact',
+        'email' => 'eager@example.test',
+    ]);
+    $party->contacts()->attach($contact->id);
+
+    $loaded_party = Party::query()->with('contacts')->findOrFail($party->id);
+
+    expect($loaded_party->contacts->pluck('id')->all())->toBe([$contact->id]);
+});
