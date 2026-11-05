@@ -42,7 +42,7 @@ final class Decimal
             throw new InvalidArgumentException('Decimal division by zero is not allowed.');
         }
 
-        return self::format(BigDecimal::of($a)->dividedBy(BigDecimal::of($b), self::SCALE, RoundingMode::HALF_UP));
+        return self::format(BigDecimal::of($a)->dividedBy(BigDecimal::of($b), self::SCALE, RoundingMode::HalfUp));
     }
 
     public static function negate(string $a): string
@@ -74,6 +74,6 @@ final class Decimal
     {
         $decimal = $value instanceof BigDecimal ? $value : BigDecimal::of($value);
 
-        return $decimal->toScale(self::SCALE, RoundingMode::HALF_UP);
+        return $decimal->toScale(self::SCALE, RoundingMode::HalfUp);
     }
 }

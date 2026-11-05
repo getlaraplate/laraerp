@@ -49,7 +49,7 @@ final class TaxLineCalculator
 
         $net = BigDecimal::of($net_amount);
         $rate = BigDecimal::of((string) $code->rate);
-        $tax = $net->multipliedBy($rate)->dividedBy('100', 4, RoundingMode::HALF_UP);
+        $tax = $net->multipliedBy($rate)->dividedBy('100', 4, RoundingMode::HalfUp);
         $gross = $net->plus($tax);
 
         return [
@@ -72,7 +72,7 @@ final class TaxLineCalculator
 
         $gross = BigDecimal::of($gross_amount);
         $rate = BigDecimal::of((string) $code->rate);
-        $tax = $gross->multipliedBy($rate)->dividedBy('100', 4, RoundingMode::HALF_UP);
+        $tax = $gross->multipliedBy($rate)->dividedBy('100', 4, RoundingMode::HalfUp);
 
         return [
             'tax' => $tax->toScale(4)->__toString(),
@@ -90,7 +90,7 @@ final class TaxLineCalculator
     {
         return BigDecimal::of($net_amount)
             ->multipliedBy(BigDecimal::of($rate))
-            ->dividedBy('100', 4, RoundingMode::HALF_UP)
+            ->dividedBy('100', 4, RoundingMode::HalfUp)
             ->__toString();
     }
 

@@ -97,7 +97,7 @@ Per-company ERP settings are stored in `companies.settings` (JSON). Use `ErpComp
 ### Requirements
 
 -   PHP >= 8.5
--   Laravel 12.0+
+-   Laravel 13.0+
 -   **Recommended:** Laraplate **Core** for users, permissions, and shared infrastructure (typical production setup)
 
 ### Installed Packages (development)

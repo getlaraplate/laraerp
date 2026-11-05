@@ -243,7 +243,7 @@ final readonly class FatturaPaXmlBuilder
     {
         $tax = BigDecimal::of($taxable_amount)
             ->multipliedBy(BigDecimal::of($rate))
-            ->dividedBy(BigDecimal::of('100'), 2, RoundingMode::HALF_UP);
+            ->dividedBy(BigDecimal::of('100'), 2, RoundingMode::HalfUp);
         $element = $document->createElement('DatiRiepilogo');
         $element->appendChild($this->textElement($document, 'AliquotaIVA', $rate));
         $element->appendChild($this->textElement($document, 'ImponibileImporto', $this->money($taxable_amount, 2)));
@@ -375,12 +375,12 @@ final readonly class FatturaPaXmlBuilder
 
     private function money(mixed $value, int $decimals): string
     {
-        return (string) BigDecimal::of($this->stringValue($value))->toScale($decimals, RoundingMode::HALF_UP);
+        return (string) BigDecimal::of($this->stringValue($value))->toScale($decimals, RoundingMode::HalfUp);
     }
 
     private function decimalAdd(string $left, string $right): string
     {
-        return (string) BigDecimal::of($left)->plus(BigDecimal::of($right))->toScale(4, RoundingMode::HALF_UP);
+        return (string) BigDecimal::of($left)->plus(BigDecimal::of($right))->toScale(4, RoundingMode::HalfUp);
     }
 
     private function maxLength(string $value, int $length): string
