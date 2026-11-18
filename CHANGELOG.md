@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.1] - 2026-11-18
+
+### 🐛 Bug Fixes
+
+- *(erp)* Use the brick/math 1.0 RoundingMode enum cases
+
+### 🚜 Refactor
+
+- *(party)* Update contacts relationship to use Contactable pivot model
+
+### 📚 Documentation
+
+- Require Laravel 13
+
+### 🧪 Testing
+
+- *(erp)* The secondary-connection version sets carry the capture column
+- *(erp)* Add schema epochs to the hand-built versioning tables
+
+### ⚙️ Miscellaneous Tasks
+
+- *(seeders)* Report each seeding step with one summary line
+- Drop the license-compliance-checker repository
+- *(deps)* Require Laravel 13
+
 ## [2.1.0] - 2026-10-21
 
 ### 🚀 Features
@@ -500,8 +525,6 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ### 🚀 Features
 
 - *(erp)* Add document sequence reset functionality and price rules management
-
-## [1.14.8] - 2026-07-10
 
 ### 🐛 Bug Fixes
 
