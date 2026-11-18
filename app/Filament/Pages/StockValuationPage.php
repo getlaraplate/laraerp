@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Pages\Page;
 use Filament\Schemas\Schema;
 use Filament\Support\Icons\Heroicon;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\Core\Filament\Utils\HasPageForm;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\Warehouse;
@@ -110,7 +111,7 @@ final class StockValuationPage extends Page
         $company_id = (int) ($this->data['company_id'] ?? 0);
 
         return Warehouse::query()
-            ->when($company_id > 0, static fn ($query) => $query->where('company_id', $company_id))
+            ->when($company_id > 0, static fn (Builder $query): Builder => $query->where('company_id', $company_id))
             ->orderBy('code')
             ->get()
             ->mapWithKeys(static fn (Warehouse $warehouse): array => [

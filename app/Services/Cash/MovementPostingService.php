@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Modules\ERP\Services\Cash;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Validation\ValidationException;
 use Modules\ERP\Casts\AccountKind;
 use Modules\ERP\Casts\MovementType;
@@ -144,7 +145,7 @@ final readonly class MovementPostingService
     private function fiscalPeriod(ConnectionScopedModels $models, Company $company, CarbonImmutable $date): ?FiscalPeriod
     {
         return $models->query(FiscalPeriod::class)->withoutGlobalScopes()
-            ->whereHas('fiscal_year', static fn ($query) => $query->withoutGlobalScopes()->where('company_id', $company->id))
+            ->whereHas('fiscal_year', static fn (Builder $query): Builder => $query->withoutGlobalScopes()->where('company_id', $company->id))
             ->whereDate('start_date', '<=', $date)
             ->whereDate('end_date', '>=', $date)
             ->first();

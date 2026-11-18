@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Modules\ERP\Services\Reporting;
 
+use Illuminate\Database\Eloquent\Builder;
 use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Models\StockLevel;
 
@@ -39,7 +40,7 @@ final class StockValuationService
 
         $totals = StockLevel::query()
             ->where('company_id', $company_id)
-            ->when($warehouse_id !== null && $warehouse_id > 0, static fn ($query) => $query->where('warehouse_id', $warehouse_id))
+            ->when($warehouse_id !== null && $warehouse_id > 0, static fn (Builder $query): Builder => $query->where('warehouse_id', $warehouse_id))
             ->selectRaw('COALESCE(SUM(quantity), 0) as total_quantity, COALESCE(SUM(quantity * weighted_avg_cost), 0) as total_value')
             ->first();
 
@@ -48,7 +49,7 @@ final class StockValuationService
             ->join($items_table, "{$items_table}.id", '=', "{$stock_levels_table}.item_id")
             ->join($warehouses_table, "{$warehouses_table}.id", '=', "{$stock_levels_table}.warehouse_id")
             ->where("{$stock_levels_table}.company_id", $company_id)
-            ->when($warehouse_id !== null && $warehouse_id > 0, static fn ($query) => $query->where("{$stock_levels_table}.warehouse_id", $warehouse_id))
+            ->when($warehouse_id !== null && $warehouse_id > 0, static fn (Builder $query): Builder => $query->where("{$stock_levels_table}.warehouse_id", $warehouse_id))
             ->orderBy("{$items_table}.sku")
             ->orderBy("{$warehouses_table}.code")
             ->select("{$stock_levels_table}.*")

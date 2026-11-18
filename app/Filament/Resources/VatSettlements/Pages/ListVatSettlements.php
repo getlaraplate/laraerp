@@ -9,6 +9,7 @@ use function Modules\ERP\Helpers\current_company_id;
 use Filament\Actions\Action;
 use Filament\Forms\Components\Select;
 use Filament\Resources\Pages\ListRecords;
+use Illuminate\Database\Eloquent\Builder;
 use Modules\ERP\Filament\Resources\VatSettlements\VatSettlementResource;
 use Modules\ERP\Models\Company;
 use Modules\ERP\Models\FiscalPeriod;
@@ -41,7 +42,7 @@ final class ListVatSettlements extends ListRecords
 
                             return ConnectionScopedModels::for($company)
                                 ->query(FiscalPeriod::class)
-                                ->whereHas('fiscal_year', static fn ($query) => $query->where('company_id', $company->getKey()))
+                                ->whereHas('fiscal_year', static fn (Builder $query): Builder => $query->where('company_id', $company->getKey()))
                                 ->latest('start_date')
                                 ->get()
                                 ->mapWithKeys(fn (FiscalPeriod $period): array => [
@@ -61,7 +62,7 @@ final class ListVatSettlements extends ListRecords
                     $period = ConnectionScopedModels::for($company)
                         ->query(FiscalPeriod::class)
                         ->whereKey((int) $data['fiscal_period_id'])
-                        ->whereHas('fiscal_year', static fn ($query) => $query->where('company_id', $company->getKey()))
+                        ->whereHas('fiscal_year', static fn (Builder $query): Builder => $query->where('company_id', $company->getKey()))
                         ->firstOrFail();
 
                     resolve(VatSettlementService::class)->compute($company, $period);

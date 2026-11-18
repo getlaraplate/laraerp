@@ -14,7 +14,7 @@ use RuntimeException;
 
 final readonly class FatturaPaXmlBuilder
 {
-    private const NAMESPACE = 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2';
+    private const string NAMESPACE = 'http://ivaservizi.agenziaentrate.gov.it/docs/xsd/fatture/v1.2';
 
     public function __construct(
         private FatturaPaAnagraphicMapper $mapper,

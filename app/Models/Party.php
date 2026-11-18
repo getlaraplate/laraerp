@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Modules\Core\Contracts\IActivatableModel;
 use Modules\Core\Contracts\IMountsRelatedAttributes;
 use Modules\Core\Models\Concerns\HasActivation;
@@ -207,7 +208,7 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
         $companies = new Company;
 
         return $builder->whereExists(
-            static fn ($query) => $query->selectRaw('1')
+            static fn (QueryBuilder $query): QueryBuilder => $query->selectRaw('1')
                 ->from($companies->getTable())
                 ->whereColumn($companies->qualifyColumn('counterparty_id'), $builder->getModel()->qualifyColumn('counterparty_id'))
                 ->whereColumn($companies->qualifyColumn('id'), '!=', $builder->getModel()->qualifyColumn('company_id'))

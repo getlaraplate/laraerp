@@ -8,6 +8,7 @@ use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\Filter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Modules\Core\Filament\Utils\HasTable;
 
@@ -43,7 +44,7 @@ final class PartiesTable
                     Filter::make('intercompany')
                         ->label(__('erp.fields.intercompany'))
                         ->toggle()
-                        ->query(static fn ($query) => $query->intercompany()),
+                        ->query(static fn (Builder $query): Builder => $query->intercompany()),
                 );
             },
         );
