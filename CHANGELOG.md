@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.1.2] - 2026-11-23
+
+### 🐛 Bug Fixes
+
+- *(erp)* Read bank statement CSV with fgetcsv instead of SplFileObject
+
+### 🎨 Styling
+
+- *(erp)* Declare the types pest type-coverage was missing
+
 ## [2.1.1] - 2026-11-18
 
 ### 🐛 Bug Fixes
@@ -525,6 +535,8 @@ Co-Authored-By: Claude Opus 4.8 <noreply@anthropic.com>
 ### 🚀 Features
 
 - *(erp)* Add document sequence reset functionality and price rules management
+
+## [1.14.8] - 2026-07-10
 
 ### 🐛 Bug Fixes
 
