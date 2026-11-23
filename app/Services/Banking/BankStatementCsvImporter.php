@@ -7,7 +7,6 @@ namespace Modules\ERP\Services\Banking;
 use Carbon\CarbonImmutable;
 use Illuminate\Validation\ValidationException;
 use Modules\ERP\Models\BankStatement;
-use SplFileObject;
 use Throwable;
 
 final readonly class BankStatementCsvImporter
@@ -116,50 +115,61 @@ final readonly class BankStatementCsvImporter
     }
 
     /**
+     * Reads the file with `fgetcsv()` and an empty escape character, so a backslash is plain data as RFC 4180
+     * wants. The `SplFileObject` CSV methods are deprecated from PHP 8.6.
+     *
      * @return list<array<string, string|null>>
      */
     private function readRows(string $path): array
     {
-        $file = new SplFileObject($path);
-        $file->setFlags(SplFileObject::READ_CSV | SplFileObject::SKIP_EMPTY);
-        $file->setCsvControl(',');
+        $handle = fopen($path, 'rb');
 
-        $headers = null;
-        $rows = [];
+        if ($handle === false) {
+            throw ValidationException::withMessages([
+                'file' => ['The CSV file cannot be read.'],
+            ]);
+        }
 
-        foreach ($file as $row) {
-            if (! is_array($row) || $row === [null]) {
-                continue;
-            }
+        try {
+            $headers = null;
+            $rows = [];
 
-            if ($headers === null) {
-                $headers = [];
-
-                foreach ($row as $header) {
-                    if (! is_scalar($header)) {
-                        continue;
-                    }
-
-                    $headers[] = mb_trim((string) $header);
-                }
-
-                if ($headers === []) {
+            while (($row = fgetcsv($handle, null, ',', '"', '')) !== false) {
+                if ($row === [null]) {
                     continue;
                 }
 
-                if (count($headers) !== count(array_unique($headers))) {
-                    throw ValidationException::withMessages([
-                        'file' => ['The CSV header contains duplicate column names.'],
-                    ]);
+                if ($headers === null) {
+                    $headers = [];
+
+                    foreach ($row as $header) {
+                        if (! is_scalar($header)) {
+                            continue;
+                        }
+
+                        $headers[] = mb_trim((string) $header);
+                    }
+
+                    if ($headers === []) {
+                        continue;
+                    }
+
+                    if (count($headers) !== count(array_unique($headers))) {
+                        throw ValidationException::withMessages([
+                            'file' => ['The CSV header contains duplicate column names.'],
+                        ]);
+                    }
+
+                    continue;
                 }
 
-                continue;
+                $rows[] = array_combine($headers, array_pad($row, count($headers), null));
             }
 
-            $rows[] = array_combine($headers, array_pad($row, count($headers), null));
+            return $rows;
+        } finally {
+            fclose($handle);
         }
-
-        return $rows;
     }
 
     private function normalizeDecimal(string $value): string

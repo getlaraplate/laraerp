@@ -274,3 +274,52 @@ it('skips blank preamble lines before the CSV header row', function (): void {
         @unlink($path);
     }
 });
+
+it('reads a backslash before a closing quote as data, not as an escape', function (): void {
+    $company = createBankImportCompany();
+    $account = BankAccount::query()->create([
+        'company_id' => $company->id,
+        'name' => 'Main bank',
+        'currency' => 'EUR',
+    ]);
+    $statement = BankStatement::query()->create([
+        'company_id' => $company->id,
+        'bank_account_id' => $account->id,
+    ]);
+
+    $path = tempnam(sys_get_temp_dir(), 'csv');
+    file_put_contents(
+        $path,
+        "booked_at,description,amount_doc\n2026-05-01,\"Transfer C:\\\",10.00\n2026-05-02,Second row,20.00\n",
+    );
+
+    try {
+        $created = app(BankStatementCsvImporter::class)->import($statement, $path);
+
+        expect($created)->toBe(2)
+            ->and(BankStatementLine::query()->where('description', 'Transfer C:\\')->exists())->toBeTrue();
+    } finally {
+        @unlink($path);
+    }
+});
+
+it('parses a CSV file without raising a deprecation', function (): void {
+    $path = tempnam(sys_get_temp_dir(), 'csv');
+    file_put_contents($path, "booked_at,description,amount_doc\n2026-05-01,Row,10.00\n");
+    $deprecations = [];
+    set_error_handler(static function (int $errno, string $message) use (&$deprecations): bool {
+        $deprecations[] = $message;
+
+        return true;
+    }, E_DEPRECATED | E_USER_DEPRECATED);
+
+    try {
+        $lines = app(BankStatementCsvImporter::class)->parse($path);
+    } finally {
+        restore_error_handler();
+        @unlink($path);
+    }
+
+    expect($lines)->toHaveCount(1)
+        ->and($deprecations)->toBe([]);
+});
