@@ -24,7 +24,7 @@ final class StockReservationFactory extends Factory
     protected $model = StockReservation::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<StockReservation>, mixed>
      */
     public function definition(): array
     {

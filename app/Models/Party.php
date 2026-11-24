@@ -36,6 +36,22 @@ use Override;
  * @property \Carbon\CarbonImmutable $updated_at
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property bool|null $is_deleted Whether the entity is deleted
+ *
+ * Read from and written to the counterparty (ProxiesCounterparty::counterpartyAttributes()):
+ * @property string|null $name
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property \Modules\CRM\Casts\CounterpartyKind|null $kind
+ * @property string|null $tax_id
+ * @property string|null $vat_number
+ * @property string|null $fiscal_country
+ * @property string|null $address_line
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property string|null $province
+ * @property string|null $country
+ * @property string|null $einvoice_recipient_code
+ * @property string|null $einvoice_pec_email
  */
 #[ObservedBy([PartyObserver::class])]
 final class Party extends Model implements IActivatableModel, IMountsRelatedAttributes

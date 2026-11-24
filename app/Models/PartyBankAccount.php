@@ -29,6 +29,13 @@ use Override;
  * @property \Carbon\CarbonImmutable $updated_at
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property bool|null $is_deleted Whether the entity is deleted
+ *
+ * Read from and written to the counterparty bank account (ProxiesCounterpartyBankAccount::bankAccountAttributes()):
+ * @property string|null $beneficiary_name
+ * @property string|null $iban
+ * @property string|null $bic
+ * @property string|null $currency
+ * @property bool|null $is_active
  */
 final class PartyBankAccount extends Model implements IsPartOfParent
 {

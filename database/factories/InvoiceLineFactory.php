@@ -19,7 +19,7 @@ final class InvoiceLineFactory extends Factory
     protected $model = InvoiceLine::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<InvoiceLine>, mixed>
      */
     public function definition(): array
     {

@@ -19,7 +19,7 @@ final class WarehouseFactory extends Factory
     protected $model = Warehouse::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Warehouse>, mixed>
      */
     public function definition(): array
     {
