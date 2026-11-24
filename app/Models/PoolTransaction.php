@@ -11,6 +11,21 @@ use Modules\Core\Overrides\Model;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $partner_pool_id
+ * @property int $from_user_id
+ * @property int $to_user_id
+ * @property numeric-string $amount
+ * @property string $currency
+ * @property \Carbon\CarbonImmutable $occurred_on
+ * @property \Carbon\CarbonImmutable $confirmed_at
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class PoolTransaction extends Model
 {
     #[Override]

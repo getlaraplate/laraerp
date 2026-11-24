@@ -15,6 +15,17 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Models\Pivot\PartnerPoolHasUser;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property string $name
+ * @property string $currency
+ * @property bool $is_active
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class PartnerPool extends Model implements IActivatableModel
 {
     use BelongsToCompany, HasActivation;

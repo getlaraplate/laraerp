@@ -18,6 +18,25 @@ use Override;
 
 /**
  * Single line in a journal entry (Dare/Avere as signed amount_local).
+ *
+ * @property int $id
+ * @property int $journal_entry_id
+ * @property int $line_no Stable ordering within the entry
+ * @property int $account_id
+ * @property int|null $tax_code_id
+ * @property numeric $amount_doc Amount in the document currency
+ * @property string $currency_doc ISO 4217 currency code of the document
+ * @property numeric $amount_local Amount in the company functional currency (basis for journal balancing)
+ * @property string $currency_local ISO 4217 functional currency (Company.default_currency)
+ * @property numeric $fx_rate Multiplier from doc to local (1 when both currencies match)
+ * @property string|null $tax_code
+ * @property numeric|null $tax_rate
+ * @property string|null $tax_label
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class JournalEntryLine extends Model implements IsPartOfParent, RestrictsCrudWrites
 {

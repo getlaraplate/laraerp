@@ -15,6 +15,22 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int|null $party_id
+ * @property int|null $item_id
+ * @property int|null $taxonomy_id
+ * @property int $priority
+ * @property DiscountType $discount_type
+ * @property numeric-string $discount_value
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 final class PartyPriceRule extends Model implements IValidatableModel
 {
     use BelongsToCompany;

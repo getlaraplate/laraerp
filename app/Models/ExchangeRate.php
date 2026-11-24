@@ -10,6 +10,17 @@ use Override;
 
 /**
  * Historical exchange rate from one ISO currency to another.
+ *
+ * @property int $id
+ * @property string $from_currency
+ * @property string $to_currency
+ * @property numeric-string $rate
+ * @property \Carbon\CarbonImmutable $rate_date
+ * @property string|null $source
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class ExchangeRate extends Model
 {

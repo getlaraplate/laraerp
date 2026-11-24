@@ -19,6 +19,15 @@ use Override;
  * Sub-year accounting bucket (typically a calendar month).
  *
  * Scoped through {@see FiscalYear} for multi-company isolation.
+ *
+ * @property int $id
+ * @property int $fiscal_year_id
+ * @property int $period_no 1-based sequence within the year (typically 1..12 for months)
+ * @property \Carbon\CarbonImmutable $start_date First inclusive day of the period
+ * @property \Carbon\CarbonImmutable $end_date Last inclusive day of the period
+ * @property bool $is_closed
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
  */
 final class FiscalPeriod extends Model
 {

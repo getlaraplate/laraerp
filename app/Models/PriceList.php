@@ -12,6 +12,18 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property string $name The name of the price list
+ * @property string $currency ISO 4217; line items inherit this currency
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 final class PriceList extends Model implements IValidatableModel
 {
     use BelongsToCompany;

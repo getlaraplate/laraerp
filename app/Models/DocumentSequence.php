@@ -12,6 +12,21 @@ use Override;
 
 /**
  * Per-company document number sequence state (increments under row lock).
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property DocumentType $document_type Which document stream this row advances
+ * @property int $fiscal_year Calendar/fiscal year bucket; 0 = not reset by fiscal year (e.g. operational quotes)
+ * @property int $last_number
+ * @property bool $gap_allowed When true, holes in the numeric sequence may exist by policy
+ * @property string $prefix Prepended to the formatted number
+ * @property int $padding Zero-padding width for the numeric segment
+ * @property string|null $format_pattern Optional template; tokens: {prefix},{suffix},{number},{YYYY}; null = built-in fiscal layout
+ * @property string $suffix Trailing segment inserted by {suffix} or default layout
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class DocumentSequence extends Model
 {

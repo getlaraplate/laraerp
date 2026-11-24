@@ -17,6 +17,17 @@ use Override;
 
 /**
  * Physical premise (branch) for on-site work; optional LOCATION for calendar exports (ICS).
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string $name The name of the site
+ * @property int $place_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
  */
 final class Site extends Model implements IValidatableModel
 {

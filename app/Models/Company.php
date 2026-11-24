@@ -23,6 +23,31 @@ use Override;
  *
  * Holds fiscal identity (tax_id, fiscal_country) and the functional currency
  * used as `amount_local` for double-entry journal balancing.
+ *
+ * @property int $id
+ * @property string $slug Stable machine-friendly identifier (used in URLs, configs, etc.)
+ * @property string $name Human-friendly display name
+ * @property string|null $legal_name Registered legal name; falls back to name when null
+ * @property string|null $tax_id Italian P.IVA / EU VAT number / equivalent fiscal id
+ * @property string $fiscal_country ISO 3166-1 alpha-2 country code driving fiscal rules
+ * @property string $default_currency ISO 4217 functional currency used as amount_local for journal balancing
+ * @property bool $is_default At most one company per environment can be the default tenant
+ * @property string|null $fiscal_regime FatturaPA RegimeFiscale code, e.g. RF01
+ * @property string|null $legal_address_line
+ * @property string|null $legal_postal_code
+ * @property string|null $legal_city
+ * @property string|null $legal_province
+ * @property string|null $legal_country
+ * @property string|null $rea_office
+ * @property string|null $rea_number
+ * @property numeric-string|null $share_capital
+ * @property bool|null $sole_shareholder
+ * @property string|null $liquidation_status FatturaPA StatoLiquidazione code
+ * @property int|null $counterparty_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class Company extends Model
 {

@@ -16,6 +16,18 @@ use Override;
 
 /**
  * Line on a {@see DeliveryNote} driving stock movement and optional SO evasion.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $delivery_note_id
+ * @property int $item_id
+ * @property int $warehouse_id
+ * @property numeric-string $quantity
+ * @property int|null $sales_order_line_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class DeliveryNoteLine extends Model implements IsPartOfParent
 {

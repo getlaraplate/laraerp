@@ -11,6 +11,18 @@ use Modules\Core\Overrides\Model;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $partner_pool_id
+ * @property int $movement_id
+ * @property int $user_id
+ * @property numeric-string $owed_amount
+ * @property numeric-string $paid_amount
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class MovementAllocation extends Model implements IsPartOfParent
 {
     #[Override]

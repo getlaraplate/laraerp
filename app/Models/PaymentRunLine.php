@@ -14,6 +14,27 @@ use Override;
 
 /**
  * Immutable beneficiary/payment snapshot inside a supplier payment run.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $payment_run_id
+ * @property int $payment_schedule_line_id
+ * @property int $party_id
+ * @property int|null $party_bank_account_id
+ * @property numeric-string $amount_doc
+ * @property string $currency_doc
+ * @property numeric-string $amount_local
+ * @property string $currency_local
+ * @property \Carbon\CarbonImmutable $due_date
+ * @property string $beneficiary_name
+ * @property string $beneficiary_iban
+ * @property string|null $beneficiary_bic
+ * @property string|null $remittance_information
+ * @property PaymentRunLineStatus $status
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class PaymentRunLine extends Model implements IsPartOfParent
 {

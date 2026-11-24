@@ -13,6 +13,20 @@ use Override;
 
 /**
  * Line on a {@see GoodsReceipt} driving stock-in and optional PO receipt progress.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $goods_receipt_id
+ * @property int $item_id
+ * @property int $warehouse_id
+ * @property numeric-string $quantity
+ * @property numeric-string $qty_returned
+ * @property numeric-string $unit_cost
+ * @property int|null $purchase_order_line_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class GoodsReceiptLine extends Model implements IsPartOfParent
 {

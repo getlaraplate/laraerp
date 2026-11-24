@@ -15,6 +15,20 @@ use Modules\ERP\Database\Factories\ItemFactory;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property string $name
+ * @property string $sku
+ * @property string $uom
+ * @property TracingType $tracing_type
+ * @property string $costing_method
+ * @property int|null $taxonomy_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class Item extends Model
 {
     use BelongsToCompany;

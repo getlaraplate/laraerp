@@ -14,6 +14,21 @@ use Override;
 
 /**
  * Periodic VAT settlement (liquidazione IVA) for Italian compliance.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $fiscal_period_id
+ * @property numeric-string $vat_sales
+ * @property numeric-string $vat_purchases
+ * @property numeric-string $previous_credit
+ * @property numeric-string $settlement_amount
+ * @property VatSettlementStatus $status
+ * @property \Carbon\CarbonImmutable|null $confirmed_at
+ * @property int|null $confirmed_by
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class VatSettlement extends Model
 {

@@ -12,6 +12,20 @@ use Override;
 
 /**
  * Immutable archive row for a generated ERP report snapshot.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string $report_key
+ * @property string $title
+ * @property string|null $csv_content
+ * @property string|null $pdf_content
+ * @property string $content_hash
+ * @property \Carbon\CarbonImmutable $generated_at
+ * @property bool $is_immutable
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class ReportSnapshot extends Model
 {

@@ -23,6 +23,26 @@ use Modules\ERP\Observers\QuotationObserver;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property int|null $opportunity_id
+ * @property string $currency ISO 4217 for document amounts
+ * @property string|null $notes The notes of the quotation
+ * @property QuoteStatus $status The status of the quotation
+ * @property int $version The revision number of the quotation
+ * @property int|null $revises_quotation_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $locked_at The date and time when the entity was locked
+ * @property int|null $locked_user_id The user who locked the entity
+ * @property \Carbon\CarbonImmutable|null $locked_until The moment the lock expires; null means it never does
+ * @property \Carbon\CarbonImmutable|null $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 #[ObservedBy([QuotationObserver::class])]
 final class Quotation extends Model implements ILockableModel, IValidatableModel
 {

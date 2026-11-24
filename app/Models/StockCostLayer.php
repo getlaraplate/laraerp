@@ -12,6 +12,19 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $item_id
+ * @property int $warehouse_id
+ * @property int $stock_movement_id
+ * @property numeric-string $qty_remaining
+ * @property numeric-string $unit_cost
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class StockCostLayer extends Model implements RestrictsCrudWrites
 {
     use BelongsToCompany;

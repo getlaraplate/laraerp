@@ -21,6 +21,26 @@ use Override;
 
 /**
  * Minimal commercial invoice header (M2/M3 bridge): full lifecycle comes in M3.5.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int|null $party_id
+ * @property InvoiceDirection $direction
+ * @property InvoiceType $invoice_type
+ * @property int|null $credited_invoice_id
+ * @property string|null $reference Assigned by DocumentNumberAllocator at posting time
+ * @property string $currency
+ * @property \Carbon\CarbonImmutable|null $posted_at
+ * @property int|null $journal_entry_id
+ * @property string|null $notes
+ * @property int|null $payment_term_id
+ * @property string|null $einvoice_transmission_format FatturaPA transmission format, e.g. FPR12 or FPA12
+ * @property string|null $einvoice_recipient_code
+ * @property string|null $einvoice_pec_email
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 #[ObservedBy([InvoiceObserver::class])]
 final class Invoice extends Model

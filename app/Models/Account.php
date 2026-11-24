@@ -19,6 +19,18 @@ use Override;
 
 /**
  * General ledger account node (chart of accounts).
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string $code Immutable logical code unique per company (Italian PGC-style numerics)
+ * @property string $name Display name
+ * @property AccountKind $kind Balance-sheet / P&L classification
+ * @property int|null $parent_id
+ * @property bool $is_active
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class Account extends Model implements IActivatableModel
 {

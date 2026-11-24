@@ -13,6 +13,19 @@ use Override;
 
 /**
  * Tracks outbound e-invoice submission attempts per invoice and logical provider.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $invoice_id
+ * @property string $provider_code Logical gateway id, e.g. sdi, peppol
+ * @property string|null $external_id Id returned by the provider
+ * @property EInvoiceSubmissionStatus $status
+ * @property string|null $last_payload_path Optional storage path for last outbound artifact
+ * @property \Carbon\CarbonImmutable|null $submitted_at
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class EInvoiceSubmission extends Model
 {

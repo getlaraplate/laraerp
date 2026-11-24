@@ -22,6 +22,20 @@ use Override;
  *
  * `source_type` / `source_id` are deliberately opaque columns, not a morph relation: the reserving
  * document may live in a module ERP must never import or resolve, so there is no `source()`.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $item_id
+ * @property int|null $warehouse_id
+ * @property string $source_type Opaque label of the reserving document; never resolved by ERP
+ * @property int $source_id Opaque id of the reserving document within source_type
+ * @property numeric-string $quantity Always positive; the quantity held back from availability
+ * @property StockReservationState $state soft | hard | consumed | released
+ * @property \Carbon\CarbonImmutable|null $expires_at When a live reservation lapses; null means it does not expire
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class StockReservation extends Model implements RestrictsCrudWrites
 {

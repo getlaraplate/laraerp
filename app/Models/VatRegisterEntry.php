@@ -15,6 +15,21 @@ use Override;
 
 /**
  * Single-tax-code row inside an Italian VAT register (registro IVA).
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $invoice_id
+ * @property VatRegisterType $register_type
+ * @property int $protocol_number
+ * @property \Carbon\CarbonImmutable $registration_date
+ * @property int $fiscal_year_id
+ * @property int $tax_code_id
+ * @property numeric-string $taxable_amount
+ * @property numeric-string $tax_amount
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class VatRegisterEntry extends Model implements RestrictsCrudWrites
 {
