@@ -11,6 +11,19 @@ use Modules\ERP\Casts\BillingMode;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $quotation_id
+ * @property int|null $price_list_item_id
+ * @property string $name The name of the quotation item
+ * @property BillingMode $billing_mode The billing mode of the quotation item
+ * @property numeric-string $quantity The quantity of the quotation item
+ * @property numeric-string|null $unit_price Unit price in quotation currency context; null if only descriptive line
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class QuotationItem extends Model implements IsPartOfParent
 {
     /**

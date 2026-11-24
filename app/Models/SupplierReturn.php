@@ -13,6 +13,22 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property int|null $purchase_order_id
+ * @property int|null $debit_note_invoice_id
+ * @property int|null $delivery_note_id
+ * @property string|null $reference
+ * @property ReturnStatus $status
+ * @property \Carbon\CarbonImmutable|null $processed_at
+ * @property string|null $notes
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class SupplierReturn extends Model implements OverridesGenericCrudActions
 {
     use BelongsToCompany;

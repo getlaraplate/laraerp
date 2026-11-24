@@ -18,6 +18,25 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property int|null $quotation_id
+ * @property string $name The name of the project
+ * @property string|null $description The description of the project
+ * @property ProjectStatus $status The status of the project
+ * @property int $version The revision number of the project
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $locked_at The date and time when the entity was locked
+ * @property int|null $locked_user_id The user who locked the entity
+ * @property \Carbon\CarbonImmutable|null $locked_until The moment the lock expires; null means it never does
+ * @property \Carbon\CarbonImmutable $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 final class Project extends Model implements ILockableModel, IValidatableModel
 {
     use BelongsToCompany;

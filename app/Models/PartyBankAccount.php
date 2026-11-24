@@ -16,6 +16,19 @@ use Override;
 /**
  * The link between a party (one company) and a bank account of its counterparty: which account the company
  * uses by default and the direct debit mandate it holds. The account data is proxied from the counterparty.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property int $counterparty_bank_account_id
+ * @property string|null $direct_debit_mandate_reference
+ * @property \Carbon\CarbonImmutable|null $direct_debit_mandate_signed_on
+ * @property string|null $direct_debit_mandate_scheme
+ * @property bool $is_default
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class PartyBankAccount extends Model implements IsPartOfParent
 {

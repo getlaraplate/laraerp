@@ -10,6 +10,15 @@ use Modules\Core\Overrides\Model;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $payment_id
+ * @property int $payment_schedule_line_id
+ * @property numeric-string $allocated_amount_doc
+ * @property numeric-string $allocated_amount_local
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ */
 final class PaymentAllocation extends Model implements IsPartOfParent
 {
     /**

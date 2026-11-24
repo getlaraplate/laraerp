@@ -16,6 +16,24 @@ use Override;
 
 /**
  * Approved batch of outbound supplier payments exported as a bank file.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $bank_account_id
+ * @property \Carbon\CarbonImmutable $execution_date
+ * @property string $currency
+ * @property numeric-string $total_amount_doc
+ * @property numeric-string $total_amount_local
+ * @property PaymentRunStatus $status
+ * @property PaymentRunFormat $format
+ * @property \Carbon\CarbonImmutable|null $approved_at
+ * @property \Carbon\CarbonImmutable|null $exported_at
+ * @property string|null $export_file_name
+ * @property string|null $export_checksum
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class PaymentRun extends Model
 {

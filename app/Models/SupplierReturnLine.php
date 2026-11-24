@@ -12,6 +12,23 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $supplier_return_id
+ * @property int|null $purchase_order_line_id
+ * @property int|null $goods_receipt_line_id
+ * @property int|null $delivery_note_line_id
+ * @property int|null $invoice_line_id
+ * @property int $item_id
+ * @property int $warehouse_id
+ * @property numeric-string $quantity
+ * @property numeric-string|null $unit_price
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class SupplierReturnLine extends Model implements IsPartOfParent
 {
     use BelongsToCompany;

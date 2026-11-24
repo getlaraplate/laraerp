@@ -10,6 +10,13 @@ use Override;
 
 /**
  * Pivot linking invoice lines to delivery-note lines with covered quantity.
+ *
+ * @property int $id
+ * @property int $invoice_line_id
+ * @property int $delivery_note_line_id
+ * @property numeric-string $quantity Qty of this DDT line covered by this invoice line
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
  */
 final class InvoiceLineHasDeliveryNoteLine extends Pivot
 {

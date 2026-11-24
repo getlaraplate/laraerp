@@ -16,6 +16,24 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Support\ConnectionScopedModels;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property string|null $reference
+ * @property string $currency
+ * @property string $status
+ * @property \Carbon\CarbonImmutable|null $ordered_at
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property string|null $locked_at The date and time when the entity was locked
+ * @property int|null $locked_user_id The user who locked the entity
+ * @property string|null $locked_until The moment the lock expires; null means it never does
+ * @property string|null $valid_from
+ * @property string|null $valid_to
+ */
 final class PurchaseOrder extends Model
 {
     use BelongsToCompany;

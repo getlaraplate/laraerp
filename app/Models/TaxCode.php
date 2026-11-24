@@ -18,6 +18,22 @@ use Override;
 
 /**
  * Immutable fiscal code row (VAT / withholding). Rate changes = new row + supersession link.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property string $code Immutable business key (e.g. IT_VAT_22); supersession uses a new code
+ * @property TaxKind $kind
+ * @property string $country ISO 3166-1 alpha-2 for jurisdiction
+ * @property numeric-string $rate Percentage rate (e.g. 22.0000 for 22% VAT)
+ * @property string $label Frozen display label at seed/create time
+ * @property bool $is_active
+ * @property \Carbon\CarbonImmutable $effective_from First calendar day this row may apply
+ * @property int|null $replaced_by_tax_code_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property array<array-key, mixed>|null $meta Extensions e.g. SDI regime codes
  */
 final class TaxCode extends Model implements IActivatableModel
 {

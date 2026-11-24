@@ -11,6 +11,13 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Models\PartnerPool;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $partner_pool_id
+ * @property int $user_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ */
 final class PartnerPoolHasUser extends Pivot
 {
     #[Override]

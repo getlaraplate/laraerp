@@ -15,6 +15,17 @@ use Override;
 
 /**
  * Fiscal year boundary for accounting closes and reporting.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $year Calendar or fiscal label year (e.g. 2026)
+ * @property \Carbon\CarbonImmutable $start_date First inclusive day of the fiscal year
+ * @property \Carbon\CarbonImmutable $end_date Last inclusive day of the fiscal year
+ * @property bool $is_closed
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class FiscalYear extends Model
 {

@@ -12,6 +12,28 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $bank_statement_id
+ * @property int|null $matched_payment_id
+ * @property int|null $difference_journal_entry_id
+ * @property \Carbon\CarbonImmutable $booked_at
+ * @property \Carbon\CarbonImmutable|null $value_at
+ * @property string|null $reference
+ * @property string|null $description
+ * @property numeric-string $amount_doc Amount in the document currency
+ * @property string $currency_doc ISO 4217 currency code of the document
+ * @property numeric-string $amount_local Amount in the company functional currency (basis for journal balancing)
+ * @property string $currency_local ISO 4217 functional currency (Company.default_currency)
+ * @property numeric-string $fx_rate Multiplier from doc to local (1 when both currencies match)
+ * @property BankStatementLineStatus $status
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property array<array-key, mixed>|null $raw_payload
+ */
 final class BankStatementLine extends Model implements IsPartOfParent
 {
     use BelongsToCompany;

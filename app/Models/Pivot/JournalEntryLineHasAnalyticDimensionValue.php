@@ -11,6 +11,16 @@ use Modules\ERP\Models\AnalyticDimensionValue;
 use Modules\ERP\Models\JournalEntryLine;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $journal_entry_line_id
+ * @property int $analytic_dimension_value_id
+ * @property numeric-string $allocation_percent
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property string|null $deleted_at
+ * @property int|null $is_deleted Whether the entity is deleted
+ */
 final class JournalEntryLineHasAnalyticDimensionValue extends Pivot
 {
     #[Override]

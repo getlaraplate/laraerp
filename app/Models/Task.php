@@ -15,6 +15,18 @@ use Override;
 
 // use Modules\ERP\Database\Factories\TaskFactory;
 
+/**
+ * @property int $id
+ * @property int|null $project_id
+ * @property int|null $site_id
+ * @property int $taxonomy_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 final class Task extends Model implements IValidatableModel
 {
     use HasValidity;

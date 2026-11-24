@@ -20,6 +20,21 @@ use Override;
 
 /**
  * Header for a posted double-entry journal voucher.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int|null $fiscal_period_id
+ * @property \Carbon\CarbonImmutable|null $posted_at Null until posted; immutable after set
+ * @property int|null $posted_by users.id when posted; no FK for module isolation
+ * @property string|null $reference_type
+ * @property int|null $reference_id
+ * @property string|null $description
+ * @property int|null $reverses_journal_entry_id
+ * @property string|null $reversal_reason
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class JournalEntry extends Model implements RestrictsCrudWrites
 {

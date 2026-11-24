@@ -14,6 +14,24 @@ use Override;
 
 // use Modules\ERP\Database\Factories\MovementFactory;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property MovementType $type
+ * @property \Carbon\CarbonImmutable $occurred_on
+ * @property numeric $amount_doc
+ * @property string $currency_doc
+ * @property numeric|null $amount_local
+ * @property string|null $currency_local
+ * @property numeric|null $fx_rate
+ * @property int $counterparty_account_id
+ * @property int|null $posted_journal_entry_id
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class Movement extends Model
 {
     use BelongsToCompany;

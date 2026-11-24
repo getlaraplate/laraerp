@@ -16,6 +16,19 @@ use Override;
 
 /**
  * Line on a {@see PurchaseOrder} tracking ordered vs received quantities.
+ *
+ * @property int $id
+ * @property int $purchase_order_id
+ * @property int|null $item_id
+ * @property string $name
+ * @property numeric-string $qty_ordered
+ * @property numeric-string $qty_received
+ * @property numeric-string $qty_returned
+ * @property numeric-string|null $unit_price
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
  */
 final class PurchaseOrderLine extends Model implements IsPartOfParent
 {

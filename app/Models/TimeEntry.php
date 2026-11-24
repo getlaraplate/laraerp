@@ -14,6 +14,20 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Rules\TimeEntryOverlap;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $user_id
+ * @property int $taxonomy_id
+ * @property int|null $task_id
+ * @property int|null $project_id
+ * @property int|null $quotation_item_id
+ * @property \Carbon\CarbonImmutable $started_at
+ * @property \Carbon\CarbonImmutable|null $ended_at Null while the session is still open
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class TimeEntry extends Model
 {
     /**

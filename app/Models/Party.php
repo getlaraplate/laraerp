@@ -25,6 +25,18 @@ use Modules\ERP\Enums\ERPTables;
 use Modules\ERP\Observers\PartyObserver;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $is_customer Whether the party is a customer
+ * @property int $is_supplier Whether the party is a supplier
+ * @property bool $is_active Whether the party is active
+ * @property int $counterparty_id
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 #[ObservedBy([PartyObserver::class])]
 final class Party extends Model implements IActivatableModel, IMountsRelatedAttributes
 {

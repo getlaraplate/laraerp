@@ -25,6 +25,26 @@ use Override;
 
 /**
  * Party sales order (M3.2) with optional links to a {@see Quotation} and {@see Project}.
+ *
+ * @property int $id
+ * @property int $company_id
+ * @property int $party_id
+ * @property int|null $quotation_id
+ * @property int|null $project_id
+ * @property int|null $amends_sales_order_id
+ * @property string|null $reference Human-friendly reference until fiscal numbering is bound
+ * @property string $currency
+ * @property SalesOrderStatus $status
+ * @property string|null $notes
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $locked_at The date and time when the entity was locked
+ * @property int|null $locked_user_id The user who locked the entity
+ * @property \Carbon\CarbonImmutable|null $locked_until The moment the lock expires; null means it never does
+ * @property \Carbon\CarbonImmutable|null $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
  */
 final class SalesOrder extends Model implements ILockableModel, IValidatableModel
 {

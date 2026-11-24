@@ -13,6 +13,30 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int|null $party_id
+ * @property int|null $user_id
+ * @property int|null $partner_pool_id
+ * @property int|null $pool_transaction_id
+ * @property numeric-string $amount
+ * @property string $currency
+ * @property \Carbon\CarbonImmutable|null $due_on
+ * @property PaymentRequestStatus $status
+ * @property string $provider_code
+ * @property string|null $external_id
+ * @property string|null $checkout_url
+ * @property \Carbon\CarbonImmutable|null $sent_at
+ * @property \Carbon\CarbonImmutable|null $paid_at
+ * @property \Carbon\CarbonImmutable|null $cancelled_at
+ * @property string|null $description
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property array<array-key, mixed>|null $provider_payload
+ */
 final class PaymentRequest extends Model
 {
     use BelongsToCompany;

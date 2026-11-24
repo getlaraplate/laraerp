@@ -14,6 +14,21 @@ use Modules\Core\Overrides\Model;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $price_list_id
+ * @property int|null $taxonomy_id
+ * @property int|null $item_id
+ * @property string $name The name of the price list item
+ * @property string|null $uom Unit of measure label, e.g. h, day
+ * @property numeric-string $unit_price Amount in price_lists.currency
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property \Carbon\CarbonImmutable|null $valid_from
+ * @property \Carbon\CarbonImmutable|null $valid_to
+ */
 final class PriceListItem extends Model implements IsPartOfParent, IValidatableModel
 {
     use HasValidity;

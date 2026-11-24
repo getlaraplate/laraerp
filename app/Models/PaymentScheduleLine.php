@@ -14,6 +14,25 @@ use Modules\ERP\Concerns\BelongsToCompany;
 use Modules\ERP\Enums\ERPTables;
 use Override;
 
+/**
+ * @property int $id
+ * @property int $company_id
+ * @property int $invoice_id
+ * @property \Carbon\CarbonImmutable $due_date
+ * @property numeric-string $amount_doc Amount in the document currency
+ * @property string $currency_doc ISO 4217 currency code of the document
+ * @property numeric-string $amount_local Amount in the company functional currency (basis for journal balancing)
+ * @property string $currency_local ISO 4217 functional currency (Company.default_currency)
+ * @property numeric-string $fx_rate Multiplier from doc to local (1 when both currencies match)
+ * @property numeric-string $paid_amount_doc
+ * @property numeric-string $paid_amount_local
+ * @property PaymentScheduleStatus $status
+ * @property \Carbon\CarbonImmutable|null $paid_at
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ */
 final class PaymentScheduleLine extends Model implements IsPartOfParent
 {
     use BelongsToCompany;

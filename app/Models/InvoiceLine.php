@@ -17,6 +17,27 @@ use Override;
 
 /**
  * Invoice line with optional live FK and immutable fiscal snapshot at posting.
+ *
+ * @property int $id
+ * @property int $invoice_id
+ * @property int $line_no
+ * @property string|null $description
+ * @property numeric-string $quantity
+ * @property numeric-string $qty_returned
+ * @property numeric-string $unit_price
+ * @property int|null $tax_code_id
+ * @property int|null $sales_order_line_id
+ * @property string|null $tax_code Snapshot: TaxCode.code at posting
+ * @property numeric-string|null $tax_rate Snapshot: percentage frozen at posting
+ * @property string|null $tax_label Snapshot: human label at posting
+ * @property int|null $purchase_order_line_id
+ * @property int|null $goods_receipt_line_id
+ * @property MatchStatus|null $match_status Three-way match result
+ * @property \Carbon\CarbonImmutable $created_at
+ * @property \Carbon\CarbonImmutable $updated_at
+ * @property \Carbon\CarbonImmutable|null $deleted_at
+ * @property bool|null $is_deleted Whether the entity is deleted
+ * @property array<array-key, mixed>|null $match_discrepancy Details of price/qty discrepancies
  */
 final class InvoiceLine extends Model implements IsPartOfParent
 {
