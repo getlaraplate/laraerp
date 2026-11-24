@@ -37,6 +37,7 @@ use Override;
  * @property \Carbon\CarbonImmutable $updated_at
  * @property \Carbon\CarbonImmutable|null $deleted_at
  * @property bool|null $is_deleted Whether the entity is deleted
+ * @property array<array-key, mixed>|null $match_discrepancy Details of price/qty discrepancies
  */
 final class InvoiceLine extends Model implements IsPartOfParent
 {
