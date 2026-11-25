@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.2.0] - 2026-11-25
+
+### 🚀 Features
+
+- *(models)* FiscalPeriod implements IVersionedModel
+
+### 🐛 Bug Fixes
+
+- *(phpstan)* Clear ERP's backlog, fix ICS folding and lost column comments
+- *(erp)* Type what Larastan's column check reports in ERP
+
+### 📚 Documentation
+
+- *(models)* Every model declares its columns as @property tags
+- *(models)* Declare the json and array columns too
+
 ## [2.1.2] - 2026-11-23
 
 ### 🐛 Bug Fixes
