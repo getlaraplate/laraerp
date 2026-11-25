@@ -9,9 +9,9 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\GoodsReceipts\GoodsReceiptResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\GoodsReceipt;
 use Modules\ERP\Models\GoodsReceiptLine;
 use Override;
@@ -70,7 +70,11 @@ final class EditGoodsReceipt extends EditRecord
         $record->lines()->delete();
 
         foreach (array_values($line_items) as $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'item_id',
                 'warehouse_id',
                 'quantity',

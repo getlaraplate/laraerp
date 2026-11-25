@@ -23,7 +23,7 @@ final class ItemFactory extends Factory
     protected $model = Item::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Item>, mixed>
      */
     public function definition(): array
     {

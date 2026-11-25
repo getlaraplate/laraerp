@@ -22,19 +22,35 @@ use Override;
  *   shared counterparty: there is one identity.
  * - SQL cannot see these attributes; searching and ordering go through the scopes below.
  *
+ * The identity attributes read through the counterparty, null while the model has none:
+ *
  * @property int|string|null $counterparty_id
+ * @property string|null $name
+ * @property string|null $first_name
+ * @property string|null $last_name
+ * @property \Modules\CRM\Casts\CounterpartyKind|null $kind
+ * @property string|null $tax_id
+ * @property string|null $vat_number
+ * @property string|null $fiscal_country
+ * @property string|null $address_line
+ * @property string|null $postal_code
+ * @property string|null $city
+ * @property string|null $province
+ * @property string|null $country
+ * @property string|null $einvoice_recipient_code
+ * @property string|null $einvoice_pec_email
  *
  * @phpstan-require-extends \Illuminate\Database\Eloquent\Model
  */
 trait ProxiesCounterparty
 {
     /**
-     * @var array<string, mixed>
+     * @var array<model-property<Counterparty>, mixed>
      */
     private array $pendingCounterpartyAttributes = [];
 
     /**
-     * @return list<string>
+     * @return list<model-property<Counterparty>>
      */
     public static function counterpartyAttributes(): array
     {

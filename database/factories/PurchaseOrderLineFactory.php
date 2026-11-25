@@ -20,7 +20,7 @@ final class PurchaseOrderLineFactory extends Factory
     protected $model = PurchaseOrderLine::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<PurchaseOrderLine>, mixed>
      */
     public function definition(): array
     {

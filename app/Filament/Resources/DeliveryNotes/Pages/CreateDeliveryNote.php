@@ -6,9 +6,9 @@ namespace Modules\ERP\Filament\Resources\DeliveryNotes\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\DeliveryNotes\DeliveryNoteResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\DeliveryNote;
 use Modules\ERP\Services\Inventory\DeliveryNoteInventoryService;
 use Override;
@@ -30,7 +30,11 @@ final class CreateDeliveryNote extends CreateRecord
         $record = DeliveryNote::query()->create($data);
 
         foreach (array_values($line_items) as $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'item_id',
                 'warehouse_id',
                 'quantity',

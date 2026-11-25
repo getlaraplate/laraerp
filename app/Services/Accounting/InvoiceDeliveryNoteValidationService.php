@@ -122,7 +122,7 @@ final readonly class InvoiceDeliveryNoteValidationService
 
     private function pivotQuantity(DeliveryNoteLine $dn_line, int $invoice_line_no): float
     {
-        $pivot = $dn_line->pivot;
+        $pivot = $dn_line->invoiceLink();
 
         if ($pivot === null) {
             throw ValidationException::withMessages([

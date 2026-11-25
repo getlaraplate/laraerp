@@ -84,7 +84,7 @@ final class DevERPDatabaseSeeder extends Seeder
     /**
      * The demo party of a company for a tax id: found through its counterparty, created otherwise.
      *
-     * @param  array<string, mixed>  $attributes
+     * @param  array<model-property<Party>, mixed>  $attributes
      */
     private function demoParty(Company $company, string $tax_id, array $attributes): Party
     {

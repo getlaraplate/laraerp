@@ -331,8 +331,10 @@ final class StockMovementService
             ->selectRaw('SUM(qty_remaining) as qty_sum, SUM(qty_remaining * unit_cost) as value_sum')
             ->first();
 
-        $layer_qty_sum = (string) ($aggregate?->qty_sum ?? '0.0000');
-        $value = (string) ($aggregate?->value_sum ?? '0.0000');
+        $qty_sum = $aggregate?->getAttribute('qty_sum');
+        $value_sum = $aggregate?->getAttribute('value_sum');
+        $layer_qty_sum = is_numeric($qty_sum) ? (string) $qty_sum : '0.0000';
+        $value = is_numeric($value_sum) ? (string) $value_sum : '0.0000';
 
         if ((float) $layer_qty_sum === 0.0) {
             $stock_level->weighted_avg_cost = '0.0000';

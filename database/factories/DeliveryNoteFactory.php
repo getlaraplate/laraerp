@@ -23,7 +23,7 @@ final class DeliveryNoteFactory extends Factory
     protected $model = DeliveryNote::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<DeliveryNote>, mixed>
      */
     public function definition(): array
     {

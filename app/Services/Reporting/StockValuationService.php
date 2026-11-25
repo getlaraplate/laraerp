@@ -79,9 +79,19 @@ final class StockValuationService
 
         return [
             'rows' => $rows,
-            'total_quantity' => $this->formatAmount((float) ($totals?->total_quantity ?? 0)),
-            'total_value' => $this->formatAmount((float) ($totals?->total_value ?? 0)),
+            'total_quantity' => $this->formatAmount(self::aggregate($totals, 'total_quantity')),
+            'total_value' => $this->formatAmount(self::aggregate($totals, 'total_value')),
         ];
+    }
+
+    /**
+     * A `selectRaw()` alias read off the aggregate row, 0 when the row is missing or the sum is null.
+     */
+    private static function aggregate(?StockLevel $totals, string $alias): float
+    {
+        $value = $totals?->getAttribute($alias);
+
+        return is_numeric($value) ? (float) $value : 0.0;
     }
 
     private function formatAmount(float $amount): string
