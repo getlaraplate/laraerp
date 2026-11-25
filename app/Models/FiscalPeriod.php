@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Modules\Core\Contracts\IVersionedModel;
 use Modules\Core\Enums\VersionStrategy;
 use Modules\Core\Models\Concerns\HasValidations;
 use Modules\Core\Models\Concerns\HasVersions;
@@ -29,7 +30,7 @@ use Override;
  * @property \Carbon\CarbonImmutable $created_at
  * @property \Carbon\CarbonImmutable $updated_at
  */
-final class FiscalPeriod extends Model
+final class FiscalPeriod extends Model implements IVersionedModel
 {
     /** @use HasFactory<\Illuminate\Database\Eloquent\Factories\Factory<static>> */
     use HasFactory;
