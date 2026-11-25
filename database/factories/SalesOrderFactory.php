@@ -25,7 +25,7 @@ final class SalesOrderFactory extends Factory
     protected $model = SalesOrder::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<SalesOrder>, mixed>
      */
     public function definition(): array
     {

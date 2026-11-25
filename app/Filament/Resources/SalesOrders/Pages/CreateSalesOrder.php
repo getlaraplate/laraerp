@@ -35,13 +35,15 @@ final class CreateSalesOrder extends CreateRecord
             ->whereKey((int) $data['company_id'])->firstOrFail();
         $models = ConnectionScopedModels::for($company);
 
-        if (blank($data['reference'] ?? null)) {
-            $data['reference'] = resolve(DocumentNumberAllocator::class)
+        /** @var SalesOrder $record */
+        $record = $models->query(SalesOrder::class)->make($data);
+
+        if (blank($record->reference)) {
+            $record->reference = resolve(DocumentNumberAllocator::class)
                 ->next($company, DocumentType::SalesOrder, 0);
         }
 
-        /** @var SalesOrder $record */
-        $record = $models->query(SalesOrder::class)->create($data);
+        $record->save();
 
         foreach (array_values($line_items) as $line) {
             $payload = Arr::only($line, [

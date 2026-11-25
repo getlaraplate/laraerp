@@ -35,13 +35,15 @@ final class CreatePurchaseOrder extends CreateRecord
             ->whereKey((int) $data['company_id'])->firstOrFail();
         $models = ConnectionScopedModels::for($company);
 
-        if (blank($data['reference'] ?? null)) {
-            $data['reference'] = resolve(DocumentNumberAllocator::class)
+        /** @var PurchaseOrder $record */
+        $record = $models->query(PurchaseOrder::class)->make($data);
+
+        if (blank($record->reference)) {
+            $record->reference = resolve(DocumentNumberAllocator::class)
                 ->next($company, DocumentType::PurchaseOrder, 0);
         }
 
-        /** @var PurchaseOrder $record */
-        $record = $models->query(PurchaseOrder::class)->create($data);
+        $record->save();
 
         foreach (array_values($line_items) as $line) {
             $payload = Arr::only($line, [

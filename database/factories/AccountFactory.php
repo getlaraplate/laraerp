@@ -20,7 +20,7 @@ final class AccountFactory extends Factory
     protected $model = Account::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Account>, mixed>
      */
     public function definition(): array
     {

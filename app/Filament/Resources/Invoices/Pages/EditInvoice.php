@@ -13,13 +13,13 @@ use Filament\Notifications\Notification;
 use Filament\Resources\Pages\EditRecord;
 use Filament\Support\Icons\Heroicon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Casts\EInvoiceSubmissionStatus;
 use Modules\ERP\Casts\InvoiceDirection;
 use Modules\ERP\Casts\InvoiceType;
 use Modules\ERP\Filament\Resources\Invoices\Actions\InvoicePostingActions;
 use Modules\ERP\Filament\Resources\Invoices\InvoiceResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\DeliveryNoteLine;
 use Modules\ERP\Models\Invoice;
 use Modules\ERP\Models\InvoiceLine;
@@ -55,7 +55,7 @@ final class EditInvoice extends EditRecord
                 'delivery_note_line_links' => $line->delivery_note_lines
                     ->map(static fn (DeliveryNoteLine $dn_line): array => [
                         'delivery_note_line_id' => $dn_line->id,
-                        'quantity' => $dn_line->pivot->quantity,
+                        'quantity' => $dn_line->invoiceLink()?->quantity,
                     ])
                     ->values()
                     ->all(),
@@ -83,7 +83,11 @@ final class EditInvoice extends EditRecord
         $record->lines()->delete();
 
         foreach (array_values($line_items) as $index => $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'sales_order_line_id',
                 'purchase_order_line_id',
                 'goods_receipt_line_id',
@@ -209,7 +213,7 @@ final class EditInvoice extends EditRecord
     }
 
     /**
-     * @param  array<string, mixed>  $line_data
+     * @param  array<array-key, mixed>  $line_data
      */
     private function syncDeliveryNoteLineLinks(InvoiceLine $invoice_line, array $line_data): void
     {

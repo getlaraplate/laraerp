@@ -6,9 +6,9 @@ namespace Modules\ERP\Filament\Resources\Invoices\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\Invoices\InvoiceResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\Invoice;
 use Modules\ERP\Models\InvoiceLine;
 use Override;
@@ -30,7 +30,11 @@ final class CreateInvoice extends CreateRecord
         $invoice = Invoice::query()->create($data);
 
         foreach (array_values($line_items) as $index => $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'sales_order_line_id',
                 'purchase_order_line_id',
                 'goods_receipt_line_id',
@@ -50,7 +54,7 @@ final class CreateInvoice extends CreateRecord
     }
 
     /**
-     * @param  array<string, mixed>  $line_data
+     * @param  array<array-key, mixed>  $line_data
      */
     private function syncDeliveryNoteLineLinks(InvoiceLine $invoice_line, array $line_data): void
     {

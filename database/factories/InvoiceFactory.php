@@ -27,7 +27,7 @@ final class InvoiceFactory extends Factory
     protected $model = Invoice::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Invoice>, mixed>
      */
     public function definition(): array
     {

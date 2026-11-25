@@ -9,10 +9,10 @@ use Filament\Actions\ForceDeleteAction;
 use Filament\Actions\RestoreAction;
 use Filament\Resources\Pages\EditRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\DeliveryNotes\Actions\DeliveryNotePostingActions;
 use Modules\ERP\Filament\Resources\DeliveryNotes\DeliveryNoteResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\DeliveryNote;
 use Modules\ERP\Models\DeliveryNoteLine;
 use Override;
@@ -72,7 +72,11 @@ final class EditDeliveryNote extends EditRecord
         $record->lines()->delete();
 
         foreach (array_values($line_items) as $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'item_id',
                 'warehouse_id',
                 'quantity',

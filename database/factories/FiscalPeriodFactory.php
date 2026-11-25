@@ -23,7 +23,7 @@ final class FiscalPeriodFactory extends Factory
     protected $model = FiscalPeriod::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<FiscalPeriod>, mixed>
      */
     public function definition(): array
     {

@@ -152,7 +152,7 @@ final class InvoiceCompactionService
      */
     private function pivotQuantity(DeliveryNoteLine $dn_line): string
     {
-        $pivot = $dn_line->pivot;
+        $pivot = $dn_line->invoiceLink();
 
         if ($pivot === null) {
             throw ValidationException::withMessages([

@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\JournalEntries\JournalEntryResource;
 use Modules\ERP\Filament\Resources\JournalEntries\Schemas\JournalEntryCreateForm;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\JournalEntry;
 use Override;
 
@@ -35,8 +36,24 @@ final class CreateJournalEntry extends CreateRecord
         $record = JournalEntry::query()->create($data);
 
         foreach (array_values($line_items) as $index => $line) {
+            if (! is_array($line)) {
+                continue;
+            }
+
             $record->lines()->create([
-                ...$line,
+                ...LineAttributes::only($line, [
+                    'account_id',
+                    'tax_code_id',
+                    'amount_doc',
+                    'currency_doc',
+                    'amount_local',
+                    'currency_local',
+                    'fx_rate',
+                    'tax_code',
+                    'tax_rate',
+                    'tax_label',
+                    'description',
+                ]),
                 'line_no' => $index + 1,
             ]);
         }

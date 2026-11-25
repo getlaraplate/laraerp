@@ -23,7 +23,7 @@ final class CompanyFactory extends Factory
     protected $model = Company::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Company>, mixed>
      */
     public function definition(): array
     {

@@ -23,7 +23,7 @@ final class PartyFactory extends Factory
     protected $model = Party::class;
 
     /**
-     * @return array<string, mixed>
+     * @return array<model-property<Party>, mixed>
      */
     public function definition(): array
     {

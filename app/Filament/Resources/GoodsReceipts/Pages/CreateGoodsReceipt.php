@@ -6,9 +6,9 @@ namespace Modules\ERP\Filament\Resources\GoodsReceipts\Pages;
 
 use Filament\Resources\Pages\CreateRecord;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
 use Modules\Core\Filament\Utils\HasCloseOrCancelFormAction;
 use Modules\ERP\Filament\Resources\GoodsReceipts\GoodsReceiptResource;
+use Modules\ERP\Filament\Support\LineAttributes;
 use Modules\ERP\Models\GoodsReceipt;
 use Modules\ERP\Services\Inventory\GoodsReceiptInventoryService;
 use Override;
@@ -30,7 +30,11 @@ final class CreateGoodsReceipt extends CreateRecord
         $record = GoodsReceipt::query()->create($data);
 
         foreach (array_values($line_items) as $line) {
-            $payload = Arr::only($line, [
+            if (! is_array($line)) {
+                continue;
+            }
+
+            $payload = LineAttributes::only($line, [
                 'item_id',
                 'warehouse_id',
                 'quantity',

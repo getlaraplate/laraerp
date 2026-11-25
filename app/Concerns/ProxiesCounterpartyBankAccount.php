@@ -20,19 +20,26 @@ use Override;
  * On save without a `counterparty_bank_account_id`, the account of the party's counterparty with the same
  * IBAN is reused, or created. With one, changed attributes are written through to the shared account.
  *
+ * The account attributes read through the counterparty account, null while the model has none:
+ *
  * @property int|string|null $counterparty_bank_account_id
+ * @property string|null $beneficiary_name
+ * @property string|null $iban
+ * @property string|null $bic
+ * @property string|null $currency
+ * @property bool|null $is_active
  *
  * @phpstan-require-extends \Illuminate\Database\Eloquent\Model
  */
 trait ProxiesCounterpartyBankAccount
 {
     /**
-     * @var array<string, mixed>
+     * @var array<model-property<CounterpartyBankAccount>, mixed>
      */
     private array $pendingBankAccountAttributes = [];
 
     /**
-     * @return list<string>
+     * @return list<model-property<CounterpartyBankAccount>>
      */
     public static function bankAccountAttributes(): array
     {

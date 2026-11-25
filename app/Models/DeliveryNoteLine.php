@@ -105,6 +105,17 @@ final class DeliveryNoteLine extends Model implements IsPartOfParent
     }
 
     /**
+     * The invoice link this line was loaded through (`InvoiceLine::delivery_note_lines()`), null when the line
+     * was loaded another way and carries no pivot.
+     */
+    public function invoiceLink(): ?InvoiceLineHasDeliveryNoteLine
+    {
+        $pivot = $this->relationLoaded('pivot') ? $this->getRelation('pivot') : null;
+
+        return $pivot instanceof InvoiceLineHasDeliveryNoteLine ? $pivot : null;
+    }
+
+    /**
      * @return array<string, mixed>
      */
     #[Override]
