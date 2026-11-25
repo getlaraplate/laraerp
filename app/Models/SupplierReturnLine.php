@@ -142,7 +142,7 @@ final class SupplierReturnLine extends Model implements IsPartOfParent
     protected static function booted(): void
     {
         self::creating(static function (SupplierReturnLine $line): void {
-            if ($line->company_id !== null || $line->supplier_return_id === null) {
+            if ($line->getAttribute('company_id') !== null || $line->getAttribute('supplier_return_id') === null) {
                 return;
             }
 

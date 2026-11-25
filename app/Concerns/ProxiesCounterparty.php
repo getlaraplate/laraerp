@@ -71,7 +71,7 @@ trait ProxiesCounterparty
         return $query->orderByName()
             ->limit($limit)
             ->get()
-            ->mapWithKeys(static fn (self $party): array => [(int) $party->getKey() => (string) $party->name])
+            ->mapWithKeys(static fn (self $party): array => [$party->id => (string) $party->name])
             ->all();
     }
 
@@ -103,6 +103,7 @@ trait ProxiesCounterparty
             $unloaded->load('counterparty');
         }
 
+        // @phpstan-ignore return.type (a parent:: call resolves the static of Model's HasCollection binding to the parent class; the collection holds the models passed in, which are static)
         return $collection;
     }
 
@@ -117,7 +118,7 @@ trait ProxiesCounterparty
     #[Override]
     public function getAttribute($key)
     {
-        if (is_string($key) && in_array($key, self::counterpartyAttributes(), true)) {
+        if (in_array($key, self::counterpartyAttributes(), true)) {
             return array_key_exists($key, $this->pendingCounterpartyAttributes)
                 ? $this->pendingCounterpartyAttributes[$key]
                 : $this->counterparty?->getAttribute($key);
@@ -129,7 +130,7 @@ trait ProxiesCounterparty
     #[Override]
     public function setAttribute($key, $value)
     {
-        if (is_string($key) && in_array($key, self::counterpartyAttributes(), true)) {
+        if (in_array($key, self::counterpartyAttributes(), true)) {
             $this->pendingCounterpartyAttributes[$key] = $value;
 
             return $this;
@@ -185,6 +186,7 @@ trait ProxiesCounterparty
 
     /**
      * @param  \Illuminate\Database\Eloquent\Builder<static>  $query
+     * @param  'asc'|'desc'  $direction
      * @return \Illuminate\Database\Eloquent\Builder<static>
      */
     public function scopeOrderByName($query, string $direction = 'asc')
@@ -196,6 +198,19 @@ trait ProxiesCounterparty
                 ->whereColumn((new Counterparty())->qualifyColumn('id'), $this->qualifyColumn('counterparty_id')),
             $direction,
         );
+    }
+
+    /**
+     * A fiscal identifier staged for the counterparty, as the string the lookup matches on. An identifier typed as a
+     * number (an import reading a VAT number as an integer) is the same identifier.
+     *
+     * @param  array<string, mixed>  $pending
+     */
+    private static function pendingIdentifier(array $pending, string $key): ?string
+    {
+        $value = $pending[$key] ?? null;
+
+        return is_string($value) || is_int($value) ? (string) $value : null;
     }
 
     private function resolveCounterparty(): void
@@ -214,9 +229,9 @@ trait ProxiesCounterparty
             }
         } else {
             $counterparty = Counterparty::findByFiscalIdentity(
-                $pending['fiscal_country'] ?? null,
-                $pending['vat_number'] ?? null,
-                $pending['tax_id'] ?? null,
+                self::pendingIdentifier($pending, 'fiscal_country'),
+                self::pendingIdentifier($pending, 'vat_number'),
+                self::pendingIdentifier($pending, 'tax_id'),
             ) ?? Counterparty::query()->create($pending);
 
             if ($counterparty->trashed()) {

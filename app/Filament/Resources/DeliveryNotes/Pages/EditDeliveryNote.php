@@ -66,7 +66,7 @@ final class EditDeliveryNote extends EditRecord
             return $record;
         }
 
-        $line_items = $data['line_items'] ?? [];
+        $line_items = is_array($data['line_items'] ?? null) ? $data['line_items'] : [];
         unset($data['line_items']);
 
         $record->lines()->delete();

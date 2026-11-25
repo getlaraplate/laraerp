@@ -67,7 +67,7 @@ final class StockValuationService
             $rows[] = [
                 'item_id' => $stock_level->item_id,
                 'item_name' => $item === null ? '' : $item->name,
-                'sku' => $item === null || $item->sku === null ? '' : $item->sku,
+                'sku' => $item === null ? '' : $item->sku,
                 'warehouse_id' => $stock_level->warehouse_id,
                 'warehouse_name' => $warehouse === null ? '' : $warehouse->name,
                 'warehouse_code' => $warehouse === null ? '' : $warehouse->code,

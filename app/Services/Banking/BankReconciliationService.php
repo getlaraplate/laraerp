@@ -167,12 +167,10 @@ final class BankReconciliationService
             });
         }
 
-        if ($booked_at !== null) {
-            $query->whereBetween('payment_date', [
-                $booked_at->copy()->subDays(5)->format('Y-m-d'),
-                $booked_at->copy()->addDays(5)->format('Y-m-d'),
-            ]);
-        }
+        $query->whereBetween('payment_date', [
+            $booked_at->copy()->subDays(5)->format('Y-m-d'),
+            $booked_at->copy()->addDays(5)->format('Y-m-d'),
+        ]);
 
         return $query
             ->limit(50)
@@ -262,9 +260,7 @@ final class BankReconciliationService
             $score += 50;
         }
 
-        if ($line->booked_at !== null && $payment->payment_date !== null) {
-            $score += max(0, 20 - (int) abs($line->booked_at->diffInDays($payment->payment_date)));
-        }
+        $score += max(0, 20 - (int) abs($line->booked_at->diffInDays($payment->payment_date)));
 
         if ($line->reference !== null && $payment->reference !== null
             && mb_strtolower($line->reference) === mb_strtolower($payment->reference)) {

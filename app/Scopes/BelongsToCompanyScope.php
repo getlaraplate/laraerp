@@ -21,11 +21,13 @@ use Override;
  *
  * The scope qualifies the column with the model table to play nicely with
  * joins and avoid ambiguous-column errors.
+ *
+ * @implements Scope<Model>
  */
 final class BelongsToCompanyScope implements Scope
 {
     /**
-     * @param  Builder<Model>  $builder
+     * @param  Builder<covariant Model>  $builder
      */
     #[Override]
     public function apply(Builder $builder, Model $model): void

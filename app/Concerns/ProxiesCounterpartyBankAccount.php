@@ -71,13 +71,14 @@ trait ProxiesCounterpartyBankAccount
             $unloaded->load('counterparty_bank_account');
         }
 
+        // @phpstan-ignore return.type (a parent:: call resolves the static of Model's HasCollection binding to the parent class; the collection holds the models passed in, which are static)
         return $collection;
     }
 
     #[Override]
     public function getAttribute($key)
     {
-        if (is_string($key) && in_array($key, self::bankAccountAttributes(), true)) {
+        if (in_array($key, self::bankAccountAttributes(), true)) {
             return array_key_exists($key, $this->pendingBankAccountAttributes)
                 ? $this->pendingBankAccountAttributes[$key]
                 : $this->counterparty_bank_account?->getAttribute($key);
@@ -89,7 +90,7 @@ trait ProxiesCounterpartyBankAccount
     #[Override]
     public function setAttribute($key, $value)
     {
-        if (is_string($key) && in_array($key, self::bankAccountAttributes(), true)) {
+        if (in_array($key, self::bankAccountAttributes(), true)) {
             $this->pendingBankAccountAttributes[$key] = $value;
 
             return $this;
@@ -139,8 +140,8 @@ trait ProxiesCounterpartyBankAccount
                 }
             }
         } else {
-            $party = Party::query()->withoutGlobalScope(BelongsToCompanyScope::class)->findOrFail($this->getAttribute('party_id'));
-            $iban = CounterpartyBankAccount::normalizeIban((string) ($pending['iban'] ?? ''));
+            $party = Party::query()->withoutGlobalScope(BelongsToCompanyScope::class)->whereKey($this->getAttribute('party_id'))->firstOrFail();
+            $iban = CounterpartyBankAccount::normalizeIban(is_string($pending['iban'] ?? null) ? $pending['iban'] : '');
 
             $account = ($iban === '' ? null : CounterpartyBankAccount::query()
                 ->withTrashed()

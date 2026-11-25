@@ -128,9 +128,9 @@ final readonly class BankStatementBatchImportService
 
             $this->import_service->importLines($statement, $lines);
 
-            $dates = $statement->lines()->pluck('booked_at')->filter()->sort()->values();
-            $statement->period_start = $dates->first();
-            $statement->period_end = $dates->last();
+            $dates = $statement->lines()->orderBy('booked_at')->get(['booked_at']);
+            $statement->period_start = $dates->first()?->booked_at;
+            $statement->period_end = $dates->last()?->booked_at;
             $statement->save();
 
             return $statement;

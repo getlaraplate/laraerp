@@ -146,7 +146,7 @@ final class Project extends Model implements ILockableModel, IValidatableModel
                 }
             }
 
-            if ($project->party_id === null) {
+            if ($project->getAttribute('party_id') === null) {
                 return;
             }
 

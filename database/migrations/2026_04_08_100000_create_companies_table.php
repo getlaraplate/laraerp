@@ -37,9 +37,9 @@ return new class extends Migration
             $table->string('liquidation_status', 2)->nullable()->comment('FatturaPA StatoLiquidazione code');
             $table->foreignId('counterparty_id')
                 ->nullable()
+                ->comment('The company as a subject of the CRM: a party pointing at it from another company is an intercompany relationship')
                 ->constrained(CRMTables::Counterparties->value, 'id', "{$companies_table}_counterparty_FK")
-                ->restrictOnDelete()
-                ->comment('The company as a subject of the CRM: a party pointing at it from another company is an intercompany relationship');
+                ->restrictOnDelete();
 
             MigrateUtils::timestamps(
                 $table,

@@ -66,7 +66,7 @@ it('accepts a quotation for a party that is not a customer yet', function (): vo
     $quotation = alignmentQuotation($party);
 
     expect($quotation->exists)->toBeTrue()
-        ->and($party->fresh()->is_customer)->toBeFalsy();
+        ->and($party->fresh()->is_customer)->toBeFalse();
 });
 
 it('makes the party a customer and marks the opportunity won when the quotation is accepted', function (): void {
@@ -78,7 +78,7 @@ it('makes the party a customer and marks the opportunity won when the quotation 
 
     expect($opportunity->fresh()->status)->toBe(OpportunityStatus::Won)
         ->and($opportunity->fresh()->won_at)->not->toBeNull()
-        ->and($party->fresh()->is_customer)->toBeTruthy()
+        ->and($party->fresh()->is_customer)->toBeTrue()
         ->and($party->counterparty->fresh()->is_customer)->toBeTrue();
 });
 

@@ -157,7 +157,7 @@ final class SalesOrder extends Model implements ILockableModel, IValidatableMode
         self::saving(static function (SalesOrder $order): void {
             $models = ConnectionScopedModels::for($order);
 
-            if ($order->party_id !== null) {
+            if ($order->getAttribute('party_id') !== null) {
                 $party = $models->query(Party::class)->whereKey($order->party_id)->first();
 
                 if ($party !== null && ! $party->is_customer) {

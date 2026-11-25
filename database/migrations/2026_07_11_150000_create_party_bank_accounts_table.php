@@ -24,9 +24,9 @@ return new class extends Migration
                 ->cascadeOnDelete();
             MigrateUtils::prefixIndex($table, 'party_id');
             $table->foreignId('counterparty_bank_account_id')
+                ->comment('The bank account of the counterparty this company uses with the party')
                 ->constrained(CRMTables::CounterpartyBankAccounts->value, 'id', "{$party_bank_accounts_table}_counterparty_bank_account_id_FK")
-                ->restrictOnDelete()
-                ->comment('The bank account of the counterparty this company uses with the party');
+                ->restrictOnDelete();
             $table->string('direct_debit_mandate_reference', 35)->nullable();
             $table->date('direct_debit_mandate_signed_on')->nullable();
             $table->string('direct_debit_mandate_scheme', 16)->nullable();

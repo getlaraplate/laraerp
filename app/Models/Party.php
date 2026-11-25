@@ -28,8 +28,8 @@ use Override;
 /**
  * @property int $id
  * @property int $company_id
- * @property int $is_customer Whether the party is a customer
- * @property int $is_supplier Whether the party is a supplier
+ * @property bool $is_customer Whether the party is a customer
+ * @property bool $is_supplier Whether the party is a supplier
  * @property bool $is_active Whether the party is active
  * @property int $counterparty_id
  * @property \Carbon\CarbonImmutable $created_at
@@ -169,7 +169,7 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
      */
     public function isIntercompany(): bool
     {
-        if ($this->counterparty_id === null) {
+        if ($this->getAttribute('counterparty_id') === null) {
             return false;
         }
 
@@ -186,6 +186,18 @@ final class Party extends Model implements IActivatableModel, IMountsRelatedAttr
     protected static function newFactory(): Factory
     {
         return PartyFactory::new();
+    }
+
+    /**
+     * @return array<string, string>
+     */
+    #[Override]
+    protected function casts(): array
+    {
+        return [
+            'is_customer' => 'boolean',
+            'is_supplier' => 'boolean',
+        ];
     }
 
     /**

@@ -15,7 +15,7 @@ final class Entity extends CoreEntity
     /**
      * The activities that belong to the entity.
      *
-     * @return HasManyThrough<Activity>
+     * @return HasManyThrough<Activity, Presettable, $this>
      */
     public function activities(): HasManyThrough
     {

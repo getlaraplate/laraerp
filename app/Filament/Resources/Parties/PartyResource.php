@@ -64,7 +64,7 @@ final class PartyResource extends Resource
     {
         return PartiesTable::configure($table)
             ->modifyQueryUsing(fn (Builder $query): Builder => $query->with(['company', 'counterparty']))
-            ->defaultSort(static fn (Builder $query): Builder => $query->orderByName());
+            ->defaultSort(self::sortByName(...));
     }
 
     public static function getRelations(): array
@@ -81,5 +81,14 @@ final class PartyResource extends Resource
             'create' => CreateParty::route('/create'),
             'edit' => EditParty::route('/{record}/edit'),
         ];
+    }
+
+    /**
+     * @param  Builder<Party>  $query
+     * @return Builder<Party>
+     */
+    private static function sortByName(Builder $query): Builder
+    {
+        return $query->orderByName();
     }
 }

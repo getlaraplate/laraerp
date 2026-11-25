@@ -25,9 +25,9 @@ return new class extends Migration
             $table->boolean('is_supplier')->default(false)->comment('Whether the party is a supplier');
             $table->boolean('is_active')->default(true)->index("{$parties_table}_is_active_IDX")->comment('Whether the party is active');
             $table->foreignId('counterparty_id')
+                ->comment('The shared subject this party is the relationship of, with one company')
                 ->constrained(CRMTables::Counterparties->value, 'id', "{$parties_table}_counterparty_id_FK")
-                ->restrictOnDelete()
-                ->comment('The shared subject this party is the relationship of, with one company');
+                ->restrictOnDelete();
             $table->unique(['counterparty_id', 'company_id'], "{$parties_table}_counterparty_company_UN");
 
             MigrateUtils::timestamps(

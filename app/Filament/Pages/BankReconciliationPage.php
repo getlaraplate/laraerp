@@ -182,7 +182,7 @@ final class BankReconciliationPage extends Page
             ->mapWithKeys(static fn (BankStatementLine $line): array => [
                 (int) $line->getKey() => sprintf(
                     '%s | %s | %s %s | %s',
-                    $line->booked_at?->format('Y-m-d') ?? '-',
+                    $line->booked_at->format('Y-m-d'),
                     $line->bank_statement?->bank_account?->name ?? 'Bank account',
                     $line->amount_doc,
                     $line->currency_doc,
@@ -205,7 +205,7 @@ final class BankReconciliationPage extends Page
             ->mapWithKeys(static fn (Payment $payment): array => [
                 (int) $payment->getKey() => sprintf(
                     '%s | %s | %s %s | %s',
-                    $payment->payment_date?->format('Y-m-d') ?? '-',
+                    $payment->payment_date->format('Y-m-d'),
                     $payment->party?->name ?? 'Party',
                     $payment->amount_doc,
                     $payment->currency_doc,
@@ -255,7 +255,7 @@ final class BankReconciliationPage extends Page
             ->mapWithKeys(static fn (Payment $payment): array => [
                 (int) $payment->getKey() => sprintf(
                     '%s | %s | %s %s | %s',
-                    $payment->payment_date?->format('Y-m-d') ?? '-',
+                    $payment->payment_date->format('Y-m-d'),
                     $payment->party?->name ?? 'Party',
                     $payment->amount_doc,
                     $payment->currency_doc,
