@@ -127,7 +127,7 @@ final class CreditNoteService
             $line_net = (float) $line->quantity * (float) $line->unit_price;
             $line_tax = 0.0;
 
-            if ($line->tax_rate !== null && $line->tax_rate !== '') {
+            if ($line->tax_rate !== null) {
                 $line_tax = round($line_net * (float) $line->tax_rate / 100, 4);
             }
             $total += $line_net + $line_tax;

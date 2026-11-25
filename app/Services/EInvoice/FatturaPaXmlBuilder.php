@@ -373,6 +373,9 @@ final readonly class FatturaPaXmlBuilder
         return mb_strtoupper($recipient_code);
     }
 
+    /**
+     * @param  int<0, max>  $decimals
+     */
     private function money(mixed $value, int $decimals): string
     {
         return (string) BigDecimal::of($this->stringValue($value))->toScale($decimals, RoundingMode::HalfUp);

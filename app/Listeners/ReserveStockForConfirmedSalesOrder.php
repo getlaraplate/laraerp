@@ -115,6 +115,12 @@ final readonly class ReserveStockForConfirmedSalesOrder
 
     private function reserveLine(int $companyId, SalesOrderLine $line): void
     {
+        $itemId = $line->item_id;
+
+        if ($itemId === null) {
+            return;
+        }
+
         $this->reservations->promoteToHard(self::SOURCE_TYPE, $line->id, $companyId);
 
         // Reserve only what the line still owes: its ordered quantity less what has already shipped
@@ -125,7 +131,7 @@ final readonly class ReserveStockForConfirmedSalesOrder
         $remaining = Decimal::sub($owed, $this->reservations->reservedQuantity(self::SOURCE_TYPE, $line->id));
 
         for ($attempt = 0; $attempt < self::MAX_ATTEMPTS; $attempt++) {
-            $quantity = $this->clampToAvailable($remaining, $this->reservations->available($companyId, $line->item_id));
+            $quantity = $this->clampToAvailable($remaining, $this->reservations->available($companyId, $itemId));
 
             if ($quantity === null) {
                 return;
@@ -134,7 +140,7 @@ final readonly class ReserveStockForConfirmedSalesOrder
             try {
                 $this->reservations->reserve(
                     $companyId,
-                    $line->item_id,
+                    $itemId,
                     $quantity,
                     StockReservationState::Hard,
                     self::SOURCE_TYPE,
@@ -169,7 +175,7 @@ final readonly class ReserveStockForConfirmedSalesOrder
     }
 
     /**
-     * @return array{company_id: int, item_id: int, sales_order_line_id: int, sales_order_id: int}
+     * @return array{company_id: int, item_id: int|null, sales_order_line_id: int, sales_order_id: int}
      */
     private function logContext(int $companyId, SalesOrderLine $line): array
     {

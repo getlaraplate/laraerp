@@ -102,7 +102,7 @@ final class PurchaseOrder extends Model
     protected static function booted(): void
     {
         self::saving(static function (PurchaseOrder $purchase_order): void {
-            if ($purchase_order->party_id === null) {
+            if ($purchase_order->getAttribute('party_id') === null) {
                 return;
             }
 

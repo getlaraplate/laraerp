@@ -179,6 +179,7 @@ final readonly class InvoicePostingService
 
         /** @var array<int, list<int>> $line_ids_by_tax_code */
         $line_ids_by_tax_code = [];
+        $used_tax_codes = [];
 
         foreach ($lines as $line) {
             $line_net = Decimal::mul((string) $line->quantity, (string) $line->unit_price);
@@ -199,7 +200,8 @@ final readonly class InvoicePostingService
                 $line->tax_rate = $tax_code->rate;
                 $line->tax_label = $tax_code->label;
 
-                $line_ids_by_tax_code[(int) $tax_code->id][] = $line->id;
+                $line_ids_by_tax_code[$tax_code->id][] = $line->id;
+                $used_tax_codes[$tax_code->id] = $tax_code;
             }
 
             $net_total = Decimal::add($net_total, $line_net);
@@ -207,7 +209,7 @@ final readonly class InvoicePostingService
         }
 
         foreach ($line_ids_by_tax_code as $tax_code_id => $line_ids) {
-            $tax_code = $tax_codes->get($tax_code_id);
+            $tax_code = $used_tax_codes[$tax_code_id];
 
             $models->query(InvoiceLine::class)
                 ->whereKey($line_ids)
@@ -394,10 +396,6 @@ final readonly class InvoicePostingService
 
         if ($posted_at instanceof CarbonImmutable) {
             return $posted_at;
-        }
-
-        if ($posted_at !== null) {
-            return CarbonImmutable::parse($posted_at);
         }
 
         return CarbonImmutable::now();

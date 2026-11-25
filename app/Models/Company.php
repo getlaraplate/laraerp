@@ -114,7 +114,7 @@ final class Company extends Model
      */
     public function ensureCounterparty(): Counterparty
     {
-        if ($this->counterparty_id !== null) {
+        if ($this->counterparty instanceof Counterparty) {
             return $this->counterparty;
         }
 

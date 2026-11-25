@@ -166,7 +166,7 @@ final class Quotation extends Model implements ILockableModel, IValidatableModel
                 ]);
             }
 
-            $party = $quotation->party_id === null
+            $party = $quotation->getAttribute('party_id') === null
                 ? null
                 : $models->query(Party::class)->whereKey($quotation->party_id)->first();
 

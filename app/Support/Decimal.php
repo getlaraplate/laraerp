@@ -7,6 +7,7 @@ namespace Modules\ERP\Support;
 use Brick\Math\BigDecimal;
 use Brick\Math\RoundingMode;
 use InvalidArgumentException;
+use LogicException;
 
 /**
  * Decimal-exact money math (scale 4, HALF_UP) shared across ERP accounting services.
@@ -18,16 +19,25 @@ final class Decimal
 {
     private const int SCALE = 4;
 
+    /**
+     * @return numeric-string
+     */
     public static function add(string $a, string $b): string
     {
         return self::format(BigDecimal::of($a)->plus(BigDecimal::of($b)));
     }
 
+    /**
+     * @return numeric-string
+     */
     public static function sub(string $a, string $b): string
     {
         return self::format(BigDecimal::of($a)->minus(BigDecimal::of($b)));
     }
 
+    /**
+     * @return numeric-string
+     */
     public static function mul(string $a, string $b): string
     {
         return self::format(BigDecimal::of($a)->multipliedBy(BigDecimal::of($b)));
@@ -35,6 +45,8 @@ final class Decimal
 
     /**
      * @throws InvalidArgumentException when the divisor is zero at ERP decimal scale.
+     *
+     * @return numeric-string
      */
     public static function div(string $a, string $b): string
     {
@@ -45,11 +57,17 @@ final class Decimal
         return self::format(BigDecimal::of($a)->dividedBy(BigDecimal::of($b), self::SCALE, RoundingMode::HalfUp));
     }
 
+    /**
+     * @return numeric-string
+     */
     public static function negate(string $a): string
     {
         return self::format(BigDecimal::of($a)->negated());
     }
 
+    /**
+     * @return numeric-string
+     */
     public static function abs(string $a): string
     {
         return self::format(BigDecimal::of($a)->abs());
@@ -65,9 +83,18 @@ final class Decimal
         return self::scaled($a)->isNegative();
     }
 
+    /**
+     * @return numeric-string
+     */
     public static function format(BigDecimal|string $value): string
     {
-        return self::scaled($value)->__toString();
+        $formatted = self::scaled($value)->__toString();
+
+        if (! is_numeric($formatted)) {
+            throw new LogicException("A decimal printed as [{$formatted}], which is not a number.");
+        }
+
+        return $formatted;
     }
 
     private static function scaled(BigDecimal|string $value): BigDecimal

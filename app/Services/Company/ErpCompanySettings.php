@@ -36,11 +36,6 @@ final class ErpCompanySettings
     ) {}
 
     /**
-     * Default ERP settings seeded for new companies and backfilled when missing.
-     *
-     * @return array<string, mixed>
-     */
-    /**
      * The global setting row is named without the module prefix: the module lives in its own column.
      */
     public static function settingName(string $key): string
@@ -48,6 +43,11 @@ final class ErpCompanySettings
         return str_starts_with($key, 'erp.') ? mb_substr($key, 4) : $key;
     }
 
+    /**
+     * Default ERP settings seeded for new companies and backfilled when missing.
+     *
+     * @return array<string, mixed>
+     */
     public static function defaultSettings(): array
     {
         return [
@@ -71,7 +71,7 @@ final class ErpCompanySettings
      * {@see \Modules\Core\Seeding\SeedReconciler} batches these rows into a single `upsert()`,
      * which requires a uniform column set across the whole batch.
      *
-     * @return array<int, array{name: string, value: mixed, encrypted: bool, choices: ?list<string>, type: SettingTypeEnum, group_name: string, description: string}>
+     * @return list<array{name: string, value: mixed, encrypted: bool, choices: ?list<string>, type: SettingTypeEnum, group_name: string, description: string}>
      */
     public static function globalSettingDefinitions(): array
     {

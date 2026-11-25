@@ -284,7 +284,7 @@ final readonly class DeliveryNoteInventoryService
             ->whereIn('source_id', $line_ids)
             ->where('direction', StockMovementDirection::Out)
             ->get()
-            ->keyBy(static fn (StockMovement $movement): int => $movement->source_id);
+            ->keyBy('source_id');
 
         foreach ($lines as $line) {
             /** @var StockMovement|null $outbound */
@@ -319,7 +319,7 @@ final readonly class DeliveryNoteInventoryService
             ->whereIn('source_id', $line_ids)
             ->where('direction', StockMovementDirection::In)
             ->get()
-            ->keyBy(static fn (StockMovement $movement): int => $movement->source_id);
+            ->keyBy('source_id');
 
         foreach ($lines as $line) {
             /** @var StockMovement|null $inbound */
@@ -405,7 +405,7 @@ final readonly class DeliveryNoteInventoryService
             ->where('company_id', $header->company_id)
             ->first();
 
-        if ($return_line === null || $return_line->unit_cost === null) {
+        if ($return_line === null) {
             throw ValidationException::withMessages([
                 'unit_cost' => ['Inbound return delivery note line requires a linked customer return line with unit cost.'],
             ]);

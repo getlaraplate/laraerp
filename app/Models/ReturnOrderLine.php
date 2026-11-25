@@ -116,7 +116,7 @@ final class ReturnOrderLine extends Model implements IsPartOfParent
     protected static function booted(): void
     {
         self::creating(static function (ReturnOrderLine $line): void {
-            if ($line->company_id !== null || $line->return_order_id === null) {
+            if ($line->getAttribute('company_id') !== null || $line->getAttribute('return_order_id') === null) {
                 return;
             }
 

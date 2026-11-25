@@ -91,9 +91,10 @@ final readonly class StockReservationService
 
         $lock = Cache::lock("erp:stock-reservation:{$companyId}:{$itemId}", self::LOCK_SECONDS);
 
-        return $lock->block(
-            self::LOCK_WAIT_SECONDS,
-            fn (): StockReservation => $this->connection()->transaction(function () use ($companyId, $itemId, $quantity, $mode, $sourceType, $sourceId, $warehouseId, $expiresAt): StockReservation {
+        $lock->block(self::LOCK_WAIT_SECONDS);
+
+        try {
+            return $this->connection()->transaction(function () use ($companyId, $itemId, $quantity, $mode, $sourceType, $sourceId, $warehouseId, $expiresAt): StockReservation {
                 $available = $this->availableUnderRowLock($companyId, $itemId);
 
                 if (Decimal::isNegative(Decimal::sub($available, $quantity))) {
@@ -110,8 +111,10 @@ final readonly class StockReservationService
                     'state' => $mode,
                     'expires_at' => $mode === StockReservationState::Soft ? $expiresAt : null,
                 ]);
-            }),
-        );
+            });
+        } finally {
+            $lock->release();
+        }
     }
 
     /**

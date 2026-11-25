@@ -107,7 +107,7 @@ final readonly class EInvoiceSubmissionService
             $payload['provider_poll'] = $provider_payload;
 
             if (array_key_exists('pddAvailable', $provider_payload)) {
-                $payload['conservation'] = array_merge($payload['conservation'] ?? [], [
+                $payload['conservation'] = array_merge(self::section($payload, 'conservation'), [
                     'pdd_available' => (bool) $provider_payload['pddAvailable'],
                 ]);
             }
@@ -150,13 +150,12 @@ final readonly class EInvoiceSubmissionService
 
             $remote_status = $this->remoteStatusFromCallback($callback);
             $payload = $submission->response_payload ?? [];
-            $payload['callbacks'] ??= [];
-            $payload['callbacks'][] = $callback;
+            $payload['callbacks'] = [...self::section($payload, 'callbacks'), $callback];
             $payload['last_remote_status'] = $remote_status->value;
             $payload['last_callback_at'] = now()->toISOString();
 
             if ($provider_code === 'aruba') {
-                $payload['aruba'] = array_merge($payload['aruba'] ?? [], [
+                $payload['aruba'] = array_merge(self::section($payload, 'aruba'), [
                     'sdi_identification' => $this->stringValue($callback['sdiIdentification'] ?? null),
                     'last_notify_type' => $this->stringValue($callback['notifyType'] ?? null),
                     'last_notify_file_name' => $this->stringValue($callback['notifyFileName'] ?? null),
@@ -169,6 +168,19 @@ final readonly class EInvoiceSubmissionService
 
             return $submission;
         });
+    }
+
+    /**
+     * One section of the stored response payload, empty when it is absent or was not stored as a list of fields.
+     *
+     * @param  array<array-key, mixed>  $payload
+     * @return array<array-key, mixed>
+     */
+    private static function section(array $payload, string $key): array
+    {
+        $section = $payload[$key] ?? [];
+
+        return is_array($section) ? $section : [];
     }
 
     private function mapRemoteStatus(

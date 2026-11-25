@@ -61,10 +61,10 @@ final class DocumentSequenceAuditService
     ): void {
         $document_type = $sequence->document_type;
 
-        if (! $document_type instanceof DocumentType || ! $this->isAuditable($document_type)) {
+        if (! $this->isAuditable($document_type)) {
             $this->add($checks, $sequence, 'warning', 'stream_not_auditable', sprintf(
                 'Stream [%s] has no persisted document reference mapping and cannot be cross-checked.',
-                $document_type instanceof DocumentType ? $document_type->value : (string) $document_type,
+                $document_type->value,
             ));
 
             return;
@@ -352,7 +352,7 @@ final class DocumentSequenceAuditService
     {
         $checks[] = [
             'sequence_id' => (int) $sequence->getKey(),
-            'document_type' => $sequence->document_type instanceof DocumentType ? $sequence->document_type->value : (string) $sequence->document_type,
+            'document_type' => $sequence->document_type->value,
             'status' => $status,
             'code' => $code,
             'message' => $message,

@@ -51,3 +51,33 @@ it('exports a task as a folded RFC 5545 event with canonical place location', fu
         ->toContain('LOCATION:Via Roma 10\\, 20100\\, Milano\\, MI\\, IT')
         ->and(collect(explode("\r\n", $ics))->filter()->every(static fn (string $line): bool => mb_strlen($line) <= 75))->toBeTrue();
 });
+
+it('folds a line with multibyte characters at 75 octets without losing or repeating text', function (): void {
+    $this->seed(ERPDatabaseSeeder::class);
+    $company = Company::query()->withoutGlobalScopes()->where('is_default', true)->firstOrFail();
+    $entity = Entity::query()->withoutGlobalScopes()->where('name', 'activity')->firstOrFail();
+    $presettable = Presettable::query()->where('entity_id', $entity->id)->firstOrFail();
+    $activity = Activity::query()->forceCreate([
+        'parent_id' => null, 'presettable_id' => $presettable->id, 'entity_id' => $entity->id,
+    ]);
+    $name = mb_rtrim(str_repeat('Manutenzione è più già perché ', 4));
+    TaxonomyTranslation::query()->forceCreate([
+        'taxonomy_id' => $activity->id, 'locale' => app()->getLocale(),
+        'name' => $name, 'slug' => 'manutenzione', 'components' => [],
+    ]);
+    $place = Place::query()->create([
+        'address' => 'Via Roma 10', 'postcode' => '20100', 'city' => 'Milano', 'province' => 'MI', 'country' => 'IT',
+    ]);
+    $site = Site::query()->create([
+        'company_id' => $company->id, 'name' => 'Customer site', 'place_id' => $place->id, 'valid_from' => '2026-01-01 00:00:00',
+    ]);
+    $task = Task::query()->create([
+        'site_id' => $site->id, 'taxonomy_id' => $activity->id, 'valid_from' => '2026-08-01 09:00:00',
+    ]);
+
+    $ics = app(TaskIcsExporter::class)->export($task);
+    $lines = array_filter(explode("\r\n", $ics));
+
+    expect(str_replace("\r\n ", '', $ics))->toContain("\r\nSUMMARY:" . $name . "\r\n")
+        ->and(collect($lines)->every(static fn (string $line): bool => mb_strlen($line, '8bit') <= 75 && mb_check_encoding($line, 'UTF-8')))->toBeTrue();
+});

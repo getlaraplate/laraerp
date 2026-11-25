@@ -11,6 +11,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Modules\Core\Filament\Utils\HasTable;
+use Modules\ERP\Models\Party;
 
 final class PartiesTable
 {
@@ -44,9 +45,18 @@ final class PartiesTable
                     Filter::make('intercompany')
                         ->label(__('erp.fields.intercompany'))
                         ->toggle()
-                        ->query(static fn (Builder $query): Builder => $query->intercompany()),
+                        ->query(self::onlyIntercompany(...)),
                 );
             },
         );
+    }
+
+    /**
+     * @param  Builder<Party>  $query
+     * @return Builder<Party>
+     */
+    private static function onlyIntercompany(Builder $query): Builder
+    {
+        return $query->intercompany();
     }
 }

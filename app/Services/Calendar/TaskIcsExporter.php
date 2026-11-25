@@ -15,7 +15,7 @@ final class TaskIcsExporter
     {
         $task->loadMissing(['taxonomy', 'project', 'site.place']);
 
-        if ($task->valid_from === null) {
+        if ($task->getAttribute('valid_from') === null) {
             throw ValidationException::withMessages(['valid_from' => ['Task start date is required for calendar export.']]);
         }
 
@@ -74,11 +74,10 @@ final class TaskIcsExporter
         $folded = [];
         $limit = 75;
 
-        while ($limit < mb_strlen($line)) {
+        while ($limit < mb_strlen($line, '8bit')) {
             $chunk = mb_strcut($line, 0, $limit, 'UTF-8');
             $folded[] = $chunk;
-            $line = ' ' . mb_strcut($line, mb_strlen($chunk), null, 'UTF-8');
-            $limit = 75;
+            $line = ' ' . mb_substr($line, mb_strlen($chunk));
         }
         $folded[] = $line;
 

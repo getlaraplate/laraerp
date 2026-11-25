@@ -27,7 +27,7 @@ final class EditCompany extends EditRecord
         return [
             Action::make('linkCounterparty')
                 ->label(__('erp.actions.linkCounterparty'))
-                ->visible(fn (): bool => $this->getRecord()->counterparty_id === null)
+                ->visible(fn (): bool => $this->getRecord()->getAttribute('counterparty_id') === null)
                 ->action(function (): void {
                     /** @var Company $company */
                     $company = $this->getRecord();

@@ -22,10 +22,8 @@ final readonly class ReleaseStockForCancelledSalesOrder
 
     public function handle(SalesOrderCancelled $event): void
     {
-        $event->salesOrder->lines()
-            ->pluck('id')
-            ->each(function (int $lineId): void {
-                $this->reservations->release(self::SOURCE_TYPE, $lineId);
-            });
+        foreach ($event->salesOrder->lines()->get(['id']) as $line) {
+            $this->reservations->release(self::SOURCE_TYPE, $line->id);
+        }
     }
 }

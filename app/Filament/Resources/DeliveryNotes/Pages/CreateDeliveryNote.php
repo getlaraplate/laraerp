@@ -23,7 +23,7 @@ final class CreateDeliveryNote extends CreateRecord
     #[Override]
     protected function handleRecordCreation(array $data): Model
     {
-        $line_items = $data['line_items'] ?? [];
+        $line_items = is_array($data['line_items'] ?? null) ? $data['line_items'] : [];
         unset($data['line_items']);
 
         /** @var DeliveryNote $record */

@@ -9,6 +9,9 @@ use Modules\ERP\Support\Decimal;
 
 final readonly class Money
 {
+    /**
+     * @param  numeric-string  $amount
+     */
     private function __construct(
         public string $amount,
         public string $currency,

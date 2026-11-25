@@ -19,7 +19,7 @@ use Override;
 final class Preset extends CorePreset
 {
     /**
-     * @return HasManyThrough<Activity>
+     * @return HasManyThrough<Activity, Presettable, $this>
      */
     public function activities(): HasManyThrough
     {
@@ -40,6 +40,9 @@ final class Preset extends CorePreset
         $this->migrateRelatedModelsToLastVersion();
     }
 
+    /**
+     * @return class-string<Activity>
+     */
     protected static function getRelatedModelClass(): string
     {
         return Activity::class;
