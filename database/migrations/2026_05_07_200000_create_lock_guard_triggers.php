@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Illuminate\Database\Connection;
 use Illuminate\Database\Migrations\Migration;
+use Modules\Core\Support\Db2Drivers;
 use Modules\ERP\Enums\ERPTables;
 
 /**
@@ -23,22 +24,33 @@ return new class extends Migration
         ERPTables::Projects->value,
     ];
 
+    /**
+     * @var list<string>
+     */
+    private const array COMMERCIAL_LINE_COLUMNS = ['sales_order_id', 'quotation_item_id', 'item_id', 'name', 'qty_ordered', 'unit_price'];
+
     private ?Connection $activeConnection = null;
 
     public function up(): void
     {
-        match ($this->connection()->getDriverName()) {
-            'mysql', 'mariadb' => $this->installMysqlTriggers(),
-            'pgsql' => $this->installPostgresTriggers(),
+        $driver = $this->connection()->getDriverName();
+
+        match (true) {
+            in_array($driver, ['mysql', 'mariadb'], true) => $this->installMysqlTriggers(),
+            $driver === 'pgsql' => $this->installPostgresTriggers(),
+            Db2Drivers::is($driver) => $this->installDb2Triggers(),
             default => null,
         };
     }
 
     public function down(): void
     {
-        match ($this->connection()->getDriverName()) {
-            'mysql', 'mariadb' => $this->dropMysqlTriggers(),
-            'pgsql' => $this->dropPostgresTriggers(),
+        $driver = $this->connection()->getDriverName();
+
+        match (true) {
+            in_array($driver, ['mysql', 'mariadb'], true) => $this->dropMysqlTriggers(),
+            $driver === 'pgsql' => $this->dropPostgresTriggers(),
+            Db2Drivers::is($driver) => $this->dropDb2Triggers(),
             default => null,
         };
     }
@@ -300,6 +312,77 @@ return new class extends Migration
                         WHERE id = NEW.sales_order_line_id AND locked_at IS NULL;
                 END IF;
             END";
+    }
+
+    /**
+     * Db2 for i takes the same guards as PostgreSQL and MySQL: BEFORE triggers that signal on a frozen record.
+     * The chain triggers that set the freeze are not ported; the Eloquent guards still do it.
+     *
+     * The SQLSTATE is '75001', not MySQL's '45000': a user-defined SQLSTATE on Db2 starts with 7, 8, 9 or I-Z.
+     */
+    private function installDb2Triggers(): void
+    {
+        $frozen = $this->db2FrozenPredicate();
+
+        foreach (self::LOCKABLE_TABLES as $table) {
+            $this->createDb2Trigger($table . '_lock_guard_update', 'UPDATE', $table, "{$frozen} AND N." . $this->identifier('locked_at') . ' IS NOT NULL', 'Cannot modify a frozen record.');
+            $this->createDb2Trigger($table . '_lock_guard_delete', 'DELETE', $table, $frozen, 'Cannot delete a frozen record.');
+        }
+
+        $lines = ERPTables::SalesOrderLines->value;
+        $changed = implode(' OR ', array_map(
+            fn (string $column): string => $this->db2Distinct($column),
+            self::COMMERCIAL_LINE_COLUMNS,
+        ));
+
+        $this->createDb2Trigger($lines . '_commercial_lock_guard_update', 'UPDATE', $lines, "{$frozen} AND ({$changed})", 'Cannot modify commercial fields on a frozen sales order line.');
+        $this->createDb2Trigger($lines . '_lock_guard_delete', 'DELETE', $lines, $frozen, 'Cannot delete a frozen sales order line.');
+    }
+
+    private function dropDb2Triggers(): void
+    {
+        foreach (self::LOCKABLE_TABLES as $table) {
+            $this->connection()->unprepared('DROP TRIGGER ' . $this->identifier($table . '_lock_guard_update'));
+            $this->connection()->unprepared('DROP TRIGGER ' . $this->identifier($table . '_lock_guard_delete'));
+        }
+
+        foreach ([ERPTables::SalesOrderLines->value . '_commercial_lock_guard_update', ERPTables::SalesOrderLines->value . '_lock_guard_delete'] as $trigger) {
+            $this->connection()->unprepared('DROP TRIGGER ' . $this->identifier($trigger));
+        }
+    }
+
+    private function createDb2Trigger(string $name, string $event, string $table, string $condition, string $message): void
+    {
+        $referencing = $event === 'DELETE' ? 'OLD AS O' : 'OLD AS O NEW AS N';
+
+        $this->connection()->unprepared(sprintf(
+            "CREATE OR REPLACE TRIGGER %s NO CASCADE BEFORE %s ON %s REFERENCING %s FOR EACH ROW WHEN (%s) SIGNAL SQLSTATE '75001' SET MESSAGE_TEXT = '%s'",
+            $this->identifier($name),
+            $event,
+            $this->table($table),
+            $referencing,
+            $condition,
+            $message,
+        ));
+    }
+
+    private function db2FrozenPredicate(): string
+    {
+        $locked_at = $this->identifier('locked_at');
+        $locked_user_id = $this->identifier('locked_user_id');
+        $locked_until = $this->identifier('locked_until');
+
+        return "O.{$locked_at} IS NOT NULL AND O.{$locked_user_id} IS NULL AND (O.{$locked_until} IS NULL OR O.{$locked_until} > CURRENT_TIMESTAMP)";
+    }
+
+    /**
+     * Null-safe inequality, spelled out because Db2 for i has no portable `IS DISTINCT FROM`.
+     */
+    private function db2Distinct(string $column): string
+    {
+        $wrapped = $this->identifier($column);
+
+        return "(N.{$wrapped} <> O.{$wrapped} OR (N.{$wrapped} IS NULL AND O.{$wrapped} IS NOT NULL) OR (N.{$wrapped} IS NOT NULL AND O.{$wrapped} IS NULL))";
     }
 
     private function connection(): Connection

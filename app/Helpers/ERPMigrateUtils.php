@@ -8,6 +8,7 @@ use Illuminate\Database\Connection;
 use Illuminate\Database\ConnectionInterface;
 use Illuminate\Database\Schema\Blueprint;
 use InvalidArgumentException;
+use Modules\Core\Support\Db2Drivers;
 use Modules\ERP\Enums\ERPTables;
 
 /**
@@ -152,11 +153,11 @@ final class ERPMigrateUtils
             return;
         }
 
-        if (! in_array($driver, ['mysql', 'mariadb', 'pgsql', 'oracle'], true)) {
+        if (! in_array($driver, ['mysql', 'mariadb', 'pgsql', 'oracle'], true) && ! Db2Drivers::is($driver)) {
             return;
         }
 
-        $wrapped_table = $connection->getSchemaGrammar()->wrapTable($table);
+        $wrapped_table = $connection->getQueryGrammar()->wrapTable($table);
         $wrapped_constraint = $connection->getQueryGrammar()->wrap($constraint);
 
         $connection->statement("ALTER TABLE {$wrapped_table} ADD CONSTRAINT {$wrapped_constraint} CHECK ({$expression})");
