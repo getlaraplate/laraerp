@@ -13,7 +13,7 @@ use Modules\ERP\Services\Cash\CashBalanceService;
 use Modules\ERP\Services\Cash\MovementPostingService;
 use Modules\ERP\Support\Decimal;
 
-uses(RefreshDatabase::class);
+uses(RefreshDatabase::class)->group('db2');
 
 /**
  * @return array{Company, Account, Account, Account, Account}
