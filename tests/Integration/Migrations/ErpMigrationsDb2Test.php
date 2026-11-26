@@ -72,17 +72,54 @@ it('guards the commercial fields of a frozen sales order line on Db2', function 
         ->and($delete[0])->toContain("SIGNAL SQLSTATE '75001' SET MESSAGE_TEXT = 'Cannot delete a frozen sales order line.'");
 });
 
+it('freezes the chain from AFTER triggers on Db2, as PostgreSQL does', function (): void {
+    $sql = erp_db2_lock_guard('up');
+    $status = "N.status IN ('confirmed', 'partially_evased', 'fully_evased')";
+
+    $insert = erp_db2_normalised($sql, 'erp_sales_orders_lock_chain_insert');
+    $update = erp_db2_normalised($sql, 'erp_sales_orders_lock_chain_update');
+
+    expect($insert)->toHaveCount(1)
+        ->and($insert[0])->toContain('CREATE OR REPLACE TRIGGER')
+        ->and($insert[0])->toContain('AFTER INSERT ON')
+        ->and($insert[0])->toContain('REFERENCING NEW AS N FOR EACH ROW')
+        ->and($insert[0])->toContain("WHEN ({$status}) BEGIN ATOMIC")
+        ->and($insert[0])->toContain('SET locked_at = COALESCE(locked_at, CURRENT_TIMESTAMP) WHERE "ID" = N.quotation_id AND locked_at IS NULL;')
+        ->and($insert[0])->toContain('SET locked_at = COALESCE(locked_at, CURRENT_TIMESTAMP) WHERE "ID" = N.project_id AND locked_at IS NULL;')
+        ->and($insert[0])->toEndWith('END')
+        ->and($update)->toHaveCount(1)
+        ->and($update[0])->toContain('AFTER UPDATE ON')
+        ->and($update[0])->toContain('REFERENCING OLD AS O NEW AS N FOR EACH ROW')
+        ->and($update[0])->toContain("WHEN ({$status}) BEGIN ATOMIC");
+
+    $lines_insert = erp_db2_normalised($sql, 'erp_delivery_note_lines_lock_chain_insert');
+    $lines_update = erp_db2_normalised($sql, 'erp_delivery_note_lines_lock_chain_update');
+
+    expect($lines_insert)->toHaveCount(1)
+        ->and($lines_insert[0])->toContain('AFTER INSERT ON')
+        ->and($lines_insert[0])->toContain('REFERENCING NEW AS N FOR EACH ROW')
+        ->and($lines_insert[0])->toContain('WHEN (N.sales_order_line_id IS NOT NULL) BEGIN ATOMIC')
+        ->and($lines_insert[0])->toContain('SET locked_at = COALESCE(locked_at, CURRENT_TIMESTAMP) WHERE "ID" = N.sales_order_line_id AND locked_at IS NULL;')
+        ->and($lines_update)->toHaveCount(1)
+        ->and($lines_update[0])->toContain('AFTER UPDATE ON')
+        ->and($lines_update[0])->toContain('REFERENCING OLD AS O NEW AS N FOR EACH ROW');
+});
+
 it('drops the lock guard triggers on Db2', function (): void {
     $sql = erp_db2_lock_guard('down');
 
-    expect($sql)->toHaveCount(8)
+    expect($sql)->toHaveCount(12)
         ->and(implode("\n", $sql))->not->toContain('IF EXISTS');
 
     foreach ($sql as $statement) {
         expect($statement)->toStartWith('DROP TRIGGER ');
     }
 
-    expect(implode("\n", $sql))->toContain('erp_quotations_lock_guard_update')
+    expect(implode("\n", $sql))->toContain('erp_sales_orders_lock_chain_insert')
+        ->and(implode("\n", $sql))->toContain('erp_sales_orders_lock_chain_update')
+        ->and(implode("\n", $sql))->toContain('erp_delivery_note_lines_lock_chain_insert')
+        ->and(implode("\n", $sql))->toContain('erp_delivery_note_lines_lock_chain_update')
+        ->and(implode("\n", $sql))->toContain('erp_quotations_lock_guard_update')
         ->and(implode("\n", $sql))->toContain('erp_sales_order_lines_commercial_lock_guard_update')
         ->and(implode("\n", $sql))->toContain('erp_sales_order_lines_lock_guard_delete');
 });

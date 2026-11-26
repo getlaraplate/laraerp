@@ -10,8 +10,9 @@ use Modules\ERP\Enums\ERPTables;
 /**
  * Adds database-level safety nets for immutable ERP document chains.
  *
- * SQLite and Oracle use the equivalent Eloquent guards because portable trigger
- * DDL is not available through Laravel's schema builder.
+ * MySQL, MariaDB, PostgreSQL and Db2 for i enforce them with triggers: BEFORE guards that block a
+ * frozen record, and AFTER chain triggers that freeze the linked documents. SQLite and Oracle use the
+ * equivalent Eloquent guards because portable trigger DDL is not available through Laravel's schema builder.
  */
 return new class extends Migration
 {
@@ -316,7 +317,6 @@ return new class extends Migration
 
     /**
      * Db2 for i takes the same guards as PostgreSQL and MySQL: BEFORE triggers that signal on a frozen record.
-     * The chain triggers that set the freeze are not ported; the Eloquent guards still do it.
      *
      * The SQLSTATE is '75001', not MySQL's '45000': a user-defined SQLSTATE on Db2 starts with 7, 8, 9 or I-Z.
      */
@@ -337,6 +337,61 @@ return new class extends Migration
 
         $this->createDb2Trigger($lines . '_commercial_lock_guard_update', 'UPDATE', $lines, "{$frozen} AND ({$changed})", 'Cannot modify commercial fields on a frozen sales order line.');
         $this->createDb2Trigger($lines . '_lock_guard_delete', 'DELETE', $lines, $frozen, 'Cannot delete a frozen sales order line.');
+
+        $this->installDb2ChainTriggers();
+    }
+
+    /**
+     * The AFTER triggers that freeze the chain: a confirmed sales order freezes its quotation and project,
+     * and a delivery note line freezes its sales order line. An existing `locked_at` is kept, as on PostgreSQL.
+     */
+    private function installDb2ChainTriggers(): void
+    {
+        $quotations = $this->table(ERPTables::Quotations->value);
+        $projects = $this->table(ERPTables::Projects->value);
+        $order_lines = $this->table(ERPTables::SalesOrderLines->value);
+        $status = $this->identifier('status');
+
+        $order_body = $this->db2FreezeStatement($quotations, 'quotation_id') . ' ' . $this->db2FreezeStatement($projects, 'project_id');
+        $order_condition = "N.{$status} IN ('confirmed', 'partially_evased', 'fully_evased')";
+        $line_body = $this->db2FreezeStatement($order_lines, 'sales_order_line_id');
+        $line_condition = 'N.' . $this->identifier('sales_order_line_id') . ' IS NOT NULL';
+
+        foreach (['INSERT', 'UPDATE'] as $event) {
+            $this->createDb2ChainTrigger(ERPTables::SalesOrders->value . '_lock_chain_' . mb_strtolower($event), $event, ERPTables::SalesOrders->value, $order_condition, $order_body);
+            $this->createDb2ChainTrigger(ERPTables::DeliveryNoteLines->value . '_lock_chain_' . mb_strtolower($event), $event, ERPTables::DeliveryNoteLines->value, $line_condition, $line_body);
+        }
+    }
+
+    private function createDb2ChainTrigger(string $name, string $event, string $table, string $condition, string $body): void
+    {
+        $referencing = $event === 'INSERT' ? 'NEW AS N' : 'OLD AS O NEW AS N';
+
+        $this->connection()->unprepared(sprintf(
+            'CREATE OR REPLACE TRIGGER %s AFTER %s ON %s REFERENCING %s FOR EACH ROW WHEN (%s) BEGIN ATOMIC %s END',
+            $this->identifier($name),
+            $event,
+            $this->table($table),
+            $referencing,
+            $condition,
+            $body,
+        ));
+    }
+
+    private function db2FreezeStatement(string $wrapped_table, string $link_column): string
+    {
+        $id = $this->identifier('id');
+        $locked_at = $this->identifier('locked_at');
+
+        return sprintf(
+            'UPDATE %s SET %s = COALESCE(%s, CURRENT_TIMESTAMP) WHERE %s = N.%s AND %s IS NULL;',
+            $wrapped_table,
+            $locked_at,
+            $locked_at,
+            $id,
+            $this->identifier($link_column),
+            $locked_at,
+        );
     }
 
     private function dropDb2Triggers(): void
@@ -346,7 +401,7 @@ return new class extends Migration
             $this->connection()->unprepared('DROP TRIGGER ' . $this->identifier($table . '_lock_guard_delete'));
         }
 
-        foreach ([ERPTables::SalesOrderLines->value . '_commercial_lock_guard_update', ERPTables::SalesOrderLines->value . '_lock_guard_delete'] as $trigger) {
+        foreach ($this->chainTriggerNames() as $trigger) {
             $this->connection()->unprepared('DROP TRIGGER ' . $this->identifier($trigger));
         }
     }
