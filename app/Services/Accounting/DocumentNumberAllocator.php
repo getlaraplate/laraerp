@@ -123,18 +123,24 @@ final class DocumentNumberAllocator
         usleep(self::RETRY_BASE_MICROSECONDS * $attempt);
     }
 
+    /**
+     * Whether the failure is a lock conflict another attempt can get past: a serialization failure or deadlock
+     * (40001, 40P01), a lock not available (55P03), a MySQL lock wait or deadlock (1205, 1213), a busy SQLite
+     * database (5), or a Db2 lock timeout (57033, SQL0913).
+     */
     private function isRetryableConcurrencyException(QueryException $exception): bool
     {
         $sql_state = (string) ($exception->errorInfo[0] ?? '');
         $driver_code = (string) ($exception->errorInfo[1] ?? '');
         $message = mb_strtolower($exception->getMessage());
 
-        return in_array($sql_state, ['40001', '40P01', '55P03'], true)
+        return in_array($sql_state, ['40001', '40P01', '55P03', '57033'], true)
             || in_array($driver_code, ['5', '1205', '1213'], true)
             || str_contains($message, 'database is locked')
             || str_contains($message, 'database table is locked')
             || str_contains($message, 'deadlock found')
-            || str_contains($message, 'lock wait timeout');
+            || str_contains($message, 'lock wait timeout')
+            || str_contains($message, 'sql0913');
     }
 
     private function isUniqueConstraintViolation(QueryException $exception): bool
